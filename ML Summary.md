@@ -2,8 +2,33 @@
 
 ## 목차
 
-- [Intelligent Data Analysis & Machine Learning](#intelligent-data-analysis--machine-learning)
-  - [목차](#목차) 
+- [Intelligent Data Analysis \& Machine Learning](#intelligent-data-analysis--machine-learning)
+  - [목차](#목차)
+  - [Supervised Learning](#supervised-learning)
+    - [Classification](#classification)
+    - [Regression](#regression)
+    - [Ordinal Regression](#ordinal-regression)
+    - [Metric Learning](#metric-learning)
+    - [Taxonomy Classification](#taxonomy-classification)
+    - [Rankings](#rankings)
+    - [Recommendations](#recommendations)
+    - [Taxonomy of Learning Problems: Supervised](#taxonomy-of-learning-problems-supervised)
+  - [Unsupervised Learning](#unsupervised-learning)
+    - [Taxonomy of Learning Problems: Unsupervised](#taxonomy-of-learning-problems-unsupervised)
+  - [Reinforcement Learning](#reinforcement-learning)
+    - [Learning to Control a System](#learning-to-control-a-system)
+    - [Example: Advertisement placement](#example-advertisement-placement)
+    - [Taxonomy of Learning Problems: Reinforcement](#taxonomy-of-learning-problems-reinforcement)
+  - [Model or Parameter Space](#model-or-parameter-space)
+    - [Loss Function](#loss-function)
+    - [Uncertainty](#uncertainty)
+    - [Regularizer](#regularizer)
+    - [Optimization](#optimization)
+      - [Criterion](#criterion)
+      - [Problem](#problem)
+      - [Regularized Empirical Risk Minimization](#regularized-empirical-risk-minimization)
+    - [Evaluation of Models](#evaluation-of-models)
+
 
 ## Supervised Learning
 
