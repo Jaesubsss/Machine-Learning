@@ -28,6 +28,18 @@
       - [Problem](#problem)
       - [Regularized Empirical Risk Minimization](#regularized-empirical-risk-minimization)
     - [Evaluation of Models](#evaluation-of-models)
+  - [Problem Analysis](#problem-analysis)
+    - [Understanding Requirements](#understanding-requirements)
+    - [Taxonomy of Learning Problems](#taxonomy-of-learning-problems)
+    - [Data](#data)
+      - [Data Availability](#data-availability)
+      - [Data Properties](#data-properties)
+      - [Data Dependencies](#data-dependencies)
+    - [Example!](#example)
+      - [Campaing Discovery](#campaing-discovery)
+      - [Creating a regular expression for each campaign](#creating-a-regular-expression-for-each-campaign)
+      - [Evaluation and Testing](#evaluation-and-testing)
+  - [Preprocessing](#preprocessing)
 
 
 ## Supervised Learning
@@ -344,3 +356,187 @@ $$R(\theta) = \sum_{y}\intℓ((y_\theta(x_i),y))p(x,y)dx$$
    2. 테스트 데이터로 테스트
 3. 이제 Loss가 최소화되는 값을 가진 $\lambda$를 선택한다.
 4. 모든 데이터를 사용하여 최종 모델을 훈련한다.
+
+## Problem Analysis
+
+Problem Analysis을 위한 engineering approach는 다음과 같이 진행된다.
+
+1. Understanding requirements
+   - Application 목표 및 품질 지표를 이해한다.
+   - 데이터와 데이터를 생성하는 프로세스의 properties를 이해한다
+   - Application-specific requirment를 파악한다
+   - 사용하는 방법의 기본 가정이 문제의 요구 사항과 일치하는지 확인한다
+2. Developing solution
+   - 문제 해결을 위한 알고리즘 또는 방법을 개발한다
+   - 데이터를 처리하고 분석하는 방법을 개발한다
+   - 문제 해결을 위한 적절한 모델 또는 시스템을 설계한다
+
+
+### Understanding Requirements
+
+여기서 알아보려는것은 방법의 첫번째, 요구사항을 파악하는 것이다.
+
+requirements를 파악하는것은 각 industries의 culture에 따라 다르다. 예를 들어, 자동차 산업에서는 종종 10 ~ 20 페이지에 이르는 소프트웨어 요구 사항이 일반적이다. 그러나 이는 전체적으로는 일반적이지 않다.
+
+더 일반적인 경우에는, 사용자 또는 고객이 좋은 솔루션의 특성에 대한 아이디어를 가지고 있다. 정확한 문제 설정과 요구 사항은 인터뷰를 통해 결정되어야 한다.
+
+다음의 이메일 서비스 제공업체의 예시를 통해 더 자세히 알아보자.
+
+**Problem**: 이메일 스팸이 하드 드라이브와 처리 용량을 고갈시킴.
+
+서버 및 저장소는 따라서 거대한 cost factor이다.
+
+**Legal requierments**: 딜리버리를 위해 수락된 메시지는 삭제되지 않아야 한다. 봇넷에 의해 배포된 개별 메일 캠페인은 엄청난 데이터 양을 생성한다.
+
+관리자는 대규모 캠페인을 인지하고 해당 캠페인과 일치하는 정규 표현식을 작성한다.    
+그런다음 이메일 서버는 이러한 정규 표현식과 일치하는 메시지를 수락하지 않는다.
+
+여기서 추가적인 **Problem**: 캠페인은 제때 인지되어야 하며 관리자가 조치를 취해야 한다. 항상!
+
+legitimate messages가 도착하지 않으면, 콜센터로 불만전화가 폭주한다.
+
+이러한 문제를 해결하기 위해, 캠페인을 신속하게 인지하고 관리자가 조치를 취할 수 있는 자동화된 시스템이 필요한 것이다. 또한, 합법적인 메시지가 차단되지 않도록 신중한 처리가 필요하다.  시스템은 신속한 대응 및 관리자 행동을 지원하고, 합법적인 메시지의 배달을 보장하며, 사용자들의 불만을 최소화할 수 있어야 한다.
+
+이 문제를 해결하기 위해 고려해야할 사항은 다음과 같다.
+
+- 자동화된 솔루션에 대한 요구사항이 있는가?
+- Evalutaion metric은 어떻게?
+- Learning problem으로 모델링을 해야하나?
+- 그렇다면 learning problem의 타입은?
+- model space는?
+- loss function은? regularizer는?
+
+어휴
+
+이쯤에서 learning problem의 taxonomy에 대해 다시 알아보자.
+
+### Taxonomy of Learning Problems
+
+- **Supervised Learning**
+  - 훈련 데이터에는 모델이 예측해야 하는 변수의 값이 포함됩니다.
+  - **Classification**: 범주형 변수를 예측합니다.
+  * **Regression**: 연속 변수를 예측합니다.
+  * **Ordinal Regression**: 유한하고 순서가 있는 값 집합을 예측합니다.
+  * **Rankings**: 요소들의 순서를 예측합니다.
+  * **Structured Prediction**: 시퀀스, 트리, 그래프 등의 구조를 예측합니다.
+  * **Recommendation**: 항목별 사용자 행렬을 예측합니다.
+- **Unsupervised Learning**
+  - 데이터의 구조적 특성을 발견합니다.
+  - **Clustering**: 비슷한 특성을 가진 데이터를 그룹화합니다.
+  * **Unsupervised Feature Learning**: 데이터를 잘 설명할 수 있는 속성을 찾습니다.
+  * **Anomaly Detection**: 이상한 데이터 포인트를 식별합니다.
+- **Control / Reinforcement Learning**
+  - dynamical system을 control하는 것을 학습한다.
+  - 에이전트가 환경과 상호 작용하며 보상을 최적화하는 방법을 학습합니다.
+- 기타 모델:
+  * **Semi-supervised Learning**: 일부 레이블이 있는 데이터와 일부 레이블이 없는 데이터를 사용하여 모델을 훈련합니다.
+  * **Supervised Clustering**: 레이블이 있는 데이터를 사용하여 클러스터링 모델을 훈련합니다.
+  * 그 외의 다양한 모델들이 존재합니다.
+
+### Data
+
+이러한 Learning problem에 사용되는 데이터 또한 중요하다.
+
+#### Data Availability
+
+Batch learning의 경우, 모든 데이터를 사용할 수 있다. 전체 데이터셋을 사용할 수 있으므로 모델을 **한번에** 훈련시킨다. 그러나 Online learning의 경우, 데이터가 하나씩 들어오기 때문에, 점진적으로 모델을 훈련시킨다. Online learning은 데이터가 실시간으로 생성되는 경우에 유용하다.
+
+이것 말고도, 다음과 같은 요소들이 중요하다.
+
+* Number of data
+  * 데이터가 매우 적은 경우
+  * 데이터를 저장하고 처리하는 데 분산 시스템이 필요할 정도로 데이터가 많은 경우
+
+* Number of attributes
+  * attributes가 너무 적은 경우
+  * attributes가 너무 많은 경우.
+  * attributes가 sparse한 경우: 대부분의 항목이 0인 희소한 데이터를 다루는 경우
+* Quality of data
+  * 결측값이 있는 경우
+  * 오류값이 있는 경우
+  
+#### Data Properties
+
+데이터의 Representational Properties또한 중요하다. 
+
+- 데이터의 epresentational Properties 중 첫번째는 클래스의 ratio이다. 클래스의 ratio가 균형적인지, 특정 클래스가 드물게 나타나는지, 혹은 특정 클래스가 다른것보다 훨씬 많아서 representative한지가 되겠다.
+
+- 또한 Marginal distribution가 중요하다. 데이터의 Marginal distribution이 application의 실행시간의 분포와 동일한지 봐야한다. 만약 아니라면, 변량 이동(Covariate Shift)을 고려하여 학습하고 모델을 조정해야 한다. 즉, 입력 데이터의 분포가 학습 데이터와 테스트 데이터 사이에 차이가 있는 경우에 대비한 학습 방법을 적용해야 한다.
+
+- 또한, target attribute의 값이 실제 타겟 분포에서 나오는지, 아니면 auxiliary distribution에서 나오는지 알아야 한다. 여기서 auxiliary distribution은 실험실 데이터 혹은 시뮬레이션 데이터를 의미한다.
+
+- 데이터가 신선한지, 즉 최신 데이터인지 또한 알아야 한다. process가 바뀌었을 수도 있고, 시간에 따라 데이터가 변하는 경우도 있다.
+
+- 데이터 소스가 단일인지 여러 소스가 있는지도 알아야 한다.
+
+- 데이터의 신뢰성, 품질, 일관성 또한 당연히 중요하다. 
+
+- 데이터의 Availability도 중요하다. 접근하지 못하는 데이터면 의미가 없다. 또한 데이터가 데이터 세트로 fixed하게 제공되는지, 아니면 데이터 수집을 위한 프로토콜을 따로 마련해야하는지 알아야 한다.
+
+#### Data Dependencies
+
+![](./images/dd.PNG)
+
+### Example!
+
+다시 위의 이메일 서비스 제공자 예시로 돌아가보자. 
+
+이 예시는 두 단계의 Learning problem으로 모델링 될 수 있다.
+
+#### Campaing Discovery
+
+
+![](/images/cd1.PNG)
+
+
+봇넷에 의해 전달되는 대규모 캠페인을 발견하는 문제이다. 이 단계에서는 이메일 데이터에서 대규모 캠페인을 식별하기 위한 기계 학습 모델을 구축한다. supervised 또는 unsupervised learning methode를 사용하여 캠페인을 탐지할 수 있다.
+
+- 일단 이 예시에서는 Unsupervised learning의 cluster analysis approach를 사용할 수 있겠다.     
+- 또한 데이터가 실시간이고 계속 추가될 수 있기 때문에, 데이터 스트림에서 Online processing할 수 있다.    
+- Optimizing criterium으로써는, 어떻게 데이터를 clustering을 하는게 적절한지를 찾아야겠다.
+- Instance의 경우, 이메일의 header attributes와 word-occurrance attributes를 사용할 수 있다.
+
+이제 이렇게 만들어진 모델을 evaluation해야한다. 
+
+두가지 방법을 이용해 평가한다.
+
+- Offline evaluation
+  - 제한된 시간동안 발생한 모든 이메일을 저장하고, 수동으로 클러스터링 한다.
+  - 수동 생성 클러스터와 자동 생성 클러스터 간의 일치도를 측정한다
+  - FP 및 FN 비율과 같은 metric을 사용하여 성능을 평가한다.
+- Online evaluation
+  - 실제 정기 비즈니스 시간에 클러스터링을 해본다.
+  - 캠페인 차단을 담당하는 관리자에게 표시한다.
+  - 관리자의 피드백을 수렴하여 모델이 괜찮은지, 실제로 여러 캠페인을 처리할 수 있는지 등을 평가한다.
+  - 캠페인을 차단해도 괜찮은지 여부를 결정하기 위해 관리자의 피드백을 사용할 수 있다.
+
+
+#### Creating a regular expression for each campaign
+
+![](./images/cd2.PNG)
+
+캠페인을 식별하기 위한 정확한 패턴을 정의하는 데 사용되는 정규 표현식을 자동으로 생성하는 기계 학습 모델을 구축한다. 캠페인마다 다르게.
+
+Regular expression을 찾는 방법을 제대로 알아보자.
+
+- Instance x는 set of emails(sets of strings)가 될것이다.
+- Target attribute y는 regular expression이다.
+- 트레이닝 데이터 {(xi,yi)}는 sets of strings와 그에 상응하는, 어드민이 작성한 regular expression이 될 것이다. 
+- Loss function $ℓ(y_\theta(x_i),y)$은 서로다른 expression들이 얼마나 다른지의 측정값일 것이다. 이는 syntax tree의 non-identical nodes의 proportion으로 찾을 수 있다.
+- Regularization은 L2이다. 
+
+이 경우, 트레이닝 데이터가 **올바른** regular expression을 포함하므로, **supervised learning**이다.
+
+또한 target variable이 regular expression이기 때문에, 즉, **discrete, structured**이고, 따라서 **structured prediction**이다. structured output spaces를 학습하는 것이다. 
+
+#### Evaluation and Testing
+
+온라인 평가의 경우, 발견된 캠페인 및 생성된 정규 표현식을 관리자에게 제시하고, 관리자가 이 정보를 사용하여 캠페인을 차단할지 여부를 결정한다.
+
+생성된 expression의 acceptance, acceptance+ editing, rejection에 대한 rates를 측정한다. 이는 평가의 척도로 사용된다.
+
+불만신고 비율을 측정하여 생성된 expression이 실제로 이메일 서비스의 품질을 향상시키는지 여부를 확인할 수 있다.
+
+
+## Preprocessing
+
