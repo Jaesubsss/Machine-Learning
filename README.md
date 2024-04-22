@@ -233,13 +233,13 @@ $$\text{Empirical risk} = \hat{R}(\theta) = \frac{1}{n}\sum^{n}_{i=1}ℓ(y_\thet
 
 - Zero-One Loss:
     
-    $$
-    ℓ_{0/1}(y_\theta(x_i),y_i)=
-    \begin{cases}
-    0,& \text{if } y_\theta(x_i)=y_i\\
-    1, & \text{otherwise}
-    \end{cases}
-    $$
+$$
+ℓ_{0/1}(y_\theta(x_i),y_i)=
+\begin{cases}
+0,& \text{if } y_\theta(x_i)=y_i\\
+1, & \text{otherwise}
+\end{cases}
+$$
 
 이번에는 false positive와 false negative의 가치가 다른, 또 다른 예시를 살펴보자. Diagnostic classification problem에서, false negative는 overlooked illness를 의미하고, false positive는 incorrectly diagnosed를 의미한다. 이 경우, 질병을 놓치는 것이 잘못 진단한 것 보다 더 안좋다. 
 
