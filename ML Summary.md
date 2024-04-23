@@ -39,7 +39,12 @@
       - [Campaing Discovery](#campaing-discovery)
       - [Creating a regular expression for each campaign](#creating-a-regular-expression-for-each-campaign)
       - [Evaluation and Testing](#evaluation-and-testing)
-  - [Preprocessing](#preprocessing)
+  - [Data Preprocessing](#data-preprocessing)
+    - [Data Integration](#data-integration)
+    - [Feature Representation](#feature-representation)
+    - [Attribute with Missing Values](#attribute-with-missing-values)
+    - [Attribute with Erroreous Values](#attribute-with-erroreous-values)
+    - [Feature Selection](#feature-selection)
 
 
 ## Supervised Learning
@@ -538,5 +543,132 @@ Regular expression을 찾는 방법을 제대로 알아보자.
 불만신고 비율을 측정하여 생성된 expression이 실제로 이메일 서비스의 품질을 향상시키는지 여부를 확인할 수 있다.
 
 
-## Preprocessing
+## Data Preprocessing
 
+데이터 프리프로세싱은 수집한 데이터를 분석하고 머신러닝에 사용할 형태로 변환시키는 단계이다. 즉, 기존의 데이터를 머신러닝 알고리즘에 알맞은 데이터로 바꾸는 과정이다. 크롤링이나 DB 데이터를 통해 수집된 데이터를 머신러닝에 학습시키기 위해서는 데이터 프리프로세싱 과정이 필요하다. 
+
+데이터 전처리는 크게 3가지로 나뉜다. 
+1. 머신러닝의 입력 형태로 데이터 변환(Feature engineering)
+2. 결측값 및 이상치를 처리하여 데이터 정제 (Data Cleaning)
+3. 트레이닝용 및 평가용 데이터 분리
+
+
+### Data Integration
+
+Data integration은 여러 데이터 소스를 일관되게 통합하는 프로세스를 의미한다. 여러군데에서 긁어온 데이터를 잘 사용하려면 이 통합과정이 필요하다. 
+
+데이터 소스가 여러개인 경우, 이 데이터를 데이터 웨어하우스와 같은 단일 저장소에 일관되게 저장한다. 또한 가진 데이터들이 서로다른 형식을 가지고 있다면, 이 데이터의 형식을 통합하여 통일된 형식으로 변환해야한다. 
+
+서로 다른 데이터들은 서로다른 attributes를 가지는 경우도 있지만, 같은 attiributes를 가지는 경우도 있다. 이렇게 관련된 attributes를 식별하여 통합해주는것이 중요하다. 
+
+여러 소스에서 긁어온 데이터들 사이에는 충돌이 발생할 수 있다. 대표적으로 단위 충돌이 있다. 이를 일관되게 변경해야한다.
+
+가끔 중복된 데이터가 있을 수 있다. 자료 크기가 방대해지면 이 중복 데이터는 큰 문제가 될 수 있기 때문에 적절하게 제거해줘야 한다.
+
+### Feature Representation
+
+위에서 말했듯, 우리가 가진 모델의 구조에 따라 attribute를 변환해야한다. 알고리즘에 맞는 데이터로 변환시키는 단계이다. 
+
+예를 들어, attribute와 model parameter의 inner product를 계산하는 linear model이 있다고 해보자. 이 경우, 모든 attributes는 numeric이여야 하며, 큰 attribute values는 큰 innerproduct를 계산한다. categorical data는 모두 numerical로 변환되어야 하며, attribute에는 order가 없을 것이다.    
+또한 텍스트는 TF- or TFIDF- representation으로 변환될 수 있을 것이다. 
+
+텍스트 표현을 위한 TF- or TFIDF- representation는 뭘까? 자세히 알아보도록 하자. 
+
+TF- or TFIDF- representation는 정보 검색과 텍스트 마이닝에서 이용하는 가중치로, 여러 문서로 이루어진 문서군이 있을 때 어떤 단어가 특정 문서 내에서 얼마나 중요한 것인지를 나타내는 통계적 수치이다. 문서의 핵심어를 추출하거나, 검색 엔진에서 검색 결과의 순위를 결정하거나, 문서들 사이의 비슷한 정도를 구하는 등의 용도로 사용할 수 있다.
+
+**이중 TF-IDF는 두 요소의 곱으로 계산되게 되는데, TF는 Term Frequency, 즉 단어 빈도, IDF는 Inverse Document Frequency, 즉 역문서 빈도를 의미한다.**
+
+TF는 특정 문서 내에서 특정 단어가 얼마나 자주 나타나는지를 측정한 값이며 일반적으로 문서내에서 자주 나타나는 단어일수록 해당 단어의 TF값이 높으며, TF는 다음과 같이 계산된다.
+
+    TF(d, w) = (특정 단어 w의 문서 d 내 등장 횟수) / (해당 문서 d 내 총 단어 수)
+
+IDF는 특정 단어가 다른 문서에서 얼마나 자주 나타나는지를 측정한 값이며, IDF값은 특정 단어의 중요성을 반영하며, 다른 문서에서 자주 나타나는 단어일수록 IDF값은 낮으면 다음과 같이 계산된다.
+
+    IDF(w) = log(총 문서 수 / 특정 단어 w를 포함한 문서 수)
+
+이때, 로그 함수를 사용하여 IDF 값을 조절하고, 특정 단어가 전체 문서에 나타나지 않을 때 분모가 0이 되는 것을 방지한다.
+
+TF-IDF는 TF와 IDF를 곱하여 계산된다.
+
+    TF-IDF(w) = TF(w) * IDF(w)  
+
+이 TFIDF 값을 벡터로 표현할 수 있다. 
+
+$$ TFIDF(x) = \frac{1}{|x|}
+\begin{pmatrix} 
+TF(\text{term}_1) \cdot IDF(\text{term}_1)\\
+\vdots \\
+TF(\text{term}_n) \cdot IDF(\text{term}_n)
+\end{pmatrix}$$
+
+
+텍스트를 나타내는 또 다른 표현 방법은 N-Gram vector이다. TF-IDF representation에서는 term의 순서에 대한 정보가 손실된다. 그러나 N-gram은 연속적인 terms의 k-tuple마다 하나의 attribute를 만든다. 이는 모든 $k \leq N$에 대해 적용된다.
+
+또한 N-Gram feature는 다양한 범위값을 가질 수 있다. 절대값이 큰 값은 decision function에 더 큰영향을 미친다. 때로는 이러한 범위를 정규화 할수도 있다. 범위를 정규화하면 해당 가중치에 더 강한 적용될 수 있다. 
+
+normalization의 방법에는 여러가지가 있다.
+
+- Min/Max normalization
+  - 각 feature의 값을 최소값과 최대값 사이의 범위로 변환해서, 데이터를 0과 1 사이의 값으로 변환하여 일반화시킨다.
+
+$$x^{new} = \frac{x-x_{min}}{x_{max}-x_{min}}(x^{new}_{max}-x^{new}_{min})+x^{new}_{min}$$
+
+- Z-Score normalization
+  - 각 특성의 값을 평균이 0이고 표준 편차가 1인 표준 정규 분포로 변환하고, 데이터 분포를 중심에 맞추고 스케일링한다.
+
+$$x^{new}=\frac{x-\mu_{x}}{\sigma_x}$$
+
+- Decimal Scailing
+  - 각 특성의 값을 고정된 자릿수로 스케일링한다. 반적으로 0과 1 사이의 범위로 스케일링된다.
+
+$$x^{new}=|x|\cdot 1-^a$$
+
+$$a= max\{i \in \mathbb{Z}| |x|\cdot 10^i < 1\}$$
+
+- Logarithmic Scaling
+  - 값의 분포가 한쪽으로 치우쳐져있는 경우에 유용하고, 값에 로그를 취한다.
+
+$$x^{new}= \log_a x$$
+
+
+Feature representation은 모델이 학습하는데 중요한 역할을 한다. 때로는 모델이 찾지 못하는 복잡한 관계를 포함하는 특성을 직접 구성하는 것이 도움이 될 수 있다.
+
+Feature construction에는 두가지가 있다. 
+
+- Combinations of elementary features: 기본 features을 조합해서 새로운 feature을 만든다. 
+
+$$(x_i,x_j) \to (x_j,\sqrt{x_ix_j},x_i+x_j)$$
+
+- Mapping of elementary features: 본 특성들을 변환하여 새로운 특성을 만든다. 
+
+$$x_i \to (x_i,\log x_i, x_{i}^{2})$$
+
+### Attribute with Missing Values
+
+Missing value가 발생하는 이유는 다양하다. 뭐 무작위로 누락이 될수도 있고, 어떤 값들은 systematically(체계적으로) 누락이된 경우도 있을 수 있다. 이 경우는 특정 클래스나 범주에 속하는 경우 누락된 값이 더 많은 수 있다.
+
+또한 위의 Data integration과정에서 값의 불일치로 인해 값이 삭제되었을 수도 있다. 혹은, 개인정보 보호를 위해 데이터가 삭제될수도 있다.
+
+이런 Missing value를 어떻게 처리할까?
+
+먼저, 결측값이 적은 경우엔 그냥 인스턴스를 삭제해버릴수도 있다. 아니면 attribute가 있는지, 없는지를 나타내는 새로운 binary attribute를 도입할수도 있다. 아니면 그냥 결측치를 추정해서 때려 맞출수도 있다. 아니면 알고리즘이 누락된 값을 알아서 처리할 수 있는 경우 그냥 뭐 냅둘 수도 있다.
+
+### Attribute with Erroreous Values
+
+값이 잘못된 경우, 이를 먼저 식별할 수 있어야 한다. 그 뒤 처리한다.
+
+식별 방법에는 Binning과 Clustering이 있다.
+
+- Binning은 구간화라고도 하며, 동일한 간격으로 구간화하여 구간에 속하는 값들을 나눕니다. 이때 적은 인스턴스를 가진 구간은 이상값일 수 있다.
+- Clustering을 통해 한 개 이상의 인스턴스를 가진 클러스터를 이상값으로 간주할 수 있다.
+- Active learning/labeling: 데이터와 모델 간의 불일치로 인한 일관성 문제를 해결하기 위해 인간에게 올바른 레이블을 요청한다.
+
+이렇게 식별된 오류값은 regression, 혹은 average를 이동하는 등 다듬거나, 뭐 삭제할수도 있다.
+
+### Feature Selection
+
+Feature Selection은 다수의 특징 중에서 중요한 특징을 선택하는 것을 말한다. 이를 통해 시스템을 운영하는 비용을 줄일 수 있으며, 변수를 적게 사용할 경우 시스템의 속도가 빨라지는 등 이점을 가질 수 있다. 데이터에 대한 해석력을 높여주며, 차원 축소를 통해 다중공성성 문제를 해결할 수도 있다. 또 간단한 모델로 예측력을 향상할 수 있어 bias나 overfitting 방지에도 효과적이다.
+
+pearson, spearman correlation등을 이용해 계산한 상관계수를 척도로 사용할 수 있고, 평가는 n-fold 교차검증 등을 통해 feature selection을 평가할 수 있다. 
+
+선형 모델에 대한 feature selection을 할때는 가장 작은 가중치를 가진 특성을 제거하는 방법을 사용한다.
