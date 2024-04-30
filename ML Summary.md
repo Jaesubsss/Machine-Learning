@@ -45,6 +45,21 @@
     - [Attribute with Missing Values](#attribute-with-missing-values)
     - [Attribute with Erroreous Values](#attribute-with-erroreous-values)
     - [Feature Selection](#feature-selection)
+  - [Decision Trees](#decision-trees)
+    - [Decision Trees - Classification](#decision-trees---classification)
+    - [Decision Trees - Regression](#decision-trees---regression)
+    - [Decision Trees](#decision-trees-1)
+    - [Small Decision Trees](#small-decision-trees)
+  - [ID3](#id3)
+    - [Information](#information)
+    - [Entropy](#entropy)
+      - [Entropy of Class Labels in Training Data](#entropy-of-class-labels-in-training-data)
+      - [Conditional Entropy](#conditional-entropy)
+    - [Information Gain of an Attribute](#information-gain-of-an-attribute)
+      - [Information Gain Ratio](#information-gain-ratio)
+    - [ID3 Algorithm](#id3-algorithm)
+  - [Continuous Attributes - C4.5](#continuous-attributes---c45)
+  - [Pruning](#pruning)
 
 
 ## Supervised Learning
@@ -672,3 +687,306 @@ Feature Selection은 다수의 특징 중에서 중요한 특징을 선택하는
 pearson, spearman correlation등을 이용해 계산한 상관계수를 척도로 사용할 수 있고, 평가는 n-fold 교차검증 등을 통해 feature selection을 평가할 수 있다. 
 
 선형 모델에 대한 feature selection을 할때는 가장 작은 가중치를 가진 특성을 제거하는 방법을 사용한다.
+
+## Decision Trees
+
+결정 트리(Decision Tree, 의사결정트리, 의사결정나무라고도 함)는 분류(Classification)와 회귀(Regression) 모두 가능한 지도 학습 모델 중 하나이다. Decision Tree는 일련의 필터 과정 또는 스무고개라고 생각하면 된다. 이 디시젼 트리가 사용되는 많은 이유가 있지만, 그중에 첫번째는 해석의 유용성이다. 분류를 함과 동시에 그 이유를 논리적으로 설명할 수 있고, 인간이 쉽게 이해할 수 있기 때문에 해석하기가 쉽다. 
+
+또한 디시젼 트리는 yes or no라는 간단한 절차이기 때문에, 프로세스가 빠르다. 특히, 이미지 처리에 주로 사용될 수 있다. 이런 특성 덕분에, 디시젼 트리는 간단하고 효율적이며, 확장또한 용이하다. 
+
+디시젼 트리는 numerical과 categorical 변수에 대한 사전 처리가 필요하지 않으며, regression 혹은 classification에 모두 사용할 수 있다.
+
+### Decision Trees - Classification
+
+디시젼트리에서 classification은 다음과 같은 과정으로 이루어진다.
+
+1. Input: $x \in X$,  각각의 인스턴스 x는 attributes vector로 표현되며, feature vector라고도 불린다. 
+
+2. Output: classification의 결과로써, 각각의 인스턴스 x에 해당하는 클래스 y가 결정된다. 클래스는 유한한 집합 Y에 속한다. 예를들어, {accepted, rejected}나 {spam, not spam}과 같은 클래스들이 있다. 이는 target attribute라고도 불린다. 
+
+classifier를 learning시키기 위해서는, 트레이닝데이터가 필요한데, 이 데이터는 n개의 인스턴스로 이루어져있다. 각각의 인스턴스는 위에 언급한대로 이루어져 있다.
+
+학습에 대한 출력으로, 입력 space 공간 X에서 클래스 space Y로의 매핑을 수행한다. 즉, 학습 결과는 함수 $f: X \to Y$이다.
+
+### Decision Trees - Regression
+
+1. Input: 각각의 인스턴스 x는 input space X에 속하는 feature vector로 표현된다. 벡터 내 각각의 요소는 attribute를 나타낸다.
+
+2. Output: 연속적인 실수 값 y로 표현된다. $y \in \mathbb{R}$
+
+3. Learning Problem: Regressio model을 학습시키기 위해서는 연속적인 대상 값과 관련된 학습 데이터가 주어진다. 이 트레이닝 데이터는 n개의 인스턴스로 구성되며, 각각의 인스턴스는 input feature vector $x_i$와 해당하는 연속적인 target value $y_i$로 구성된다. 다음과 같은 형태를 띈다.
+
+$$L = (x_1,y_1),\dots,(x_n,y_n)$$
+
+이는 예를들어 $(x_1,3.5 , \dots , x_n,-2.8)$과 같은 형태로 주어진다. 
+
+### Decision Trees
+
+이 디시젼 트리는 Test node, Terminal node와 같은 특징을 가진다. 
+
+- Test Nodes가 Discrete Attributes를 처리할때엔, 노드는 attribute를 포함하고, branch는 해당 attribute의 값들로 레이블링된다.
+
+- Test nodes가 continuous attributes를 처리할땐, 노드는 "<"와 같은 비교를 포함하고, 가지는 yes 또는 no로 레이블링된다.
+
+- Terminal nodes는 target attribute의 값이 포함된다. 
+
+이 디시젼 트리는 decision rules로 표현될 수 있다. 각 terminal node는 rule에 해당한다.
+
+예를 들어, "Rejected ← positive credit report ∧ employment duration ≤ 3 months ∧ unemployed." 는 뒤 조건을 충족하면 대출이 거부된다는 것을 의미한다. 
+
+이런 디시젼 트리는, 다음과 같이 처리된다.
+
+1. **Recursively, branch를 따라 내려감.** 
+   - 각 노드를 통과하는 과정은 재귀적으로 수행된다.
+2. **각 테스트 노드에서 테스트를 수행하고 적절한 가지를 선택**
+3. **터미널 노드에서 값 반환**
+
+### Small Decision Trees
+
+다음과 같은 데이터가 주어졌다고 해보자.
+
+|Loan|Credit report |Employment last 3 months|Collateral > 50% loan|Payed back in full|
+|-|-|-|-|-|
+|1|Positive|Yes|No|Yes|
+|2|Positive|No|Yes|Yes|
+|3|Positive|No|No|No|
+|4|Negative|No|Yes|No|
+|5|Negative|Yes|No|No|
+
+디시젼 트리를 learning하는 방법은 주어진 트레이닝 데이터에 대해 올바른 클래스를 예측하는 트리를 찾는것이다. 가장 간단한 방법은 단순히 트레이닝 데이터를 재현하는 트리를 만드는 것이다. 이는 각각의 트레이닝 데이터 인스턴스에 대해 하나의 terminal node를 만드는 것이다. 이 터미널 노드에는 해당 인스턴스의 클래스가 포함된다. 
+
+![](./images/dic.PNG)
+
+이 방법은 학습 데이터에 대해서는 완벽하게 작동하지만, 실제 데이터에서는 잘 일반화되지 않을 수 있다. 이러한 모델은 과적합(overfitting)되었다고 할 수 있다. 과적합은 트레이닝 데이터에 대해서는 매우 정확하게 작동하지만, 새로운 데이터에 대해서는 일반화하기 어려울 수 있다.
+
+따라서, 보다 일반화된 의사 결정 트리를 찾기 위해서는 과적합을 피하기 위한 다양한 기법들을 적용해야 한다. 이러한 기법들에는 가지치기(pruning), 트리의 깊이 제한(depth limitation), 또는 정보 이득(Information Gain)을 최대화하는 특성 선택 등이 있다.
+
+이런 trivial way말고도, 더 우아한 방법은 트레이닝 데이터와 일치하는 트리 중 **가능한한 가장 적은 노드**를 가지는 트리를 선택하는 것이다. 트리가 작을수록 각각의 분기점이 더 명확하게 나타나므로 결정 프로세스를 이해하기가 더 쉽다. 또한 트리가 작으면, 터미널 노드에 더 많은 트레이닝 인스턴스가 포함될 수 있다. 더 많은 인스턴스가 포함될수록 해당 클래스에 대한 통계적 신뢰도가 향상된다. 
+
+smallest Tree를 만들기 위해, 알아야 할것들이 있다. 
+
+- 기능적으로 다른 디시젼 트리가 몇개가 있을까?
+  - m개의 이진 attribute와 두개의 클래스가 있다고 해보자.
+  - 트리는 테스트 노드의 m개 레이어가 있으며, 즉, $2^m-1$개의 테스트 노드가 있다.
+  - 따라서, $2^{(2^m)}$개의 터미널에 대한 클래스 할당이 있다.
+- 그렇다면 이런 smallest tree를 찾는데 드는 시간은?
+  - m개의 attribute가 있다고 할때, $2^m-1$개의 테스트 노드가 있으니, $O((m+1)^{2^m-1})$의 시간이 든다.. 존나김
+  - 또, 터미널 노드에 클래스 레이블을 할당하는데 $O(2^{2^m})$의 시간이 든다.
+
+
+## ID3
+
+이런 smallest decision tree를 찾는 그리디 알고리즘을 알아보자. 
+
+이 그리디 알고리즘은 Top-Down approach를 사용한다. ID3이라고도 하며, 디시젼 트리를 구축하기 위한 분류 알고리즘을 사용한다. 여기서는 optimal attribute를 선택하기 위해 엔트로피를 사용한다.
+
+```
+1. ID3(L)
+   1. If all data in L have same class y, then return leaf
+   node with class y.
+   2. Else
+      1. Choose attribute x𝑗 that separates L into subsets
+      L1, … , L𝑘 with most homogenous class distributions.
+      2. Let L𝑖 = {(x, y) ∈ L: x𝑗 = 𝑖}.
+      3. Return test node with attribute x𝑗 and children
+      ID3(L1,), …, ID3(L𝑘).
+```
+
+1. 만약 L의 모든 데이터가 동일한 클래스 y를 가지고 있다면, 해당 클래스를 가지는 터미널 노드를 반환한다.
+2. 그렇지 않다면, 
+   1. L을 가장 균일한 클래스 분포를 갖도록 분리할 수 있는 특성 $x_j$를 선택한다.
+   2. L을 $x_j$에 대한 값 $i$에 따라 $k$개의 하위집합 $L_1,\dots,L_k$로 분할한다. 각각의 하위집합 $L_i$는 $x_j=i$를 만족하는 데이터들의 집합이다.
+   3. $L_i$에 대한 재귀적 호출을 통해 각각의 하위 집합에 대한 디시젼트리를 생성한다.
+   4. 결과 반환
+
+### Information
+
+Information 이론은 송신자(p(y)), 채널, 수신자 및 메시지(y)에 대한 확률 분포를 포함하는 모델을 사용한다. 여기서 information은 메시지의 attribute, bit 단위로 측정된다. **메시지 내의 information은 메시지를 최적으로 코딩하는데 필요한 bit의 수이다.** p(y)의 확률로 전동되는 메시지 y의 정보는 $-\log_2p(y)$이다. 
+
+![](./images/info.PNG)
+
+### Entropy
+
+엔트로피는 메시지의 expected information이다. 엔트로피는 다음과 같이 정의될 수 있다.
+
+$$H(y)=-\sum^{k}_{v=1}p(y=v)\log_2 p(y=v)$$
+
+엔트로피는 Reciever가 메시지에 대한 불확실성(uncertainty) 혹은 불순도(Impurity)를 수치적으로 나타내는 척도이다. 즉, 엔트로피가 높을수록 수신자는 더 많은 정보를 필요로 하고, 낮을수록 메시지에 대한 예측이 더 쉬워진다.
+
+엔트로피가 낮을수록 데이터의 섞임정도인 impurity가 높아지고, 즉 데이터들이 다양한 클래스에 나뉘어져 있다는 것을 의미한다. 무질서하게 정리되어있다고도 표현을 하고, 불확실하다고도 한다. 엔트로피는 0과 1사이의 값을 가진다.
+
+실제 데이터 L에서 관측된 빈도수를 확률 대신에 사용하여 계산된 엔트로피를 Empirical Entropy $H_L$이라고 한다. 이는 다음과 같이 계산된다.
+
+$$H_L=-\sum^{k}_{v=1}f(v)\log_2f(v)$$
+
+![](./images/entro.PNG)
+
+
+#### Entropy of Class Labels in Training Data
+
+이쯤에서 아까 그 표를 다시 가져와보자.
+
+|Loan|$x_1$ (Credit report) |$x_2$ (Employment last 3 months)|$x_3$ (Collateral > 50% loan)|$y$ (Payed back in full)|
+|-|-|-|-|-|
+|1|Positive|Yes|No|Yes|
+|2|Positive|No|Yes|Yes|
+|3|Positive|No|No|No|
+|4|Negative|No|Yes|No|
+|5|Negative|Yes|No|No|
+
+학습 데이터의 클래스 레이블에 대한 엔트로피는 클래스 레이블에 대한 정보 또는 불확실성을 나타낸다. y의 엔트로피를 계산해보자.
+
+$$H_L(y)=-\frac{2}{5}\log_2\frac{2}{5}-\frac{3}{5}\log_2\frac{3}{5}=0.97 bit$$
+
+#### Conditional Entropy
+
+특정 조건에 따른 클래스 레이블의 정보 또는 불확실성은 해당 조건이 주어졌을 때 클래스 레이블에 대한 예상 비트 수를 나타낸다.
+
+$$H_L(y|x_1=n)=-\frac{2}{2}\log_2\frac{2}{2}-\frac{0}{2}\log_2\frac{0}{2}=0 bit$$
+
+$$H_L(y|x_1=p)=-\frac{2}{3}\log_2\frac{2}{3}-\frac{1}{3}\log_2\frac{1}{3}=0.91 bit$$
+
+### Information Gain of an Attribute
+
+|Loan|$x_1$ (Credit report) |$x_2$ (Employment last 3 months)|$x_3$ (Collateral > 50% loan)|$y$ (Payed back in full)|
+|-|-|-|-|-|
+|1|'Positive'|'Yes'|'No'|'Yes'|
+|2|'Positive'|'No'|'Yes'|'Yes'|
+|3|'Positive'|'No'|'No'|'No'|
+|4|Negative|No|Yes|No|
+|5|Negative|Yes|No|No|
+
+Attribute에 대한 information gain은 데이터를 해당 attribute를 기준으로 분할함으로써 엔트로피가 감소되는 양을 나타낸다.
+
+$$G_L(x_j) = H_L(y) -\sum^{k}_{v=1}p_L(x_j=v)\cdot H_L(y|x_1=v)$$
+
+여기서 $H_L(y)$는 원본 데이터의 클래스 레이블에 대한 엔트로피이고, $p_L$(x_j=v)는 attributre $x_j$가 $v$값으로 주어졌을때의 확률을 나타낸다. $H_L(y|x_1=v)$는 attribute $x_j$가 값 v로 주어진 상황에서의 클래스 레이블에 대한 조건부 엔트로피이다. 
+
+따라서, 위 데이터에서 $x_1$에 대한 information gain은 다음과 같이 계산될 수 있다.
+
+$$G_L(x_1) = H_L(y) -p_L(x_1=p)\cdot H_L(y|x_1=p)-p_L(x_1=n)\cdot H_L(y|x_1=n)\\
+= 0.97-\frac{3}{5}0.91-\frac{2}{5}0=0.42\text{ bit}$$
+
+즉, attribute $x_1$를 기준으로 데이터를 분할하는 것은 클래스 레이블 y에 대한 uncertainty를 0.42 bit 만큼 감소시킨다는 것을 의미한다.
+
+따라서, **decision tree 알고리즘은 이 information gain을 최대화 하는 방향으로 학습이 진행된다.**
+
+#### Information Gain Ratio
+
+information gain ratio는 attribute의 information gain을 spliting 이후의 엔트로피로 나눈 값이다. 이것은 attribute의 스플리팅 이후 엔트로피가 증가할 수 있는 경우를 고려하여 information gain을 보정하는데 사용된다.
+
+$$\text{Information Gain Ratio}=\frac{\text{Information Gain}}{\text{Split Information}}$$
+
+$$GR_L(x_j)=\frac{G_L(x_j)}{H_L(x_j)}$$
+
+여기서, information gain $G_L(x_j)$은 스플리팅 전후의 엔트로피의 차이이며, split information은 해당 attribute를 기준으로 데이터를 분할한 후의 엔트로피 $H_L(x_j)$이다.
+
+$$H_L(x_j)=-\sum^{k}_{v=1}p_L(x_j=v)\log_2 p_L(x_j=v)$$
+
+이러한 Information Gain Ratio은 속성의 Information Gain이 해당 속성의 분할 후의 엔트로피에 비례하는지 여부를 나타낸다. Information Gain Ratio이 높을수록 속성이 분할 후의 엔트로피를 줄이는 데 더욱 효과적이며, 따라서 분할 후의 엔트로피를 기준으로 Information Gain을 판단할 때 더욱 신뢰할 수 있다.
+
+예시를 한번 보도록 하자.
+
+![](./images/wsib.PNG)
+
+오른쪽이 더 높은 ratio를 가지는것을 볼 수 있다. 따라서 오른쪽이 더 낫다. 이렇게 각 attribute에 대한 spliting의 효과를 측정하고 비교할 수 있다. 근데.. 사실 이 ratio 없어도 그냥 대충 엔트로피만 비교해도 된다.
+
+### ID3 Algorithm
+
+ID3 알고리즘은 classification 문제에서 모든 attribute가 고정된 discrete 값 범위를 가지는 경우에 사용된다. 주요 아이디어는 다음과 같다.
+
+- Choose attribute:
+
+  클래스 레이블에 대한 정보를 가장 많이 전달하는 속성을 선택합니다. 이를 위해 정보 이득, 정보 이득 비율 또는 지니 지수를 사용할 수 있습니다.
+- 데이터 분할:
+
+  선택된 속성을 기준으로 학습 데이터를 분할합니다.
+- 재귀 호출:
+  
+  각각의 분할에 대해 재귀적으로 알고리즘을 호출합니다.
+- 속성 사용:
+  
+  각 분기에서 각 속성은 한 번씩만 사용됩니다. 모든 속성이 사용된 경우에는 터미널 노드를 반환합니다.
+
+알고리즘은 다음과 같다.
+
+```
+ID3(L, X)
+1. If all data in L have same class y or X={}, then
+return leaf node with majority class y.
+2. Else
+  1. For all attributes x𝑗 ∈ X, calculate split criterion GL(x𝑗) or GRL(x𝑗).
+  2. Choose attribute x𝑗 ∈ X with highest GL(x𝑗) or GRL(x𝑗).
+  3. Let L𝑖 = {(x, y) ∈ L: x𝑗 = 𝑖}.
+  4. Return test node with attribute x𝑗 and children ID3(L1, X ∖ x𝑗), …, ID3(L𝑘, X ∖ x𝑗).
+```
+
+한번 보도록 하자. 우리의 예시 데이터셋의 $x_1$부터 시작한다. 
+
+|Loan|'$x_1$ (Credit report)' |$x_2$ (Employment last 3 months)|$x_3$ (Collateral > 50% loan)|$y$ (Payed back in full)|
+|-|-|-|-|-|
+|1|'Positive'|Yes|No|Yes|
+|2|'Positive'|No|Yes|Yes|
+|3|'Positive'|No|No|No|
+|4|'Negative'|No|Yes|No|
+|5|'Negative'|Yes|No|No|
+
+아 모르겠다. 그냥 결과는 다음과 같다. 자세한건 3번강의 decision tree의 ID3: example을 보도록 하자.
+
+![](./images/id3.PNG)
+
+
+## Continuous Attributes - C4.5
+
+ID3는 continuous attributes를 어떻게 처리할까?
+ 
+ID3는 선택된 continuous attributes의 각 값에 대해 가지를 생성한다.  그러나 이는 continuous attributes에 대해서는 잘 작동하지 않는다.
+
+continuous attributes을 처리하기 위한 아이디어 중 하나는 속성과 임계값의 조합을 사용하여 이진 분할을 수행하는 것이다.  예를들어, $x_j \leq v$와 같은 형태의 테스트를 사용하여 데이터를 분할할 수 있다. 이를 위해 사용되는 알고리즘이 C4.5이다.
+
+이 뒤에 information gain을 계산해서 뭐 대충 하면된다. 근데 식은 좀 다르다.
+
+$$G_L(x_j \leq v) = H_L(y)-p_L(x_j\leq v)\cdot H_L(y|x_j\leq v)-p_L(x_j> v)H_L(y|x_j> v)$$
+
+여기서 각 H는 클래스 레이블에 대한 조건부 엔트로피를 나타낸다. 
+
+문제는 continuous attributes에는 무한한 수의 가능한 값이 존재한다는 것이다. 이를 해결하기 위해 트레이닝 데이터에 있는 해당 속성의 값만을 사용하여 이진 분할을 수행할 수 있다. 이러한 방식으로 속성의 유한한 수의 값을 고려하여 이진 분할을 수행한다.
+
+알고리즘은 다음과 같다.
+
+```
+C4.5(L)
+1. If all data in L have same class y or are identical, then return leaf node with majority class y.
+2. Else
+    1. For all discrete attributes x𝑗 ∈ X: calculate GL(x𝑗).
+    2. For all continuous attributes x𝑗 ∈ X and all values v that occur for x𝑗 in L: calculate GL(x𝑗 ≤v).
+    3. If discrete attribute has highest GL(x𝑗):
+        1. Let L𝑖 = {(x, y) ∈ L: x𝑗 = 𝑖}.
+        2. Return test node with attribute x𝑗 and children C4.5(L1), …, C4.5(L𝑘).
+    4. If continuous attribute has highest GL(x𝑗 ≤v):
+        1. Let L≤ = {(x, y) ∈ L: x𝑗 ≤ v}, L> = {(x, y) ∈ L: x𝑗>v}
+        2. Return test node with test x𝑗 ≤v and children C4.5(L≤), C4.5(L>).
+```
+
+다음은 워크플로우이다.
+
+![](./images/c451.PNG)
+
+![](./images/c452.PNG)
+
+![](./images/c453.PNG)
+
+![](./images/c454.PNG)
+
+## Pruning
+
+한국어로는 가지치기라고도 한다. 이는 디시젼트리에서 supported되는 인스턴스가 하나 또는 매우 적은 경우에 종종 좋은 분류를 제공하지 않는 터미널 노드를 제거하는 과정이다. 
+
+이는, Pruning의 parameter인 threshold $\tau$보다 적은 수의 인스턴스를 가진 노드를 제거한다. 그리고, 제거된 노드들의 대다수 클래스를 레이블로 하는 새로운 터미널 노드를 생성한다. 
+
+에러를 제거하기 위해서, 다음과같은 단계를 따른다.ㄴ
+
+- 먼저 트레이닝 세트와 pruning 검증 세트로 분할한다.
+- 트레이닝 세트를 사용하여 디시젼 트리를 구축한다. (알고리즘 사용)
+- pruning ㄱㄱ 
+  - 테스트 노드를 제거하고 대다수 클래스를 예측하는 터미널 노드로 대체할 경우, pruning세트의 오류율이 감소한다면, 해당 테스트 노드를 제거한다. 
