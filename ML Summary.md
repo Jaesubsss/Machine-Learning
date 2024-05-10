@@ -1076,9 +1076,8 @@ CART(L)
 
 트레이닝 데이터를 기반으로 regression 트리를 만드는 과정은 다음의 예시로 잘 볼 수 있다.
 
-![](/images/2020-10-05-regression-tree-example1.png)
-![](/images/2020-10-05-regression-tree-example2.png)
-![](/images/2020-10-05-regression-tree-example3.png)
+![](/images/2020-10-05-regression-tree-example1.png)|![](/images/2020-10-05-regression-tree-example2.png)|![](/images/2020-10-05-regression-tree-example3.png)
+-|-|-|
 
 이때 각 구간의 평균 값이 노드의 레이블이 된다. 트리의 깊이가 깊어질수록, 데이터를 나누는 초록 점선이 촘촘할 수록, 즉 구간이 좁아질 수록 예측값과 실제값의 오차는 줄어들 것이다. 이렇게되면 더 잘 분류하는것이지만, overfitting을 항상 염두에 두어야 한다. 
 
