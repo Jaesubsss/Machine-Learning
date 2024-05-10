@@ -46,20 +46,27 @@
     - [Attribute with Erroreous Values](#attribute-with-erroreous-values)
     - [Feature Selection](#feature-selection)
   - [Decision Trees](#decision-trees)
-    - [Decision Trees - Classification](#decision-trees---classification)
-    - [Decision Trees - Regression](#decision-trees---regression)
-    - [Decision Trees](#decision-trees-1)
     - [Small Decision Trees](#small-decision-trees)
-  - [ID3](#id3)
-    - [Information](#information)
-    - [Entropy](#entropy)
+    - [Decision Trees - Classification](#decision-trees---classification)
+    - [ID3](#id3)
+      - [Information](#information)
+      - [Entropy](#entropy)
       - [Entropy of Class Labels in Training Data](#entropy-of-class-labels-in-training-data)
       - [Conditional Entropy](#conditional-entropy)
-    - [Information Gain of an Attribute](#information-gain-of-an-attribute)
+      - [Information Gain of an Attribute](#information-gain-of-an-attribute)
       - [Information Gain Ratio](#information-gain-ratio)
-    - [ID3 Algorithm](#id3-algorithm)
-  - [Continuous Attributes - C4.5](#continuous-attributes---c45)
-  - [Pruning](#pruning)
+      - [ID3 Algorithm](#id3-algorithm)
+    - [Continuous Attributes - C4.5](#continuous-attributes---c45)
+    - [Pruning](#pruning)
+    - [Decision Trees - Regression](#decision-trees---regression)
+    - [CART](#cart)
+      - [CART Algorithm](#cart-algorithm)
+    - [Model Tree](#model-tree)
+  - [Ensemble Learning](#ensemble-learning)
+    - [Bagging](#bagging)
+      - [Bootstrapping](#bootstrapping)
+      - [Bagging](#bagging-1)
+    - [Random Forests](#random-forests)
 
 
 ## Supervised Learning
@@ -696,31 +703,6 @@ pearson, spearman correlation등을 이용해 계산한 상관계수를 척도�
 
 디시젼 트리는 numerical과 categorical 변수에 대한 사전 처리가 필요하지 않으며, regression 혹은 classification에 모두 사용할 수 있다.
 
-### Decision Trees - Classification
-
-디시젼트리에서 classification은 다음과 같은 과정으로 이루어진다.
-
-1. Input: $x \in X$,  각각의 인스턴스 x는 attributes vector로 표현되며, feature vector라고도 불린다. 
-
-2. Output: classification의 결과로써, 각각의 인스턴스 x에 해당하는 클래스 y가 결정된다. 클래스는 유한한 집합 Y에 속한다. 예를들어, {accepted, rejected}나 {spam, not spam}과 같은 클래스들이 있다. 이는 target attribute라고도 불린다. 
-
-classifier를 learning시키기 위해서는, 트레이닝데이터가 필요한데, 이 데이터는 n개의 인스턴스로 이루어져있다. 각각의 인스턴스는 위에 언급한대로 이루어져 있다.
-
-학습에 대한 출력으로, 입력 space 공간 X에서 클래스 space Y로의 매핑을 수행한다. 즉, 학습 결과는 함수 $f: X \to Y$이다.
-
-### Decision Trees - Regression
-
-1. Input: 각각의 인스턴스 x는 input space X에 속하는 feature vector로 표현된다. 벡터 내 각각의 요소는 attribute를 나타낸다.
-
-2. Output: 연속적인 실수 값 y로 표현된다. $y \in \mathbb{R}$
-
-3. Learning Problem: Regressio model을 학습시키기 위해서는 연속적인 대상 값과 관련된 학습 데이터가 주어진다. 이 트레이닝 데이터는 n개의 인스턴스로 구성되며, 각각의 인스턴스는 input feature vector $x_i$와 해당하는 연속적인 target value $y_i$로 구성된다. 다음과 같은 형태를 띈다.
-
-$$L = (x_1,y_1),\dots,(x_n,y_n)$$
-
-이는 예를들어 $(x_1,3.5 , \dots , x_n,-2.8)$과 같은 형태로 주어진다. 
-
-### Decision Trees
 
 이 디시젼 트리는 Test node, Terminal node와 같은 특징을 가진다. 
 
@@ -773,8 +755,22 @@ smallest Tree를 만들기 위해, 알아야 할것들이 있다.
   - m개의 attribute가 있다고 할때, $2^m-1$개의 테스트 노드가 있으니, $O((m+1)^{2^m-1})$의 시간이 든다.. 존나김
   - 또, 터미널 노드에 클래스 레이블을 할당하는데 $O(2^{2^m})$의 시간이 든다.
 
+---
 
-## ID3
+### Decision Trees - Classification
+
+디시젼트리에서 classification은 다음과 같은 과정으로 이루어진다.
+
+1. Input: $x \in X$,  각각의 인스턴스 x는 attributes vector로 표현되며, feature vector라고도 불린다. 
+
+2. Output: classification의 결과로써, 각각의 인스턴스 x에 해당하는 클래스 y가 결정된다. 클래스는 유한한 집합 Y에 속한다. 예를들어, {accepted, rejected}나 {spam, not spam}과 같은 클래스들이 있다. 이는 target attribute라고도 불린다. 
+
+classifier를 learning시키기 위해서는, 트레이닝데이터가 필요한데, 이 데이터는 n개의 인스턴스로 이루어져있다. 각각의 인스턴스는 위에 언급한대로 이루어져 있다.
+
+학습에 대한 출력으로, 입력 space 공간 X에서 클래스 space Y로의 매핑을 수행한다. 즉, 학습 결과는 함수 $f: X \to Y$이다.
+
+
+### ID3
 
 이런 smallest decision tree를 찾는 그리디 알고리즘을 알아보자. 
 
@@ -799,13 +795,13 @@ smallest Tree를 만들기 위해, 알아야 할것들이 있다.
    3. $L_i$에 대한 재귀적 호출을 통해 각각의 하위 집합에 대한 디시젼트리를 생성한다.
    4. 결과 반환
 
-### Information
+#### Information
 
 Information 이론은 송신자(p(y)), 채널, 수신자 및 메시지(y)에 대한 확률 분포를 포함하는 모델을 사용한다. 여기서 information은 메시지의 attribute, bit 단위로 측정된다. **메시지 내의 information은 메시지를 최적으로 코딩하는데 필요한 bit의 수이다.** p(y)의 확률로 전동되는 메시지 y의 정보는 $-\log_2p(y)$이다. 
 
 ![](./images/info.PNG)
 
-### Entropy
+#### Entropy
 
 엔트로피는 메시지의 expected information이다. 엔트로피는 다음과 같이 정의될 수 있다.
 
@@ -846,7 +842,7 @@ $$H_L(y|x_1=n)=-\frac{2}{2}\log_2\frac{2}{2}-\frac{0}{2}\log_2\frac{0}{2}=0 bit$
 
 $$H_L(y|x_1=p)=-\frac{2}{3}\log_2\frac{2}{3}-\frac{1}{3}\log_2\frac{1}{3}=0.91 bit$$
 
-### Information Gain of an Attribute
+#### Information Gain of an Attribute
 
 |Loan|$x_1$ (Credit report) |$x_2$ (Employment last 3 months)|$x_3$ (Collateral > 50% loan)|$y$ (Payed back in full)|
 |-|-|-|-|-|
@@ -891,7 +887,7 @@ $$H_L(x_j)=-\sum^{k}_{v=1}p_L(x_j=v)\log_2 p_L(x_j=v)$$
 
 오른쪽이 더 높은 ratio를 가지는것을 볼 수 있다. 따라서 오른쪽이 더 낫다. 이렇게 각 attribute에 대한 spliting의 효과를 측정하고 비교할 수 있다. 근데.. 사실 이 ratio 없어도 그냥 대충 엔트로피만 비교해도 된다.
 
-### ID3 Algorithm
+#### ID3 Algorithm
 
 ID3 알고리즘은 classification 문제에서 모든 attribute가 고정된 discrete 값 범위를 가지는 경우에 사용된다. 주요 아이디어는 다음과 같다.
 
@@ -936,7 +932,7 @@ return leaf node with majority class y.
 ![](./images/id3.PNG)
 
 
-## Continuous Attributes - C4.5
+### Continuous Attributes - C4.5
 
 ID3는 continuous attributes를 어떻게 처리할까?
  
@@ -978,15 +974,213 @@ C4.5(L)
 
 ![](./images/c454.PNG)
 
-## Pruning
+### Pruning
 
 한국어로는 가지치기라고도 한다. 이는 디시젼트리에서 supported되는 인스턴스가 하나 또는 매우 적은 경우에 종종 좋은 분류를 제공하지 않는 터미널 노드를 제거하는 과정이다. 
 
 이는, Pruning의 parameter인 threshold $\tau$보다 적은 수의 인스턴스를 가진 노드를 제거한다. 그리고, 제거된 노드들의 대다수 클래스를 레이블로 하는 새로운 터미널 노드를 생성한다. 
 
-에러를 제거하기 위해서, 다음과같은 단계를 따른다.ㄴ
+에러를 제거하기 위해서, 다음과같은 단계를 따른다.
 
 - 먼저 트레이닝 세트와 pruning 검증 세트로 분할한다.
 - 트레이닝 세트를 사용하여 디시젼 트리를 구축한다. (알고리즘 사용)
 - pruning ㄱㄱ 
   - 테스트 노드를 제거하고 대다수 클래스를 예측하는 터미널 노드로 대체할 경우, pruning세트의 오류율이 감소한다면, 해당 테스트 노드를 제거한다. 
+
+
+### Decision Trees - Regression
+
+Regression tree의 개념에 대해 자세히 알아보자. Decision tree는 회귀문제도 풀 수 있다. 회귀(Regression)에서의 분할 기준은 주어진 입력 데이터를 가장 잘 설명하는 두 개 이상의 그룹으로 데이터를 나누는 과정이다. 이를 위해서는 각 분할 후의 오차를 최소화하는 것이 중요하다. 
+
+1. Input: 각각의 인스턴스 x는 input space X에 속하는 feature vector로 표현된다. 벡터 내 각각의 요소는 attribute를 나타낸다.
+
+2. Output: 연속적인 실수 값 y로 표현된다. $y \in \mathbb{R}$
+
+3. Learning Problem: Regressio model을 학습시키기 위해서는 연속적인 대상 값과 관련된 학습 데이터가 주어진다. 이 트레이닝 데이터는 n개의 인스턴스로 구성되며, 각각의 인스턴스는 input feature vector $x_i$와 해당하는 연속적인 target value $y_i$로 구성된다. 다음과 같은 형태를 띈다.
+
+$$L = (x_1,y_1),\dots,(x_n,y_n)$$
+
+이는 예를들어 $(x_1,3.5 , \dots , x_n,-2.8)$과 같은 형태로 주어진다. 
+
+4. Learning Goal: regression model을 학습시키는 과정에서는 두가지 주요 목표를 강조한다. 
+   1. **Low Quadratic Error Rate**: 모델이 주어진 데이터를 잘 예측하는 능력을 말한다. 낮은 Low quadratic error rate는 모델이 데이터를 정확히 예측하는데 효과적이라는 것을 의미한다.
+
+    SSE 또는 MSE 등을 measure로 사용한다.
+
+    $$\text{SSE} = \sum_{i=1}^{n}(y_i-f(x_i))^2\\
+    \text{MSE} = \frac{1}{n}\sum_{i=1}^{n}(y_i-f(x_i))^2$$
+   1. **Simple Model**: 모델의 복잡성은 가능한한 낮아야한다. 모델이 복잡할 수록 overfitting의 위험이 있으며, 새로운 데이터에 대한 일반화능력이 감소할 수 있다. 
+ 
+Regression tree에서는 여러가지 통계적 measure들을 사용한다. 먼저, 주어진 데이터 샘플 L에서 target attributes이 평균으로부터 얼마나 퍼져있는지 나타내는 variance가 있다. 다음과 같이 정의된다.
+
+$$Var(L)=\frac{1}{n}\sum_{i=1}^{n}(y_i-\bar{y})^2$$
+
+이때, 이 variance는 평균값 예측의 MSE와 같다. Supervised learning이서 이 variance는 예측값이 흩어진 정도를 의미하게 된다. bias와 variance 둘다 loss이기 때문에, 가능하면 bias와 variance를 모두 작게하는 것이 좋다. MSE는 디시젼 트리에서 total loss를 측정하는 지표로도 사용되며, 실제 값과 예측 값의 차이, 즉 오차를 제곱해서 더한 후 평균을 낸 값으로 오차가 클수록 MSE도 커지게 된다. 
+
+$$\text{MSE} = \frac{1}{n}\sum_{i=1}^{n}(y_i-f(x_i))^2 \\
+= E[(y_i-\bar{y})^2] = Var(\bar{y}) + Bias(\bar{y})^2 + Var(\epsilon)$$
+
+영역을 분할하는 splitting criterion은 어떻게 될까? 특정 attribute $x_j$가 주어진 값 v보다 작거나 같은 경우 $[x_j \leq v]$의 variance reduction(감소량)을 측정하여, 새로운 splitting이 적용된 후 샘플 L의 variance가 얼마나 감소하는지 등을 비교하여 splitting criterion을 결정할 수 있을 것이다. 이때 splitting criterion $[x_j \leq v]$의 variance reduction $R_L[x_j \leq v]$는 다음과 같이 계산될 수 있다.
+
+$$R_L[x_j \leq v] = Var(L)-\frac{n_{[x_j \leq v]}}{n}\cdot Var(L_{[x_j \leq v]}) - \frac{n_{[x_j > v]}}{n}\cdot Var(L_{[x_j > v]})$$
+
+보기만 해도 역겹다. 
+
+그럼 언제 이 짓거리를 멈춰야 할까? 분명 어느 순간엔 테스팅 노드를 만드는 것을 멈춰야 할 것이고, 이를 위한 기준이 있어야 한다. **새로운 splitting criterion이 적용된 후의 샘플 L의 variance가 일정 threshold $\tau$보다 작거나 같은 경우**인 $nVar(L) \leq \tau$에, 새로운 테스트 노드를 만들지 않는다. 이를 통해 overfitting을 방지한다. 
+
+이렇게 Regression model을 만드는 알고리즘에 대해 알아보자. 
+
+### CART
+
+CART는 ID3알고리즘과 비슷한 시기에, 별도로 개발된 알고리즘으로 Classification And Regression Tree의 약자이다. 이름 그대로 Classification뿐 아니라 Regression도 가능한 알고리즘인데, 이 외에도 앞서 소개한 알고리즘들과 몇 가지 차이점이 존재한다. 
+
+일단 CART는 ID3과는 다른 Impurity(불순도) 기준을 사용하는데, ID3에서 Entropy를 사용한 반면 CART는 Gini index를 사용한다. 작동 방식은 대충 ID3 알고리즘에서 Information Gain을 이용하는 것과 동일하다. **그러나! Regression tree를 만들때, CART는 위의 Gini index를 사용하지 않고, 실제값과 예측값의 오차를 사용한다.** 
+
+또, ID3에서 한번의 splitting 이후 여러 자식 노드로 분기하는것과 다르게, CART는 완전 Binary tree를 만드므로, 단 두개의 노드로만 분기한다. 
+
+#### CART Algorithm
+
+알고리즘은 일단 SSE를 기준으로 작동한다. SSE가 $\sum_{i=1}^{n}(y_i-\bar{y})^2$일 때, 
+
+```
+CART(L)
+1. If SSE < 𝜏, then return leaf node with prediction 𝑦 .
+2. Else
+  1. For all discrete attributes x𝑗 ∈ X: calculate RL(x𝑗).
+  2. For all continuous attributes x𝑗 ∈ X and all values v that occur for x𝑗 in L: calculate RL(x𝑗 ≤v).
+  3. If discrete attribute has highest RL(x𝑗):
+    1. Let L𝑖 = {(x, y) ∈ L: x𝑗 = 𝑖}.
+    2. Return test node with attribute x𝑗 and children CART(L1), …, CART(L𝑘).
+  4. If continuous attribute has highest RL(x𝑗 ≤v):
+    1. Let L≤ = {(x, y) ∈ L: x𝑗 ≤ v}, L> = {(x, y) ∈ L: x𝑗>v}
+    2. Return test node with test x𝑗 ≤v and children CART(L≤), CART(L>).
+```
+
+
+
+1. 주어진 데이터 𝐿에 대해 평균 제곱 오차가 일정 임계값 𝜏보다 작은 경우, 이를 리프 노드로 처리하고 예측값 𝑦를 반환합니다. 이것은 트리의 성장을 중지시키는 기준입니다.
+
+2. 이 부분은 splitting을 진행하는 과정을 나타냅니다. 
+   1. 주어진 데이터 𝐿에서 각 특성(이산형 또는 연속형)에 대해 splitting을 진행하고, 이에 따른 splitting 후의 $R_L$를 계산합니다.  
+   2. discrete attribute에 대한 $R_L$를 계산한 후, 가장 높은 $R_L$를 가진 특성을 선택합니다.
+   1. 연속형 특성에 대해서도 마찬가지로 $R_L$를 계산하고, 이를 기준으로 splitting을 진행합니다.
+
+3. 
+   1. 가장 높은 $R_L$를 가진 특성에 따라 데이터를 splitting합니다.
+   2. discrete attribute인 경우 해당 특성값에 따라 데이터를 splitting하고, 각 splitting에 대해 CART 알고리즘을 재귀적으로 적용합니다.
+   3. 연속형 특성인 경우 해당 특성값에 대해 기준을 설정하여 데이터를 두 개의 부분집합으로 splitting하고, 각 부분집합에 대해 CART 알고리즘을 재귀적으로 적용합니다.
+
+다음의 예시를 보자.
+
+![](./images/rt.PNG)
+
+트레이닝 데이터를 기반으로 regression 트리를 만드는 과정은 다음의 예시로 잘 볼 수 있다.
+
+![](/images/2020-10-05-regression-tree-example1.png)
+![](/images/2020-10-05-regression-tree-example2.png)
+![](/images/2020-10-05-regression-tree-example3.png)
+
+이때 각 구간의 평균 값이 노드의 레이블이 된다. 트리의 깊이가 깊어질수록, 데이터를 나누는 초록 점선이 촘촘할 수록, 즉 구간이 좁아질 수록 예측값과 실제값의 오차는 줄어들 것이다. 이렇게되면 더 잘 분류하는것이지만, overfitting을 항상 염두에 두어야 한다. 
+
+### Model Tree
+
+Model Tree는 regression tree의 변형 중하나로, 기존의 regression tree에서는 각 노드가 해당 노드의 트레이닝 데이터 인스턴스들의 평균값으로 레이블 되었다. 하지만 모델 트리에서는 이러한 레이블 대신 해당 리프 노드에 속한 트레이닝 데이터 인스턴스들을 사용하여 지역적인 linear regression model을 훈련시킨다. 
+
+여기서 각 리프 노드에 있는 선형 회귀 모델은 해당 노드의 훈련 데이터 인스턴스에 대해 최적화된다. 이를 통해 모델 트리는 각 리프 노드에서의 데이터 패턴을 고려하여 선형 회귀 모델을 구성하게 된다. 
+
+linear Regression은 다음과 같이 구성된다. 
+
+- input: $L = \left\langle (x_1,y_1),\dots,(x_n,y_n) \right\rangle$
+- linear regression model $f(x) = \Theta^Tx+\theta_0$
+
+후에 좀더 자세히 다루겠다. 
+
+![](./images/modelt.PNG)| ![](/images/modelt2.PNG)
+-|-|
+
+## Ensemble Learning 
+
+Ensemble Learning은 여러 모델의 예측을 결합하여 더 나은 예측을 수행하는 기술이다. 간단한 예시를 통해 알아보자.
+
+3개의 모델 $f_i(x)$가 있다고 해보자. 각 모델의 error probability가 0.1이라고 가정한다. 
+
+주어진 3개의 모델에서 예측된 값 중 가장 많이 나온 값을 최종 예측 $f(x)$으로 선택하는 방식을 사용한다. 다수결과 비슷하다. 
+
+$$f(x) = \text{arg max } |\{i: f_i(x)=y\}|$$
+
+그러나 앙상블 모델의 error probability는 개별 모델의 error probability와 모델들 간의 상관 관계에 따라 달라진다. 만약 3개의 모델이 항상 동일한 예측을 하면, 앙상블 모델의 error probability는 개별 모델의 error probability와 동일하게 0.1이 된다. 그러나 모델들이 서로 독립적이고 서로 다른 오차 패턴을 가지고 있다면, 앙상블 모델의 error probability는 더 낮아질 수 있다.
+
+모델이 서로 독립적인 경우, 앙상블 모델의 error probability을 계산할 수 있다. 3개 모델중 2개의 모델이 오차를 가지는 경우, 두 모델에 대한 3개의 subset이 생긴다. 즉, 3개 무델 중 2개를 선택하는 경우의 수는 3이므로, 2개의 모델이 오류를 범할 확률은 다음과 같이 계산될 수 있다.
+
+$$R \leq 3 \times 0.1^2 = 0.03$$
+
+앙상블 모델의 오차 확률은 0.03이다. 이는 개별 모델의 오차 확률인 0.1보다 훨씬 낮다. 이것은 앙상블 모델이 개별 모델보다 더 나은 성능을 갖는다는 것을 의미한다.
+
+이런 앙상블 모델이 개별 모델보다 훨씬 우수한 결과를 제공하는 경우가 있는데, 몇가지 조건이 필요하다. 
+
+- 각 모델의 오류 확률이 0.5 미만인 경우
+- 모델들이 충분히 상관관계가 없는 경우
+
+앙상블 모델은 다양한 방식으로 학습될 수 있는데, 배깅, 랜덤 포레스트, 부스팅 등의 방식이 있다.
+
+- **Bagging**: 훈련 데이터의 무작위 하위 집합을 샘플링하여 각 모델을 학습시킵니다. 이를 통해 각 모델들이 서로 다른 훈련 데이터를 사용하게 되므로, 각 모델들이 상호 독립적으로 작동할 수 있습니다.
+
+- **Random Forests**: 배깅과 유사하게, 랜덤 포레스트는 훈련 데이터의 무작위 하위 집합을 샘플링하지만, 추가적으로 특성들의 무작위 하위 집합을 사용하여 각 트리를 학습시킵니다. 이는 각 트리들이 서로 다른 특성을 고려하도록 하여 다양성을 증가시키는 데 도움이 됩니다.
+
+- **Boosting**: 부스팅은 이전 모델이 실패한 샘플에 대한 가중치를 증가시켜 다음 모델이 더욱 집중할 수 있도록 하는 방식으로 작동합니다. 이를 통해 약한 학습기를 결합하여 강력한 앙상블 모델을 형성할 수 있습니다.
+
+
+### Bagging 
+#### Bootstrapping
+
+부트스트래핑(Bootstrapping)은 데이터셋으로부터 replacement를 통해 샘플을 생성하는 방법이다. n개의 인스턴스를 데이터셋으로부터 replacement를 통해 draw(추출)한다. 부트스트래핑 프로세스는 다음과 같은 단계로 구성된다.
+
+- input: 크기가 n인 데이터 샘플 L
+- Bootstrap sampling: 
+  - k번 반복하며, 각 반복에서 다음을 수행한다.
+    1. L에서 n개의 인스턴스를 uniformly하게 draw with replacement한다. 
+    2. 생성된 샘플 $L_i$을 통해 모델 $f_i$를 학습시킨다. 
+  - k개의 모델 $(f_1,\dots,f_k)$를 반환한다. 
+
+부트스트래핑은 주어진 데이터셋으로부터 여러 샘플을 생성하여 이들을 이용하여 모델을 학습하는 방법이다. 이를 통해 다양한 데이터 패턴을 학습할 수 있으며, 모델의 일반화 성능을 향상시킬 수 있다. 부트스트래핑은 앙상블 학습 방법에서 주로 사용되며, 배깅(Bagging) 알고리즘의 기초가 된다.
+
+#### Bagging
+
+Bagging은 Bootstrap Aggregation의 약자다. 배깅은 샘플을 여러 번 뽑아(Bootstrap) 각 모델을 학습시켜 결과물을 집계(Aggregration)하는 방법이다. 주어진 데이터셋에서 draw with replacement를 사용하여 여러 개의 부트스트랩 샘플을 생성하고, 각 부트스트랩 샘플을 사용하여 모델을 학습한 후 이들의 평균 또는 다수결 투표를 통해 최종 예측을 결정한다.
+
+- input: 크기가 n인 데이터 샘플 L
+
+- k번 반복하며, 각 반복에서 다음을 수행한다.
+    1. L에서 n개의 인스턴스를 uniformly하게 draw with replacement한다. 
+    2. 생성된 샘플 $L_i$을 통해 모델 $f_i$를 학습시킨다. 
+- k개의 모델 $(f_1,\dots,f_k)$를 반환한다. 
+- For classification:
+  - 주어진 입력 벡터 x에 대해, 각 모델 $f_i$의 예측값을 **결합**하여 다수결 투표를 통해 최종 예측값을 결정한다.
+- For Regression:
+  - 주어진 입력 벡터 x에 대해, 각 모델 $f_i$의 예측값을 **평균**하여 최종 예측값을 결정한다. 
+
+![](./images/bagiing.png)
+
+배깅(Bagging)의 핵심 아이디어는 서로 다른 부트스트랩 샘플을 사용하여 여러 모델을 학습하여 이들을 결합하는 것이다. 이로써 모델들이 서로 다른 데이터 패턴을 학습하게 되므로 모델들 간의 상관 관계가 줄어들어 모델의 성능이 향상될 수 있다. 그러나 모든 모델이 동일한 attribute를 사용하여 학습하면 이들간의 상관관계가 여전히 존재할 수 있다. 
+
+이럴때는 attribute를 다양하게 변화시켜 모델간의 다양성을 증가시킬 수 있다. 이를 통해 각 모델들의 서로다른 조합을 고려하여 모델간의 상관관계를 줄일 수 있다. 
+
+이를 구현하는 방법이 바로 **Random Forests**이다. 
+
+### Random Forests
+
+랜덤 포레스트(Random Forests)는 배깅(Bagging)의 일종으로, 여러 개의 결정 트리(Decision Trees)를 생성하고 이들의 예측을 결합하여 더 나은 예측을 수행하는 앙상블 학습 방법이다. 
+
+부트스트랩한 데이터셋을 통해서 작은 결정나무(Decision Tree)들을 만든다. 이 나무들를 만들 때 주의할 점은 큰 나무 하나를 만드는것이 아니라 작은 나무 여러개를 만들어서 숲(Forest)을 이룬다는 점이다. 다시 말해서 나무가 작다는 것은 노드가 적다는 의미이고 또 특성이 많지 않다는 뜻이다. 즉, 모든 특성(Feature, column)들을 사용하는 것이 아니라 몇개의 특성들만 골라서 결정나무(Decision Tree)들을 만드는 것이다.
+
+이때 몇개의 특성을 선택하는 것이 좋을지 고민이 될 수 있는데 보통 전체 특성의 개수의 제곱근($\sqrt{d}$ 또는 $\log_2(d)$)만큼 선택하는 것이 가장 성능이 좋다고 한다. 이때 특성들을 무작위(Random)로 선택하기 때문에 Random이라는 표현이 사용된다고 생각하면된다. 
+
+일반적으로 랜덤 포레스트에서는 결정 트리를 가지치기 없이 학습한다. 샘플되는 attributes의 개수와 트리의 개수는 hyperparameter로 설정된다. 
+
+랜덤포레스트는 디시젼트리 알고리즘을 기반으로 하며, 이 알고리즘은 수치형, 범주형, 문자열 속성들의 조합을 처리할 수 있다. 따라서 랜덤 포레스트는 데이터의 전처리 작업이 거의 필요하지 않다.  
+
+또한 랜덤 포레스트는 여러 디시젼 트리의 앙상블로 구성되어 있으며, 이는 비선형 관계를 모델링하는데 매우 강력하다. 따라서 다양한 종류의 문제에 대해 좋은 성능을 발휘할 수 있다.
+
+랜덤 포레스트는 구현이 간단하고, 동작이 효율적이고 빠르며 대규모 및 소규모 데이터셋에 모두 잘 작동하므로 가장 자주 쓰인다.
+
+근데 이런 랜덤포레스트도 단점을 가지는데, 각 디시젼 트리의 앙상블로 구성되어있기 때문에 각 트리의 예측을 해석하기 어렵다는 점이다. 즉, 대충 괜찮은 prediction을 주긴 하는데, 왜 어떻게 이런 prediction을 줬는지 이해하기가 어렵단 점이다. 
