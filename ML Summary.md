@@ -67,6 +67,17 @@
       - [Bootstrapping](#bootstrapping)
       - [Bagging](#bagging-1)
     - [Random Forests](#random-forests)
+  - [Linear Classification Models](#linear-classification-models)
+  - [Regularized Empirical Risk Minimization](#regularized-empirical-risk-minimization-1)
+    - [Gradient Method](#gradient-method)
+      - [Gradient Method with Line Search](#gradient-method-with-line-search)
+      - [Stochastic Gradient Method](#stochastic-gradient-method)
+      - [Parallel Stochastic Gradient](#parallel-stochastic-gradient)
+    - [Loss Functions for Classification](#loss-functions-for-classification)
+      - [Regularizers for Classification](#regularizers-for-classification)
+      - [Perceptron](#perceptron)
+      - [Support Vector Machine (SVM)](#support-vector-machine-svm)
+  - [Multi-Class Classification](#multi-class-classification)
 
 
 ## Supervised Learning
@@ -181,11 +192,11 @@ Reinforcement Learning은 시스템을 제어하고 원하는 목표를 달성�
 
 강화 학습의 목표는 주어진 환경에서 최적의 정책(policy)을 학습하는 것이다. Policy는 주어진 상태에서 취해야 할 행동을 결정하는 전략을 의미한다. Reinforcement learning은 주어진 환경에서 policy를 향상시키기 위해 exploration과 exploitation 사이에서 균형을 유지한다. 
 
-* 환경(Environment)에 대한 사전지식이 없는 상태로 학습을 진행합니다.
-* 보상을 통하여 학습을 합니다.
+* 환경(Environment)에 대한 사전지식이 없는 상태로 학습을 진행한다.
+* 보상을 통하여 학습을 한다.
 * 컴퓨터가 선택한 행동(Action)에 대한 환경의 반응에 따라 보상이 주어집니다.
-* 행동의 결과로 나타나는 것이 보상이며 이것을 통하여 학습을 진행합니다.
-* 보상을 최대한 많이 얻도록 하는 행동을 유도하도록 학습을 진행합니다.
+* 행동의 결과로 나타나는 것이 보상이며 이것을 통하여 학습을 진행한다.
+* 보상을 최대한 많이 얻도록 하는 행동을 유도하도록 학습을 진행한다.
 
 ### Learning to Control a System
 
@@ -321,7 +332,7 @@ Regression Problem에 대한 Loss function은, 우리의 Target variable이 실�
 
 정규화(Regularization)란 머신 러닝에서 Overfitting을 방지하기 위해 사용되는 기법이다. Overfitting은 모델이 학습 데이터에 지나치게 잘 맞춰져 있어 새로운 데이터에 대한 일반화 능력이 떨어지는 현상을 말한다. 정규화는 모델의 복잡도를 제한하여 이러한 문제를 완화한다. 가장 일반적인 정규화 기법으로는 L1 정규화(Lasso)와 L2 정규화(Ridge)가 있다.
 
-L1 정규화는 모델의 가중치에 대한 절대값의 합을 손실 함수에 추가하며, 이는 모델의 일부 가중치를 정확히 0으로 만들어 특성 선택의 효과를 낸다. 반면, L2 정규화는 가중치의 제곱의 합을 손실 함수에 추가하여, 모든 가중치가 0에 가까워지도록 만들지만 정확히 0이 되지는 않는다. 이러한 정규화 기법들은 모델이 데이터의 중요한 패턴을 학습하면서도 과도하게 복잡해지는 것을 방지한다.
+L1 정규화는 모델의 가중치에 대한 절대값의 합을 loss function에 추가하며, 이는 모델의 일부 가중치를 정확히 0으로 만들어 특성 선택의 효과를 낸다. 반면, L2 정규화는 가중치의 제곱의 합을 loss function에 추가하여, 모든 가중치가 0에 가까워지도록 만들지만 정확히 0이 되지는 않는다. 이러한 정규화 기법들은 모델이 데이터의 중요한 패턴을 학습하면서도 과도하게 복잡해지는 것을 방지한다.
 
 여기서 Regularizer는 모델이 사전 확률 적으로 얼마나 가능성 있는지를 표현한다. 이는 모델이 얼마나 적합한지를 나타내는 loss function과는 별개다. 
 
@@ -440,25 +451,25 @@ legitimate messages가 도착하지 않으면, 콜센터로 불만전화가 폭�
 ### Taxonomy of Learning Problems
 
 - **Supervised Learning**
-  - 훈련 데이터에는 모델이 예측해야 하는 변수의 값이 포함됩니다.
-  - **Classification**: 범주형 변수를 예측합니다.
-  * **Regression**: 연속 변수를 예측합니다.
-  * **Ordinal Regression**: 유한하고 순서가 있는 값 집합을 예측합니다.
-  * **Rankings**: 요소들의 순서를 예측합니다.
-  * **Structured Prediction**: 시퀀스, 트리, 그래프 등의 구조를 예측합니다.
-  * **Recommendation**: 항목별 사용자 행렬을 예측합니다.
+  - 훈련 데이터에는 모델이 예측해야 하는 변수의 값이 포함된다.
+  - **Classification**: 범주형 변수를 예측한다.
+  * **Regression**: 연속 변수를 예측한다.
+  * **Ordinal Regression**: 유한하고 순서가 있는 값 집합을 예측한다.
+  * **Rankings**: 요소들의 순서를 예측한다.
+  * **Structured Prediction**: 시퀀스, 트리, 그래프 등의 구조를 예측한다.
+  * **Recommendation**: 항목별 사용자 행렬을 예측한다.
 - **Unsupervised Learning**
-  - 데이터의 구조적 특성을 발견합니다.
-  - **Clustering**: 비슷한 특성을 가진 데이터를 그룹화합니다.
-  * **Unsupervised Feature Learning**: 데이터를 잘 설명할 수 있는 속성을 찾습니다.
-  * **Anomaly Detection**: 이상한 데이터 포인트를 식별합니다.
+  - 데이터의 구조적 특성을 발견한다.
+  - **Clustering**: 비슷한 특성을 가진 데이터를 그룹화한다.
+  * **Unsupervised Feature Learning**: 데이터를 잘 설명할 수 있는 속성을 찾다.
+  * **Anomaly Detection**: 이상한 데이터 포인트를 식별한다.
 - **Control / Reinforcement Learning**
   - dynamical system을 control하는 것을 학습한다.
-  - 에이전트가 환경과 상호 작용하며 보상을 최적화하는 방법을 학습합니다.
+  - 에이전트가 환경과 상호 작용하며 보상을 최적화하는 방법을 학습한다.
 - 기타 모델:
-  * **Semi-supervised Learning**: 일부 레이블이 있는 데이터와 일부 레이블이 없는 데이터를 사용하여 모델을 훈련합니다.
-  * **Supervised Clustering**: 레이블이 있는 데이터를 사용하여 클러스터링 모델을 훈련합니다.
-  * 그 외의 다양한 모델들이 존재합니다.
+  * **Semi-supervised Learning**: 일부 레이블이 있는 데이터와 일부 레이블이 없는 데이터를 사용하여 모델을 훈련한다.
+  * **Supervised Clustering**: 레이블이 있는 데이터를 사용하여 클러스터링 모델을 훈련한다.
+  * 그 외의 다양한 모델들이 존재한다.
 
 ### Data
 
@@ -739,7 +750,7 @@ pearson, spearman correlation등을 이용해 계산한 상관계수를 척도�
 
 ![](./images/dic.PNG)
 
-이 방법은 학습 데이터에 대해서는 완벽하게 작동하지만, 실제 데이터에서는 잘 일반화되지 않을 수 있다. 이러한 모델은 과적합(overfitting)되었다고 할 수 있다. 과적합은 트레이닝 데이터에 대해서는 매우 정확하게 작동하지만, 새로운 데이터에 대해서는 일반화하기 어려울 수 있다.
+이 방법은 학습 데이터에 대해서는 완벽하게 작동하지만, 실제 데이터에서는 잘 일반화되지 않을 수 있다. 이러한 모델은 overfitting되었다고 할 수 있다. 과적합은 트레이닝 데이터에 대해서는 매우 정확하게 작동하지만, 새로운 데이터에 대해서는 일반화하기 어려울 수 있다.
 
 따라서, 보다 일반화된 의사 결정 트리를 찾기 위해서는 과적합을 피하기 위한 다양한 기법들을 적용해야 한다. 이러한 기법들에는 가지치기(pruning), 트리의 깊이 제한(depth limitation), 또는 정보 이득(Information Gain)을 최대화하는 특성 선택 등이 있다.
 
@@ -893,16 +904,16 @@ ID3 알고리즘은 classification 문제에서 모든 attribute가 고정된 di
 
 - Choose attribute:
 
-  클래스 레이블에 대한 정보를 가장 많이 전달하는 속성을 선택합니다. 이를 위해 정보 이득, 정보 이득 비율 또는 지니 지수를 사용할 수 있습니다.
+  클래스 레이블에 대한 정보를 가장 많이 전달하는 속성을 선택한다. 이를 위해 정보 이득, 정보 이득 비율 또는 지니 지수를 사용할 수 있다.
 - 데이터 분할:
 
-  선택된 속성을 기준으로 학습 데이터를 분할합니다.
+  선택된 속성을 기준으로 학습 데이터를 분할한다.
 - 재귀 호출:
   
-  각각의 분할에 대해 재귀적으로 알고리즘을 호출합니다.
+  각각의 분할에 대해 재귀적으로 알고리즘을 호출한다.
 - 속성 사용:
   
-  각 분기에서 각 속성은 한 번씩만 사용됩니다. 모든 속성이 사용된 경우에는 터미널 노드를 반환합니다.
+  각 분기에서 각 속성은 한 번씩만 사용된다. 모든 속성이 사용된 경우에는 터미널 노드를 반환한다.
 
 알고리즘은 다음과 같다.
 
@@ -1058,17 +1069,17 @@ CART(L)
 
 
 
-1. 주어진 데이터 𝐿에 대해 평균 제곱 오차가 일정 임계값 𝜏보다 작은 경우, 이를 리프 노드로 처리하고 예측값 𝑦를 반환합니다. 이것은 트리의 성장을 중지시키는 기준입니다.
+1. 주어진 데이터 𝐿에 대해 평균 제곱 오차가 일정 임계값 𝜏보다 작은 경우, 이를 리프 노드로 처리하고 예측값 𝑦를 반환한다. 이것은 트리의 성장을 중지시키는 기준이다.
 
 2. 이 부분은 splitting을 진행하는 과정을 나타냅니다. 
-   1. 주어진 데이터 𝐿에서 각 특성(이산형 또는 연속형)에 대해 splitting을 진행하고, 이에 따른 splitting 후의 $R_L$를 계산합니다.  
-   2. discrete attribute에 대한 $R_L$를 계산한 후, 가장 높은 $R_L$를 가진 특성을 선택합니다.
-   1. 연속형 특성에 대해서도 마찬가지로 $R_L$를 계산하고, 이를 기준으로 splitting을 진행합니다.
+   1. 주어진 데이터 𝐿에서 각 특성(이산형 또는 연속형)에 대해 splitting을 진행하고, 이에 따른 splitting 후의 $R_L$를 계산한다.  
+   2. discrete attribute에 대한 $R_L$를 계산한 후, 가장 높은 $R_L$를 가진 특성을 선택한다.
+   1. 연속형 특성에 대해서도 마찬가지로 $R_L$를 계산하고, 이를 기준으로 splitting을 진행한다.
 
 3. 
-   1. 가장 높은 $R_L$를 가진 특성에 따라 데이터를 splitting합니다.
-   2. discrete attribute인 경우 해당 특성값에 따라 데이터를 splitting하고, 각 splitting에 대해 CART 알고리즘을 재귀적으로 적용합니다.
-   3. 연속형 특성인 경우 해당 특성값에 대해 기준을 설정하여 데이터를 두 개의 부분집합으로 splitting하고, 각 부분집합에 대해 CART 알고리즘을 재귀적으로 적용합니다.
+   1. 가장 높은 $R_L$를 가진 특성에 따라 데이터를 splitting한다.
+   2. discrete attribute인 경우 해당 특성값에 따라 데이터를 splitting하고, 각 splitting에 대해 CART 알고리즘을 재귀적으로 적용한다.
+   3. 연속형 특성인 경우 해당 특성값에 대해 기준을 설정하여 데이터를 두 개의 부분집합으로 splitting하고, 각 부분집합에 대해 CART 알고리즘을 재귀적으로 적용한다.
 
 다음의 예시를 보자.
 
@@ -1122,11 +1133,11 @@ $$R \leq 3 \times 0.1^2 = 0.03$$
 
 앙상블 모델은 다양한 방식으로 학습될 수 있는데, 배깅, 랜덤 포레스트, 부스팅 등의 방식이 있다.
 
-- **Bagging**: 훈련 데이터의 무작위 하위 집합을 샘플링하여 각 모델을 학습시킵니다. 이를 통해 각 모델들이 서로 다른 훈련 데이터를 사용하게 되므로, 각 모델들이 상호 독립적으로 작동할 수 있습니다.
+- **Bagging**: 훈련 데이터의 무작위 하위 집합을 샘플링하여 각 모델을 학습시킨다. 이를 통해 각 모델들이 서로 다른 훈련 데이터를 사용하게 되므로, 각 모델들이 상호 독립적으로 작동할 수 있다.
 
-- **Random Forests**: 배깅과 유사하게, 랜덤 포레스트는 훈련 데이터의 무작위 하위 집합을 샘플링하지만, 추가적으로 특성들의 무작위 하위 집합을 사용하여 각 트리를 학습시킵니다. 이는 각 트리들이 서로 다른 특성을 고려하도록 하여 다양성을 증가시키는 데 도움이 됩니다.
+- **Random Forests**: 배깅과 유사하게, 랜덤 포레스트는 훈련 데이터의 무작위 하위 집합을 샘플링하지만, 추가적으로 특성들의 무작위 하위 집합을 사용하여 각 트리를 학습시킨다. 이는 각 트리들이 서로 다른 특성을 고려하도록 하여 다양성을 증가시키는 데 도움이 된다.
 
-- **Boosting**: 부스팅은 이전 모델이 실패한 샘플에 대한 가중치를 증가시켜 다음 모델이 더욱 집중할 수 있도록 하는 방식으로 작동합니다. 이를 통해 약한 학습기를 결합하여 강력한 앙상블 모델을 형성할 수 있습니다.
+- **Boosting**: 부스팅은 이전 모델이 실패한 샘플에 대한 가중치를 증가시켜 다음 모델이 더욱 집중할 수 있도록 하는 방식으로 작동한다. 이를 통해 약한 학습기를 결합하여 강력한 앙상블 모델을 형성할 수 있다.
 
 
 ### Bagging 
@@ -1183,3 +1194,560 @@ Bagging은 Bootstrap Aggregation의 약자다. 배깅은 샘플을 여러 번 �
 랜덤 포레스트는 구현이 간단하고, 동작이 효율적이고 빠르며 대규모 및 소규모 데이터셋에 모두 잘 작동하므로 가장 자주 쓰인다.
 
 근데 이런 랜덤포레스트도 단점을 가지는데, 각 디시젼 트리의 앙상블로 구성되어있기 때문에 각 트리의 예측을 해석하기 어렵다는 점이다. 즉, 대충 괜찮은 prediction을 주긴 하는데, 왜 어떻게 이런 prediction을 줬는지 이해하기가 어렵단 점이다. 
+
+
+## Linear Classification Models
+
+위에서 한참 다뤘던 classification이다. 다시한번 자세히 알아보도록 하자.
+
+classification에서 input은 인스턴스 $x \in X$의 형태이다. 이 인스턴스는 분류되어야 하는 개별 데이터 포인트 또는 예제를 나타낸다. 각 인스턴스는 attreibute 또는 properties의 집합으로 설명될 수 있다. 여기서 인스턴스 x가 여러 attributes의 집합형태, 즉 벡터 형태라면, 이것을 **feature vector**라고 한다. 
+
+input에 대한 output으로는, 클래스 $y \in Y$형태로 주어진다. 클래스는 인스턴스가 분류되어 속할 수 있는 미리 정의된 카테고리 레이블을 나타낸다. Y는 이러한 클래스들의 유한집합이다. 클래스는 Target attributes라고도 한다. 
+
+Linear classification model에는 Hyperplane, decision function, binary classifier와 같은 여러가지 요소들이 있다. 
+
+
+1. **Hyperplane**
+   - **정의**: 선형 분류 모델에서 Hyperplane은 데이터를 분리하는 경계이다.
+   - **수학적 표현**: Hyperplane은 법선 벡터($\boldsymbol{\theta}$)와 이동 항($\theta_0$)을 사용하여 다음과 같이 표현된다:
+     $$
+     H_{\boldsymbol{\theta}} = \left\{ \mathbf{x} \mid f_{\theta}(\mathbf{x})=\mathbf{x}^T \boldsymbol{\theta} + \theta_0 = 0 \right\}
+     $$
+   - 예시: $X = \mathbb{R}^2$
+
+2. **Decision Function**
+   - **역할**: Decision Function은 입력 벡터 $\mathbf{x}$가 Hyperplane의 어느 쪽에 위치하는지를 계산한다.
+   - **수학적 형태**: Decision Function은 다음과 같이 정의된다:
+     $$
+     f_{\boldsymbol{\theta}} (\mathbf{x}) = \mathbf{x}^T \boldsymbol{\theta} + \theta_0
+     $$
+
+3. **Binary Classifier**
+   - **클래스**: 출력이 두 개의 클래스($+1$ 또는 $-1$) 중 하나이다.
+   - **분류 기준**: Decision Function의 값을 이용하여 입력 벡터 $\mathbf{x}$를 분류한다:
+     $$
+     y_{\boldsymbol{\theta}} (\mathbf{x}) = \text{sign}(f_{\boldsymbol{\theta}} (\mathbf{x}))
+     $$
+     여기서 $\text{sign}(f_{\boldsymbol{\theta}} (\mathbf{x}))$는 결정 함수의 부호를 반환하며, 이는 입력 벡터가 어느 클래스에 속하는지를 나타냅니다. 
+
+![](./images/lcm.PNG)
+
+예를 들어, $f_{\theta}(\mathbf{x})= \mathbf{x^T} {1 \choose 3}-20$이 decision function일 때, 하이퍼 플레인의 아래쪽과 위쪽은 다음과 같이 나타난다. 
+
+$$f_{\theta}{10 \choose 2}=\begin{pmatrix} 10 & 2 \end{pmatrix}{1 \choose 3}-20 = -4<0\\
+f_{\theta}{2 \choose 10}=\begin{pmatrix} 2 & 10 \end{pmatrix}{1 \choose 3}-20 = 12>0$$
+
+4. **Offset**
+   - **정의**: 선형 분류 모델에서 오프셋 $\theta_0$는 Hyperplane이 원점을 지나지 않는 경우 Hyperplane의 위치를 조정하는 역할을 한다.
+   - 오프셋을 별도의 항으로 유지하는 대신, 이를 파라미터 벡터 $\theta$에 통합할 수 있다. 
+
+오프셋의 예시를 보도록 하자. 
+
+조정 전:
+
+$$f_{\theta}\mathbf{x}={x_1 \choose x_2}^T{1 \choose 3}-20$$
+
+조정 이후: 
+
+$$f_{\theta}\mathbf{x}=\begin{pmatrix}1\\x_1\\x_2\end{pmatrix}^T\begin{pmatrix}-20\\1\\3 \end{pmatrix}$$
+
+이런 식으로 오프셋을 파라미터 벡터에 통합할 수 있다! 새로운 constatnt attribute $x_0=1$을 모든 인스턴스에 넣어주고, 오프셋 $\theta_0$은 $\mathbf{\theta}$에 통합되게 된다. 둘다 맨 위에 들어간다. 
+
+
+
+
+## Regularized Empirical Risk Minimization
+
+마찬가지로 이미 위에서 한번 다뤘지만, 더 자세히 다뤄보자. Regularized Empirical Risk Minimization(ERM)는 머신 러닝에서 모델을 훈련시키기 위한 중요한 기법이다. 이 방법은 모델의 성능을 최적화하면서 overfitting을 방지하는 것을 목표로 한다.
+
+여기서 Empirical Risk이란 훈련 데이터셋에서 모델의 예측이 실제 값과 얼마나 다른지를 나타내는 척도이다. 이는 loss functionloss function로 정의되며, 모델의 예측 오류를 측정한다.
+
+Regularized Empirical Risk Minimization 문제는 다음과 같이 정의된다:
+$$
+\arg\min_{\boldsymbol{\theta}} \left( \sum_{i=1}^{n} \ell(f_{\boldsymbol{\theta}}(\mathbf{x}_i), y_i) + \lambda \Omega(\boldsymbol{\theta}) \right)
+$$
+
+여기서 각 항목의 의미는 다음과 같다:
+
+1. **loss function $\ell(f_{\boldsymbol{\theta}}(\mathbf{x}_i), y_i)$**:
+   - **정의**: loss function는 모델의 예측 $f_{\boldsymbol{\theta}}(\mathbf{x}_i)$와 실제 값 $y_i$ 사이의 차이를 측정하는 함수이다. 
+   - **목적**: loss function의 값이 작을수록 모델의 예측이 실제 값에 더 가까움을 의미한다.
+
+2. **Empirical Risk $R_n(\boldsymbol{\theta})$**:
+   - **정의**: Empirical Risk는 주어진 훈련 데이터셋에서 모델의 평균 손실이다.
+     $$
+     \hat{R}_n(\boldsymbol{\theta}) = \frac{1}{n} \sum_{i=1}^{n} \ell(f_{\boldsymbol{\theta}}(\mathbf{x}_i), y_i)
+     $$
+   - **목적**: Empirical Risk를 최소화하는 것이 모델 훈련의 기본 목표이다.
+
+3. **Regularizer $\Omega(\boldsymbol{\theta})$**:
+   - **정의**: Regularizer는 모델의 복잡도를 제어하기 위해 추가되는 항이다.
+   - **목적**: 과적합을 방지하고 모델의 일반화 성능을 향상시키기 위해 사용된다. 대표적인 Regularizer는 L1 및 L2 정규화이다.
+     - **L1 정규화**: $\Omega(\boldsymbol{\theta}) = \|\boldsymbol{\theta}\|_1 = \sum_{j} |\theta_j|$
+     - **L2 정규화**: $\Omega(\boldsymbol{\theta}) = \|\boldsymbol{\theta}\|_2^2 = \sum_{j} \theta_j^2$
+    -  Regularizer는 모델에 대한 사전 지식을 반영한다. 예를 들어, L1 Regularizer는 일부 파라미터가 0이 되도록 하여 희소한 모델을 생성한다.
+    -  Regularizer는 수치적 안정성을 향상시켜 모델 학습 과정에서 발생할 수 있는 수치적 문제를 완화한다.
+    -  Regularizer를 통해 모델의 일반화 오류를 줄일 수 있으며, 이는 확률 근사 정확도(PAC) 이론에 따라 더 강력한 오류 경계를 제공한다.
+
+4. **트레이드오프 파라미터 $\lambda \geq 0$**:
+   - **정의**: $\lambda$는 Empirical Risk과 Regularizer 간의 균형을 조절하는 하이퍼파라미터이다.
+   - **목적**: $\lambda$ 값이 크면 모델의 복잡도를 줄이고, 값이 작으면 모델이 데이터에 더 잘 적합하도록 한다.
+
+
+위에서 정의된 Regularized Empirical Risk Minimization의 Linear model은 다음과 같다. 
+
+$$
+\arg\min_{\boldsymbol{\theta}} \left( \sum_{i=1}^{n} \ell(\mathbf{x}_i^T\theta, y_i) + \lambda \Omega(\boldsymbol{\theta}) \right)
+$$
+
+Classification에서는 analytic solution은 없지만, numeric solutions는 찾을 수 있다. 해를 찾는 방법에는 gradient descent, cutting plane, interior point method 등 여러가지가 있다. 
+
+Regression에는 analytic solution도 존재한다. 
+
+---
+
+### Gradient Method
+
+Linear classification model에서 Minimize 문제는 다음과 같은 형태로 나타난다.
+
+$$
+L(\theta) = \sum_{i=1}^{n} \ell(x_i^T \theta, y_i) + \lambda \Omega(\theta)
+$$
+
+머신러닝에서, 즉 Regularized Empirical Risk Minimization에서 **Gradient**는 각 개별 매개변수에 대한 미분 벡터로, 주로 loss function의 기울기를 계산하여 모델의 매개변수를 최적화하는데 사용된다. 이 Gradient는 함수 $L(\theta)$의 가장 급격한 증가 방향을 나타낸다.
+
+$$
+\nabla L(\theta) = \left[ \frac{\partial L(\theta)}{\partial \theta_1}, \ldots, \frac{\partial L(\theta)}{\partial \theta_m} \right]^T
+$$
+
+이 Gradient는 **Gradient descent method**에 사용된다. 이 방법의 알고리즘은 다음과 같다.
+
+![](./images/gradient.PNG)|![](./images/gradient2.PNG)|
+|-|-|
+
+```
+RegERM(Data: x1, y1, … , xn, yn)
+  Set θ0 = 0 and t = 0
+  DO
+    Compute gradient ∇L(θt)
+    Compute step size αt
+    Set θt+1 = θt - αt ∇L(θt)
+    Set t = t + 1
+  WHILE θt - θt+1 > ε
+  RETURN θt
+```
+- 초기 솔루션 설정 $\theta_0 = 0$ 및 $t = 0$
+- 경사 계산 $\nabla L(\theta_t)$
+- 스텝 사이즈 계산 $\alpha^t$
+- 스텝사이즈를 통해 업데이트 $\theta_{t+1} = \theta_t - \alpha^t \nabla L(\theta_t)$
+- 반복 $\theta_t - \theta_{t+1} > \epsilon$일 때까지 (수렴 조건이 만족될 때까지 )
+- 최종 $\theta_t$ 반환
+
+Gradient는 함수가 가장 급격히 증가하는 방향을 가리킨다! Gradient **Descent** 메소드이기 때문에, 여기서는 이 Gradient 방향의 반대 방향으로 이동하게 된다. 따라서 각 반복에서 gradient의 반대 방향으로 parameter를 업데이트하여 함수 값을 줄인다. 함수의 크기, 즉 Gradient의 크기는 함수 값의 변화율을 나타낸다. 따라서 Gradient가 큰 곳에서는 함수 값이 급격히 변하고, Gradient가 작은 곳에서는 함수 값이 완만하게 변화한다. 
+
+스텝사이즈 $\alpha^t$를 결정하는 방법에는 여러가지가 있지만, **Line search** 방법과 **Barzilai-Borwein method**가 일반적이다. 
+
+이러한 Gradient descent method는 매 단계마다 optimization의 Criterion을 향상시킨다. 또한 Criterion이 convex할 경우, 해는 global minimum으로 수렴하게 된다. 
+
+convex function의 합은 또한 convex이기 때문에, loss function과 regularizer가 모두 convex이면, optimization Criterion또한 convex하게 된다. 
+
+
+---
+
+#### Gradient Method with Line Search
+
+Gradient Method with Line Search는 Gradient Descent method에서 스텝 사이즈(학습률)를 동적으로 결정하는 방법이다.  이 과정에서 스텝 사이즈는 중요한 역할을 한다. 고정된 스텝 사이즈를 사용할 수도 있지만, Line search를 통해 각 반복마다 최적의 $\alpha^t$를 결정할 수 있다. Line search는 다음과 같은 방식으로 작동한다. 
+
+```
+RegERM-LineSearch(Data: x1, y1, … , xn, yn)
+
+Set θ0 = 0 and t = 0
+
+DO
+  Compute gradient ∇L(θt)
+  Set αt = 1
+
+  WHILE L(θt - αt∇L(θt)) ≥ L(θt)
+    Set αt = αt / 2
+
+  Set θt+1 = θt - αt∇L(θt)
+  Set t = t + 1
+
+WHILE θt - θt+1 > ε
+
+RETURN θt
+```
+내부의 반복 루프 **Inexact Line Search**에서는 loss function 값이 감소하지 않을 때까지 $\alpha^t$를 절반으로 줄인다.
+
+여기서 necessary Criterion은 $L(\theta_t - \alpha^t \nabla L(\theta_t)) \geq L(\theta_t)$이다.
+
+이 알고리즘에서는 최적의 스텝 사이즈를 찾기 위해 스텝 사이즈를 반복적으로 절반으로 줄여 loss function 값을 감소시킨다. 이는 정확한 최적 스텝 사이즈를 찾는 것보다 계산 비용이 적다.
+
+---
+
+#### Stochastic Gradient Method
+
+일반적인 Gradient Descent method은 전체 데이터셋에 대해 경사를 계산한다. 하지만, Stochastic Gradient Descent method은 매 반복마다 데이터셋의 무작위 하위 집합에 대해 경사를 계산하여 계산량을 줄인다. 데이터셋이 클 경우, 전체 데이터셋에 대해 경사를 계산하는 것은 비효율적일 수 있다. Stochastic Gradient Method은 이러한 문제를 해결한다.
+
+따라서 Stochastic Gradient Method에서는 무작위로 선택한 샘플의 하위 집합(예: 단일 인스턴스)에 대해 경사를 계산한다. 이 경우, 최적화 단계당 계산량이 적다는 장점이 있지만, descent 방향이 근사치에 불과하다는 단점이 있다. 
+
+Regularizer의 합을 기준으로 하는 Optimization criterion은 다음과 같다.
+
+$$
+L(\theta) = \sum_{i=1}^{n} \left[ \ell(f_\theta(x_i), y_i) + \frac{\lambda}{n} \Omega(\theta) \right]
+$$
+
+그리고 단일 인스턴스의 Stochastic gradient는 다음과 같다. 
+
+$$\nabla_{x_i} L(\theta) = \frac{\partial}{\partial \theta} \ell(f_\theta(x_i), y_i) + \frac{\lambda}{n} \frac{\partial}{\partial \theta} \Omega(\theta)
+$$
+
+ ```plaintext
+RegERM-Stoch(Data: x1, y1, …, xn, yn)
+
+Set θ0 = 0 and t = 0
+
+DO
+  Shuffle data randomly
+
+  FOR i = 1, …, n
+    Compute subset gradient ∇xi L(θt)
+    Compute step size αt
+    Set θt+1 = θt - αt ∇xi L(θt)
+    Set t = t + 1
+
+  END
+
+WHILE θt - θt+1 > ε
+RETURN θt
+```
+
+대부분은 비슷하다. 
+
+
+1. 매개변수 벡터 $\theta$를 0으로 설정하고, 반복 인덱스 $t$를 0으로 초기화한다.
+
+2. 전체 데이터셋이 수렴할 때까지 반복한다.
+
+3. 데이터 순서에 의한 편향을 방지하기 위해 매 반복마다 데이터를 무작위로 셔플한다.
+
+4. 데이터셋의 각 샘플 $x_i, y_i$에 대해 경사 $\nabla_{x_i} L(\theta_t)$를 계산한다.
+
+5. 각 샘플에 대해 스텝 사이즈 $\alpha_t$를 결정한다.
+   - 스텝 사이즈는 학습률(learning rate)이라고도 하며, 일반적으로 작은 값으로 설정된다. 적절한 스텝 사이즈는 경험적으로 설정하거나 학습률 감소 기법(learning rate decay)을 사용하여 점차 감소시킨다.
+
+6. 계산된 경사와 스텝 사이즈를 사용하여 매개변수 $\theta$를 업데이트한다:
+     $$
+     \theta_{t+1} = \theta_t - \alpha_t \nabla_{x_i} L(\theta_t)
+     $$
+   - 반복 인덱스 $t$를 1 증가시킨다.
+
+7. 매개변수의 변화량 $\|\theta_t - \theta_{t+1}\|$가 미리 정의된 임계값 $\epsilon$보다 작아질 때까지 반복한다.
+
+8. 수렴 조건이 만족되면 최종 매개변수 $\theta_t$를 반환한다.
+
+Stochastic Gradient Method는 초기에는 빠르게 수렴할 수 있으나, 최적점 근처에서는 진동하거나 매우 천천히 수렴할 수 있다. 무작위로 선택된 샘플에 의해 발생하는 노이즈는 overfitting을 방지하는 데 도움이 될 수 있다.
+
+![](/images/stochastic.PNG)
+
+Stochastic Gradient Descent이 최적점에 수렴하려면 스텝 사이즈 $\alpha_t$가 다음 조건을 만족해야 한다:
+$$
+\sum_{t=1}^{\infty} \alpha_t = \infty \quad \text{and} \quad \sum_{t=1}^{\infty} \alpha_t^2 < \infty
+$$
+
+Pegasos라는 알고리즘이 이 방법을 사용한다. 
+
+---
+
+#### Parallel Stochastic Gradient
+
+Stochastic Gradient는 몇가지 문제점이 존재한다. 트레이닝 데이터가 메인 메모리에 맞지 않으면 느려진다. 따라서 examples들을 메모리 안과 밖으로 page해야한다. 때문에 큰 트레이닝 샘플의 경우, 데이터가 로컬 저장장치에 맞지 않아 네트워크를 이동해야할수도 있다. 
+
+Parallel Stochastic Gradient는 이런 문제점을 보완하기 위한 방법이다. **데이터를 여러 노드에 분산해서 병렬로 계산을 수행한다.** 
+
+여기에서는 Parallel Stochastic Gradient를 사용하여 데이터 하위 집합에서 찾은 parameter들의 평균을 **resulting parameter**로 사용한다. 
+
+![](./images/pag.PNG)
+
+local parameter vectors의 평균치를 낸다는 것은, 즉 근사치를 찾는다는 것이다. 따라서 일반적으로 sequantial stochastic gradient descent를 사용하는것 보다는 성능이 떨어질 수 있다. 
+
+또한 non-convex 문제의 경우, local parameter들이 서로 다른 local minimum일 수 있는 문제가 생길 수 있다. 이에 대해 주의가 필요하다.
+
+![](./images/psg.PNG)
+
+---
+
+### Loss Functions for Classification
+
+classification을 위해 여러 loss function을 사용하게 되는데, 어떤 것들이 있는지 그 내용과 특징을 알아보도록 하자. 
+
+1. **Zero-one loss**
+
+![](./images/zol.PNG)
+
+0-1 loss function는 예측이 실제 값과 다를 때 1, 그렇지 않으면 0의 손실 값을 부여한다. 이는 분류의 정확성을 평가하는 가장 단순한 방법이다. 그러나 0-1 손실은 non-convex 함수이기 때문에 최적화하기 어렵다.
+
+$$
+\ell_{0/1}(f_\theta(x_i), y_i) = 
+\begin{cases} 
+1 & \text{if } -y_i f_\theta(x_i) > 0 \text{ : sign}(f_\theta(\mathbf{x}_i)) \neq y_i\\ 
+0 & \text{if } -y_i f_\theta(x_i) \leq 0 \text{ : sign}(f_\theta(\mathbf{x}_i)) = y_i
+\end{cases}
+$$
+
+- 특징: 단순하지만 비볼록 함수라서 최적화하기 어렵다.
+- 사용 사례: 이론적 분석 및 단순한 분류 평가.
+
+2. **Logistic loss**
+
+![](./images/llo.PNG)
+
+로지스틱 loss function는 로지스틱 회귀에 사용되며, 예측 확률과 실제 값 사이의 불일치를 측정한다. 이 loss function는 볼록(convex) 함수로, 최적화가 용이한다. 예측 값이 실제 값과 크게 다를수록 손실이 기하급수적으로 증가한다.
+
+$$\ell_{\log}(f_\theta(x_i), y_i) = \log(1 + e^{-y_i f_\theta(x_i)})$$
+
+- 특징: 볼록 함수로 최적화가 용이하며, 예측 확률을 사용한다.
+- 사용 사례: 로지스틱 회귀, 확률 기반 분류.
+
+3. **Perceptron loss**
+
+![](./images/plo.PNG)
+
+퍼셉트론 loss function는 잘못 분류된 경우에만 손실이 발생한다. 이는 퍼셉트론 알고리즘에 사용되며, 예측이 실제 값과 다를 때 손실이 발생한다.
+
+$$\ell_{p}(f_\theta(x_i), y_i) = 
+\begin{cases} 
+-y_i f_\theta(x_i) & \text{if } -y_i f_\theta(x_i) > 0 \\ 
+0 & \text{if } -y_i f_\theta(x_i) \leq 0 
+\end{cases}
+= \max(0,  - y_i f_\theta(x_i))$$
+
+   - 특징: 잘못 분류된 경우에만 손실이 발생하여 단순한 구조를 가집니다.
+   - 사용 사례: 퍼셉트론 알고리즘, 단순한 이진 분류.
+
+4. **Hinge loss**
+
+![](./images/hlo.PNG)
+
+힌지 loss function는 서포트 벡터 머신(SVM)에 사용된다. 이는 마진(margin) 위반을 측정하며, 예측 값이 실제 값과 다를 때 손실이 발생한다. 힌지 loss function는 볼록 함수이며, 큰 마진을 가지는 분류기를 선호한다.
+
+$$\ell_{p}(f_\theta(x_i), y_i) = 
+\begin{cases} 
+1-y_i f_\theta(x_i) & \text{if } 1-y_i f_\theta(x_i) > 0 \\ 
+0 & \text{if } 1-y_i f_\theta(x_i) \leq 0 
+\end{cases}
+= \max(0, 1 - y_i f_\theta(x_i))$$
+
+  - 특징: 볼록 함수로 SVM에서 사용되며, 마진을 고려하여 손실을 계산한다.
+  - 사용 사례: 서포트 벡터 머신(SVM), 마진을 고려한 분류.
+
+---
+
+#### Regularizers for Classification
+
+정규화 항은 여기서도 마찬가지로 모델의 복잡도를 제어하고 과적합을 방지하기 위해 사용된다. **Classification을 위한 Regularizer는 가능한한 적은 attribute를 사용하는것을 목표로 한다.** 
+
+$$\Omega_0(\theta) \propto \|\theta\|_0 = \text{number of }j \text{ with }\theta_j \neq 0$$
+
+**맨해튼 놈 (Manhattan norm, L1 정규화)**
+
+얘는 sparsitiy(희소성)을 촉진하여, 많은 feature들이 0이 되도록 한다. 해석이 용이하며, 불필요한 특성을 자동으로 제거한다. lasso라고도 한다. 
+
+$$\Omega_1(\theta) \propto \|\theta\|_1 = \sum_{j=1}^{m} |\theta_j|$$
+
+**제곱 유클리드 놈 (Squared Euclidean norm, L2 정규화)**
+
+가중치의 크기를 줄여 모델의 복잡성을 낮춥니다. 모든 가중치가 작아지기 때문에, 특정 특성에 대해 과도하게 의존하는 것을 방지한다. Ridge라고도 한다. 
+
+$$\Omega_2(\theta) \propto \|\theta\|_2^2 = \sum_{j=1}^{m} \theta_j^2$$
+
+$\Omega_0$ 정규화는 non-convex 함수이기 때문에 최소화하기 어렵다. 따라서 실전에서는 주로 볼록(convex) 정규화 항인 $\Omega_1$ (L1 정규화) 또는 $\Omega_2$ (L2 정규화)를 사용한다. 볼록 정규화 항은 수치적 최적화가 용이하고, 전역 최솟값으로 수렴할 수 있는 장점이 있다.
+
+
+--- 
+
+#### Perceptron
+
+Special cases 중 Perceptron에 대해 알아보자. 
+
+퍼셉트론 loss function는 예측이 실제 값과 다를 때 발생하는 손실을 정의한다. 위의 loss function에서 본거죵? 구체적으로, 다음과 같이 정의된다:
+
+$$\ell_p(f_\theta(x_i), y_i) = \max(0, -y_i f_\theta(x_i))$$
+
+즉, 예측 $f_\theta(x_i)$와 실제 값 $y_i$의 곱이 0 이하일 때, 그니까 잘못 분류된 경우에만 손실이 발생한다.
+
+퍼셉트론의 알고리즘에는 딱히 **Regularizer가 없다.** 또 퍼셉트론은 클래스 y가 -1 혹은 +1인 binary classification 문제에 사용이된다. 
+
+**퍼셉트론 알고리즘**:
+```plaintext
+Perceptron(Instances x_i, y_i)
+  Set θ = 0
+  DO
+    FOR i = 1, … , n
+      IF y_i f_θ(x_i) ≤ 0
+        THEN θ = θ + y_i x_i
+  WHILE θ changes
+  RETURN θ
+
+```
+
+퍼셉트론 알고리즘은 정규화 항이 없는 간단한 선형 분류 알고리즘이다. 클래스 $y$는 $\{-1, +1\}$에 속하며, 다음과 같은 절차를 따른다:
+1. $\theta = 0$으로 초기화한다.
+2. 모든 데이터 샘플 $(x_i, y_i)$에 대해 예측과 실제 값이 다르면 가중치 $\theta$를 업데이트한다:
+   $$
+   \text{IF } y_i f_\theta(x_i) \leq 0 \text{ THEN } \theta = \theta + y_i x_i
+   $$
+3. 더 이상 $\theta$가 변경되지 않을 때까지 반복한다.
+
+퍼셉트론 알고리즘은 Stochastic Gradient Descent을 사용하여 가중치를 업데이트한다. 각 데이터 샘플에 대해 가중치를 업데이트하므로 계산이 간단하고 빠르다.
+
+$$\nabla L_{x_{i}}(\theta) = 
+\begin{cases} 
+-y_i \mathbf{x_i} & \text{if } -y_i f_\theta(\mathbf{x_i}) > 0 \\ 
+0 & \text{if } -y_i f_\theta(\mathbf{x_i}) < 0 
+\end{cases}$$
+
+또 데이터가 slinearly separable일때, SGD는 종료를 보장한다. 이는 무한한 반복을 거치지 않고도 최적점을 찾을 수 있음을 의미한다. 이때 종료조건은 $\varepsilon = 0$이고, 스텝사이즈 $\alpha^t = 1/t$를 사용한다. 
+
+퍼셉트론 알고리즘은 각 데이터 샘플을 순차적으로 처리하며, 예측과 실제 값이 다를 때마다 가중치를 업데이트하여 최종적으로 선형 분리 hyperplane을 찾는다.
+
+![](./images/perceptron.PNG)
+
+이 과정을 통해 빨간점과 파란점을 정확하게 분류하는 hyperplane이 형성된다. 한번 꼭 풀어볼 것! Linear classification models 강의에 예시가 있으니 다시 풀어보도록 하자. 
+
+* loss function: 퍼셉트론 loss function는 잘못 분류된 경우에만 손실이 발생합니다.
+* no regularizer: 퍼셉트론 알고리즘에는 정규화 항이 없으며, 이는 모델 복잡도 제어 없이 단순히 손실을 최소화합니다.
+* SGD 사용: 각 샘플에 대해 순차적으로 가중치를 업데이트하는 Stochastic Gradient Descent을 사용합니다.
+* 고정된 스텝 사이즈: 고정된 스텝 사이즈 1을 사용하여, 데이터가 선형적으로 구분 가능하지 않은 경우 수렴을 보장하지 않습니다.
+* seperation hyperplane 찾기: 선형적으로 구분 가능한 경우, 퍼셉트론 알고리즘은 양성과 음성을 분리하는 hyperplane을 찾습니다.
+* 수렴 보장: 데이터셋이 선형적으로 구분 가능하다면 퍼셉트론 알고리즘은 반드시 수렴합니다.
+
+---
+
+#### Support Vector Machine (SVM)
+
+서포트 벡터 머신은 위에서 언급했듯 Hinge loss function을 사용한다. 퍼셉트론과 마찬가지로 두 클래스 간의 최적의 분리 hyperplane을 찾는 것, 즉 이진 클래스 +1와 -1을 분류하는 용도로 사용된다. 
+
+$$\ell_{p}(f_\theta(x_i), y_i) = 
+\begin{cases} 
+1-y_i f_\theta(x_i) & \text{if } 1-y_i f_\theta(x_i) > 0 \\ 
+0 & \text{if } 1-y_i f_\theta(x_i) \leq 0 
+\end{cases}
+= \max(0, 1 - y_i f_\theta(x_i))$$
+
+그러나 퍼셉트론과 다르게, L2 norm을 사용한다.
+
+$$\Omega_2(\theta) =\theta^T\theta = \sum_{j=1}^{m} \theta_j^2 = \|\theta\|_2^2$$
+
+loss function은 분류된 데이터 포인트가 마진 내에 있거나 반대 클래스에 있을 때 발생한다. 마진은 hyperplane과 가장 가까운 데이터 포인트 간의 거리인데, SVM은 이 마진을 최대화 하여 가장 큰 마진을 가진 seperation hyperplane을 찾는다. 
+
+손실함수가 0이라는 것은, 
+
+$$\sum_{i=1}^{n} \max(0, 1 - y_i f_\theta(x_i)) = 0$$
+
+모든 데이터 포인트에 대해 다음 조건이 성립한다는 것이고, 
+
+$$\forall^n i : y_i f_\theta(x_i) \geq 1$$
+
+이것은 다음과 같이 변형할 수 있다. 우리가 linear model을 가지기 때문.
+
+$$\forall^n i : y_i x_i^T \theta \geq 1$$
+
+또한 이것은 다음과 같이 바꿔쓸 수 있다.
+
+$$\forall^n i : y_i x_i^T \frac{ \theta}{\|\theta\|_2}  \geq \frac{1}{\|\theta\|_2}$$
+
+$\frac{ \theta}{\|\theta\|_2}$는 세타를 스퀘어놈으로 나눈다는 것. 이는 hessian normal 형태를 가지고, 1의 길이를 가진다.  $\frac{ 1}{\|\theta\|_2}$도 그냥 1을 나눈것으로, 오리지널 하이퍼플레인의 반대방향이라고 생각하면 된다. 여기서 $x_i^T \frac{ \theta}{\|\theta\|_2}$를 proj$_\theta x_i$라고 할 때, 
+
+$$\forall^n i : \text{proj}_\theta x_i
+\begin{cases} 
+\geq \frac{1}{\|\theta\|_2} & \text{if } y_i =1 \\ 
+\leq \frac{-1}{\|\theta\|_2} & \text{if } y_i =-1 
+\end{cases}$$
+
+이는 어떤 벡터이든 간에 x의 하이퍼플레인에 대한 프로젝션이 $\frac{1}{\|\theta\|_2}$보다 크거나 작다는 것이다. 이게 위상적으로 어떤 의미를 가질까? 
+
+![](./images/svm.PNG)
+
+이때 그림에서 나타나는 $\frac{1}{\|\theta\|_2}$가 **두 support vector 사이의 거리, 즉 margin**을 나타내고, 각 샘플 x는 하이퍼플레인에서 최소마진 $\frac{1}{\|\theta\|_2}$만큼 떨어져있어야 한다는 얘기이다. 이 SVM은 이 마진을 최대화시키는 linear를 찾는다. 마진이 크면 클수록 이 선이 두 데이터를 잘 분류시킨다는 의미를 나타내기 때문이다. 
+
+이 마진을 최대화하는 문제는 constraint based optimization problem으로 해석될 수 있다. 
+
+이 SVM의 loss function은 모든 샘플이 1 이상의 마진을 가질 때 0이 된다. 따라서, 각 support vector들이 하이퍼플레인에서 최소 $\frac{1}{\|\theta\|_2}$만큼 떨어져있어야 함을 의미한다. 
+
+여기서 서포트 벡터는 플레인에서 가장 가까운 데이터 포인터들을 의미한다. 이들이 결국 마진을 결정하기 때문에 하이퍼 플레인을 정의하는데 중요한 역할을 한다. 
+
+SVM의 Regularizer는 다음과 같이 정의된다.
+
+$$\Omega_2(\theta) =\theta^T\theta  = \|\theta\|_2^2$$
+
+얘는 $\theta=0$일때만 0이 된다. 이 regularizer를 최소화하는것은 마진 $\frac{1}{\|\theta\|_2}$를 최대화하는 것과 동일하다. 
+
+- 만약 loss function이 0보다 크다면?
+
+이는 몇 인스턴스가 마진을 위배한다는 뜻이다. 이는 샘플이 하이퍼플레인으로부터 충분한 거리를 확보하지 못하는 경우를 의미한다. 즉 다음과 같이, 제대로 분류가 되지 않는 경우를 의미한다.
+
+![](./images/lossup.PNG)
+
+이를 해결하기 위해 slack error의 개념을 가져와보자.
+
+loss function은 slack errors의 합으로 표현될 수 있다. 
+
+$$
+\begin{aligned}
+&\sum_{i=1}^{n} \max(0, 1 - y_i f_\theta(x_i)) = \sum_{i=1}^{n} \xi_i \\
+&\xi_i = \max(0, 1 - y_i f_\theta (x_i)) 
+\end{aligned}$$
+
+슬랙 변수가 0이 아닌 데이터 포인트는 마진을 위반하고 있는 것이고, 여기서 **서포트 벡터**이다 . 즉, 이러한 포인트는 초평면으로부터 충분히 멀리 떨어져 있지 않거나 잘못 분류된 경우입니다.
+
+정리해보자. 
+
+- SVM의 주요 목적은 힌지 손실(hinge loss)과 매개변수 벡터의 L2-놈(norm)을 최소화하는 것이다.
+- 힌지 로스는 특정 샘플이 분리 초평면으로부터  $\frac{1}{\|\theta\|}$ 미만의 거리를 가질 때 양수가 된다. 즉, 마진이 1보다 작은 경우 손실이 발생한다. 
+- 마진은 $\frac{1}{\|\theta\|}$로 정의된다. 따라서 큰 마진을 가지려면 $\|\theta\|$가 작아야 한다.
+-  슬랙 변수 $\xi_i$는 샘플이 마진을 위반하는 정도를 나타낸다. 슬랙 오류의 합은 $\sum_{i=1}^{n} \xi_i$로 표현된다. 우리는 이 슬랙 오류의 합을 최소화한다. 
+
+## Multi-Class Classification
+
+지금까지는 -1,+1만 가지는 이진 분류 문제만 다뤘다. 이제 여러개의 클래스로 데이터를 분류하는 방법에 대해 알아보자. 
+
+하나의 하이퍼 플레인만 사용하는것은 당연히 k개의 클래스를 모두 분리할 수 없다. 따라서, 이번에는 각 데이터에 점수를 매겨서 높은 가능성이 있는 클래스를 예측하는 방식으로 진행한다. 
+
+각 클래스 $y$는 $\theta_y$를 파라미터로 가지는 별도의 함수 $f_{\theta_y}(x)$를 갖는다. 이 함수는 주어진 $x$에 대해 $y$가 얼마나 가능성이 있는지를 예측한다. 즉 각 클래스마다 서로다른 함수를 사용해서 주어진 입력 x에 대한 가능성을 평가하고 점수매긴다. 
+
+$$ f_{\theta_y}(x) = \theta_y^T x$$
+
+여기서 주어진 x에 대해 가장 높은 점수를 가지는 클래스를 예측한다. 
+
+$$\hat{y} = \arg\max_{y} f_{\theta_y}(x)$$
+
+자 이제 데이터 셋에 대해서, 
+
+Decision Functions은 다음과 같은 형태로 나타난다.
+
+$$f_{\theta}(x, y) = x^T \theta_y$$
+
+Classifier는 주어진 x에 대해 가장 높은 점수를 가지는 클래스를 예측한다. 
+
+$$y_{\theta}(x) = \arg\max_{y \in Y} f_{\theta}(x, y)$$
+
+Model Parameters는 다음과 같은 형태를 가진다. 
+
+$$
+\theta = \begin{bmatrix}
+\theta_1 \\
+\theta_2 \\
+\vdots \\
+\theta_k
+\end{bmatrix}
+$$
+
+![](./images/mcc.PNG)
+
+- 각 색상의 선은 다른 클래스에 해당하는 결정 경계를 나타낸다:
+ - $\theta^1$ (빨간색)
+ - $\theta^2$ (주황색)
+ - $\theta^3$ (초록색)
+- 각 결정 경계는 해당 클래스의 예측 함수를 나타내며, 초평면의 방정식으로 정의된다.
+- 각 $\theta_y$는 해당 클래스 $y$에 대한 매개변수 벡터를 나타낸다.
