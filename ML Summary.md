@@ -78,6 +78,19 @@
       - [Perceptron](#perceptron)
       - [Support Vector Machine (SVM)](#support-vector-machine-svm)
   - [Multi-Class Classification](#multi-class-classification)
+  - [Linear Regression Models](#linear-regression-models)
+    - [Learning Regression Models](#learning-regression-models)
+    - [Loss Functions for Regression](#loss-functions-for-regression)
+    - [Regularizer for Regression](#regularizer-for-regression)
+      - [Special Cases](#special-cases)
+    - [Regularized Empirical Risk Minimization](#regularized-empirical-risk-minimization-2)
+      - [솔루션 방법 (Solution Methods)](#솔루션-방법-solution-methods)
+      - [Empirical Risk: Squared loss](#empirical-risk-squared-loss)
+    - [Lasso Regression](#lasso-regression)
+      - [최적화 문제 정의](#최적화-문제-정의)
+    - [Ridge Regression](#ridge-regression)
+      - [최적화 문제 정의](#최적화-문제-정의-1)
+      - [해석적 해법](#해석적-해법)
 
 
 ## Supervised Learning
@@ -750,9 +763,9 @@ pearson, spearman correlation등을 이용해 계산한 상관계수를 척도�
 
 ![](./images/dic.PNG)
 
-이 방법은 학습 데이터에 대해서는 완벽하게 작동하지만, 실제 데이터에서는 잘 일반화되지 않을 수 있다. 이러한 모델은 overfitting되었다고 할 수 있다. 과적합은 트레이닝 데이터에 대해서는 매우 정확하게 작동하지만, 새로운 데이터에 대해서는 일반화하기 어려울 수 있다.
+이 방법은 학습 데이터에 대해서는 완벽하게 작동하지만, 실제 데이터에서는 잘 일반화되지 않을 수 있다. 이러한 모델은 overfitting되었다고 할 수 있다. overfitting은 트레이닝 데이터에 대해서는 매우 정확하게 작동하지만, 새로운 데이터에 대해서는 일반화하기 어려울 수 있다.
 
-따라서, 보다 일반화된 의사 결정 트리를 찾기 위해서는 과적합을 피하기 위한 다양한 기법들을 적용해야 한다. 이러한 기법들에는 가지치기(pruning), 트리의 깊이 제한(depth limitation), 또는 정보 이득(Information Gain)을 최대화하는 특성 선택 등이 있다.
+따라서, 보다 일반화된 의사 결정 트리를 찾기 위해서는 overfitting을 피하기 위한 다양한 기법들을 적용해야 한다. 이러한 기법들에는 가지치기(pruning), 트리의 깊이 제한(depth limitation), 또는 정보 이득(Information Gain)을 최대화하는 특성 선택 등이 있다.
 
 이런 trivial way말고도, 더 우아한 방법은 트레이닝 데이터와 일치하는 트리 중 **가능한한 가장 적은 노드**를 가지는 트리를 선택하는 것이다. 트리가 작을수록 각각의 분기점이 더 명확하게 나타나므로 결정 프로세스를 이해하기가 더 쉽다. 또한 트리가 작으면, 터미널 노드에 더 많은 트레이닝 인스턴스가 포함될 수 있다. 더 많은 인스턴스가 포함될수록 해당 클래스에 대한 통계적 신뢰도가 향상된다. 
 
@@ -1282,7 +1295,7 @@ $$
 
 3. **Regularizer $\Omega(\boldsymbol{\theta})$**:
    - **정의**: Regularizer는 모델의 복잡도를 제어하기 위해 추가되는 항이다.
-   - **목적**: 과적합을 방지하고 모델의 일반화 성능을 향상시키기 위해 사용된다. 대표적인 Regularizer는 L1 및 L2 정규화이다.
+   - **목적**: overfitting을 방지하고 모델의 일반화 성능을 향상시키기 위해 사용된다. 대표적인 Regularizer는 L1 및 L2 정규화이다.
      - **L1 정규화**: $\Omega(\boldsymbol{\theta}) = \|\boldsymbol{\theta}\|_1 = \sum_{j} |\theta_j|$
      - **L2 정규화**: $\Omega(\boldsymbol{\theta}) = \|\boldsymbol{\theta}\|_2^2 = \sum_{j} \theta_j^2$
     -  Regularizer는 모델에 대한 사전 지식을 반영한다. 예를 들어, L1 Regularizer는 일부 파라미터가 0이 되도록 하여 희소한 모델을 생성한다.
@@ -1495,18 +1508,18 @@ $$
 \end{cases}
 $$
 
-- 특징: 단순하지만 비볼록 함수라서 최적화하기 어렵다.
+- 특징: 단순하지만 비convex 함수라서 최적화하기 어렵다.
 - 사용 사례: 이론적 분석 및 단순한 분류 평가.
 
 2. **Logistic loss**
 
 ![](./images/llo.PNG)
 
-로지스틱 loss function는 로지스틱 회귀에 사용되며, 예측 확률과 실제 값 사이의 불일치를 측정한다. 이 loss function는 볼록(convex) 함수로, 최적화가 용이한다. 예측 값이 실제 값과 크게 다를수록 손실이 기하급수적으로 증가한다.
+로지스틱 loss function는 로지스틱 회귀에 사용되며, 예측 확률과 실제 값 사이의 불일치를 측정한다. 이 loss function는 convex(convex) 함수로, 최적화가 용이한다. 예측 값이 실제 값과 크게 다를수록 손실이 기하급수적으로 증가한다.
 
 $$\ell_{\log}(f_\theta(x_i), y_i) = \log(1 + e^{-y_i f_\theta(x_i)})$$
 
-- 특징: 볼록 함수로 최적화가 용이하며, 예측 확률을 사용한다.
+- 특징: convex 함수로 최적화가 용이하며, 예측 확률을 사용한다.
 - 사용 사례: 로지스틱 회귀, 확률 기반 분류.
 
 3. **Perceptron loss**
@@ -1529,7 +1542,7 @@ $$\ell_{p}(f_\theta(x_i), y_i) =
 
 ![](./images/hlo.PNG)
 
-힌지 loss function는 서포트 벡터 머신(SVM)에 사용된다. 이는 마진(margin) 위반을 측정하며, 예측 값이 실제 값과 다를 때 손실이 발생한다. 힌지 loss function는 볼록 함수이며, 큰 마진을 가지는 분류기를 선호한다.
+힌지 loss function는 서포트 벡터 머신(SVM)에 사용된다. 이는 마진(margin) 위반을 측정하며, 예측 값이 실제 값과 다를 때 손실이 발생한다. 힌지 loss function는 convex 함수이며, 큰 마진을 가지는 분류기를 선호한다.
 
 $$\ell_{p}(f_\theta(x_i), y_i) = 
 \begin{cases} 
@@ -1538,14 +1551,14 @@ $$\ell_{p}(f_\theta(x_i), y_i) =
 \end{cases}
 = \max(0, 1 - y_i f_\theta(x_i))$$
 
-  - 특징: 볼록 함수로 SVM에서 사용되며, 마진을 고려하여 손실을 계산한다.
+  - 특징: convex 함수로 SVM에서 사용되며, 마진을 고려하여 손실을 계산한다.
   - 사용 사례: 서포트 벡터 머신(SVM), 마진을 고려한 분류.
 
 ---
 
 #### Regularizers for Classification
 
-정규화 항은 여기서도 마찬가지로 모델의 복잡도를 제어하고 과적합을 방지하기 위해 사용된다. **Classification을 위한 Regularizer는 가능한한 적은 attribute를 사용하는것을 목표로 한다.** 
+Regularizer은 여기서도 마찬가지로 모델의 복잡도를 제어하고 overfitting을 방지하기 위해 사용된다. **Classification을 위한 Regularizer는 가능한한 적은 attribute를 사용하는것을 목표로 한다.** 
 
 $$\Omega_0(\theta) \propto \|\theta\|_0 = \text{number of }j \text{ with }\theta_j \neq 0$$
 
@@ -1561,7 +1574,7 @@ $$\Omega_1(\theta) \propto \|\theta\|_1 = \sum_{j=1}^{m} |\theta_j|$$
 
 $$\Omega_2(\theta) \propto \|\theta\|_2^2 = \sum_{j=1}^{m} \theta_j^2$$
 
-$\Omega_0$ 정규화는 non-convex 함수이기 때문에 최소화하기 어렵다. 따라서 실전에서는 주로 볼록(convex) 정규화 항인 $\Omega_1$ (L1 정규화) 또는 $\Omega_2$ (L2 정규화)를 사용한다. 볼록 정규화 항은 수치적 최적화가 용이하고, 전역 최솟값으로 수렴할 수 있는 장점이 있다.
+$\Omega_0$ 정규화는 non-convex 함수이기 때문에 최소화하기 어렵다. 따라서 실전에서는 주로 convex(convex) Regularizer인 $\Omega_1$ (L1 정규화) 또는 $\Omega_2$ (L2 정규화)를 사용한다. convex Regularizer은 수치적 최적화가 용이하고, 전역 최솟값으로 수렴할 수 있는 장점이 있다.
 
 
 --- 
@@ -1591,7 +1604,7 @@ Perceptron(Instances x_i, y_i)
 
 ```
 
-퍼셉트론 알고리즘은 정규화 항이 없는 간단한 선형 분류 알고리즘이다. 클래스 $y$는 $\{-1, +1\}$에 속하며, 다음과 같은 절차를 따른다:
+퍼셉트론 알고리즘은 Regularizer이 없는 간단한 선형 분류 알고리즘이다. 클래스 $y$는 $\{-1, +1\}$에 속하며, 다음과 같은 절차를 따른다:
 1. $\theta = 0$으로 초기화한다.
 2. 모든 데이터 샘플 $(x_i, y_i)$에 대해 예측과 실제 값이 다르면 가중치 $\theta$를 업데이트한다:
    $$
@@ -1615,12 +1628,12 @@ $$\nabla L_{x_{i}}(\theta) =
 
 이 과정을 통해 빨간점과 파란점을 정확하게 분류하는 hyperplane이 형성된다. 한번 꼭 풀어볼 것! Linear classification models 강의에 예시가 있으니 다시 풀어보도록 하자. 
 
-* loss function: 퍼셉트론 loss function는 잘못 분류된 경우에만 손실이 발생합니다.
-* no regularizer: 퍼셉트론 알고리즘에는 정규화 항이 없으며, 이는 모델 복잡도 제어 없이 단순히 손실을 최소화합니다.
-* SGD 사용: 각 샘플에 대해 순차적으로 가중치를 업데이트하는 Stochastic Gradient Descent을 사용합니다.
-* 고정된 스텝 사이즈: 고정된 스텝 사이즈 1을 사용하여, 데이터가 선형적으로 구분 가능하지 않은 경우 수렴을 보장하지 않습니다.
-* seperation hyperplane 찾기: 선형적으로 구분 가능한 경우, 퍼셉트론 알고리즘은 양성과 음성을 분리하는 hyperplane을 찾습니다.
-* 수렴 보장: 데이터셋이 선형적으로 구분 가능하다면 퍼셉트론 알고리즘은 반드시 수렴합니다.
+* loss function: 퍼셉트론 loss function는 잘못 분류된 경우에만 손실이 발생한다.
+* no regularizer: 퍼셉트론 알고리즘에는 Regularizer이 없으며, 이는 모델 복잡도 제어 없이 단순히 손실을 최소화한다.
+* SGD 사용: 각 샘플에 대해 순차적으로 가중치를 업데이트하는 Stochastic Gradient Descent을 사용한다.
+* 고정된 스텝 사이즈: 고정된 스텝 사이즈 1을 사용하여, 데이터가 선형적으로 구분 가능하지 않은 경우 수렴을 보장하지 않다.
+* seperation hyperplane 찾기: 선형적으로 구분 가능한 경우, 퍼셉트론 알고리즘은 양성과 음성을 분리하는 hyperplane을 찾다.
+* 수렴 보장: 데이터셋이 선형적으로 구분 가능하다면 퍼셉트론 알고리즘은 반드시 수렴한다.
 
 ---
 
@@ -1699,7 +1712,7 @@ $$
 &\xi_i = \max(0, 1 - y_i f_\theta (x_i)) 
 \end{aligned}$$
 
-슬랙 변수가 0이 아닌 데이터 포인트는 마진을 위반하고 있는 것이고, 여기서 **서포트 벡터**이다 . 즉, 이러한 포인트는 초평면으로부터 충분히 멀리 떨어져 있지 않거나 잘못 분류된 경우입니다.
+슬랙 변수가 0이 아닌 데이터 포인트는 마진을 위반하고 있는 것이고, 여기서 **서포트 벡터**이다 . 즉, 이러한 포인트는 초평면으로부터 충분히 멀리 떨어져 있지 않거나 잘못 분류된 경우이다.
 
 정리해보자. 
 
@@ -1751,3 +1764,250 @@ $$
  - $\theta^3$ (초록색)
 - 각 결정 경계는 해당 클래스의 예측 함수를 나타내며, 초평면의 방정식으로 정의된다.
 - 각 $\theta_y$는 해당 클래스 $y$에 대한 매개변수 벡터를 나타낸다.
+
+
+## Linear Regression Models
+
+Regression에 대해 다시 정리하고 들어가보도록 하자!
+
+Regression은 주어진 입력 (feature vector $\mathbf{x}$)에 대해 연속적인 (실수) 값을 출력 ($y$)으로 예측하는 방법이다. 예를 들어, 특정 독성 물질의 조합이 얼마나 독성이 있는지를 예측하는 문제에 사용될 수 있다.
+
+- **입력:** $\mathbf{x} \in \mathbb{X}$ (feature vector)
+- **출력:** $y \in \mathbb{R}$ (연속적인 실수 값)
+
+선형 회귀 모델은 다음과 같은 형태의 회귀 함수를 사용한다:
+
+$$f_{\theta}(\mathbf{x}) = \mathbf{x}^T \theta + \theta_0$$
+
+여기서:
+- $\mathbf{x}$는 feature vector // 예: $\mathbf{x} = [x_1, x_2, \ldots, x_m]$
+- $\theta$는 파라미터 벡터
+- $\theta_0$는 Offset이다.
+
+* 예시:
+
+$$f_{\theta}(\mathbf{x}) = \begin{bmatrix} x_1 & x_2 \end{bmatrix} \begin{bmatrix} -1 \\ 0.25 \end{bmatrix} - 2$$
+
+Offset $\theta_0$를 파라미터 벡터 $\theta$에 통합할 수 있다. 이를 위해 새로운 상수 속성 $x_0 = 1$을 모든 인스턴스에 추가한다. 
+
+* 예시:
+
+  - 통합 전: $f_{\theta}(\mathbf{x}) = \begin{bmatrix} x_1 & x_2 \end{bmatrix} \begin{bmatrix} -1 \\ 0.25 \end{bmatrix} - 2$
+  - 통합 후: $f_{\theta}(\mathbf{x}) = \begin{bmatrix} 1 & x_1 & x_2 \end{bmatrix} \begin{bmatrix} -2 \\ -1 \\ 0.25 \end{bmatrix}$
+
+
+선형 회귀 모델은 Offset을 포함하지 않은 형태로 단순화할 수 있다:
+
+$$f_{\theta}(\mathbf{x}) = \mathbf{x}^T \theta$$
+
+### Learning Regression Models
+
+회귀 모델을 학습하기 위해 학습 데이터 $T_n$이 필요한다. 학습 데이터는 $n$개의 샘플 $(\mathbf{x}_i, y_i)$로 구성된다:
+
+$$T_n = \{ (\mathbf{x}_1, y_1), \ldots, (\mathbf{x}_n, y_n) \}$$
+
+*  입력:
+   - $\mathbf{X} = \begin{bmatrix} \mathbf{x}_1^T \\ \vdots \\ \mathbf{x}_n^T \end{bmatrix}$
+   - $\mathbf{y} = \begin{bmatrix} y_1 \\ \vdots \\ y_n \end{bmatrix}$
+
+*  출력:
+   - 모델 $y_{\theta} : \mathbb{X} \rightarrow \mathbb{Y}$
+   - 예: $y_{\theta}(\mathbf{x}) = \mathbf{x}^T \theta$
+
+### Loss Functions for Regression
+
+* Absolute Loss
+
+절대 Loss Functions는 모델 예측값 $f_{\theta}(\mathbf{x}_i)$와 실제 값 $y_i$ 사이의 절대 차이를 계산합니다:
+
+$$\ell_{\text{abs}}(f_{\theta}(\mathbf{x}_i), y_i) = |f_{\theta}(\mathbf{x}_i) - y_i| $$
+
+* Squared Loss
+
+제곱 Loss Functions는 예측값과 실제 값 사이의 차이의 제곱을 계산합니다:
+$$\ell_2(f_{\theta}(\mathbf{x}_i), y_i) = (f_{\theta}(\mathbf{x}_i) - y_i)^2 $$
+
+* $\epsilon$-Insensitive Loss
+
+$\epsilon$-민감 Loss Functions는 예측 오차가 $\epsilon$ 이하인 경우 손실을 0으로 하고, $\epsilon$을 초과하는 오차에 대해서만 패널티를 부과합니다:
+
+$$
+\ell_{\epsilon}(f_{\theta}(\mathbf{x}_i), y_i) = 
+\begin{cases} 
+0 & \text{if } |f_{\theta}(\mathbf{x}_i) - y_i| \leq \epsilon \\
+|f_{\theta}(\mathbf{x}_i) - y_i| - \epsilon & \text{if } |f_{\theta}(\mathbf{x}_i) - y_i| > \epsilon 
+\end{cases}
+$$
+
+![](./images/loss.PNG)
+
+**Absolute**: red, **Squared**: yellow, **epsilon**: green
+
+### Regularizer for Regression
+
+Regression은 사용하는 regularizer도 다르다. Regression에서 정규화는 모델의 복잡도를 제어하고 overfitting을 방지하기 위해 사용됩니다. Regularizer은 Loss Functions에 추가되어 모델 파라미터의 크기를 제한합니다.
+
+1. L1 정규화 (L1 Regularization)
+L1 정규화는 파라미터 벡터의 절대값 합을 패널티로 추가합니다:
+$$\Omega_1(\theta) \propto \|\theta\|_1 = \sum_{j=1}^{m} |\theta_j|$$
+
+L1 정규화는 일부 파라미터를 0으로 만들어 모델을 희소하게 만듭니다. 이는 feature selection에도 유용합니다.
+
+1. L2 정규화 (L2 Regularization)
+L2 정규화는 파라미터 벡터의 제곱합을 패널티로 추가합니다:
+$$\Omega_2(\theta) \propto \|\theta\|_2^2 = \sum_{j=1}^{m} \theta_j^2$$
+
+L2 정규화는 모든 파라미터를 작게 만들어 모델의 복잡도를 줄입니다. 이는 수치적 안정성을 제공하고, overfitting을 방지합니다 .
+
+#### Special Cases
+
+Regression에서 특정한 Loss Functions와 Regularizer의 조합으로 다양한 특수한 경우가 존재합니다.
+
+1. 라쏘 (Lasso)
+라쏘 회귀는 제곱 Loss Functions와 L1 정규화를 결합한 것입니다:
+$$L(\theta) = \sum_{i=1}^{n} \ell_2(f_{\theta}(\mathbf{x}_i), y_i) + \lambda \|\theta\|_1$$
+
+라쏘 회귀는 모델의 희소성을 촉진하여 많은 파라미터를 0으로 만들 수 있습니다. 이는 특징 선택에도 유용합니다.
+
+1. 릿지 회귀 (Ridge Regression)
+릿지 회귀는 제곱 Loss Functions와 L2 정규화를 결합한 것입니다:
+$$L(\theta) = \sum_{i=1}^{n} \ell_2(f_{\theta}(\mathbf{x}_i), y_i) + \lambda \|\theta\|_2^2$$
+
+릿지 회귀는 모든 파라미터를 작게 유지하여 모델의 복잡도를 줄입니다. 이는 overfitting을 방지하고, 수치적 안정성을 제공합니다.
+
+1. 엘라스틱 넷 (Elastic Net)
+엘라스틱 넷은 제곱 Loss Functions와 L1 및 L2 정규화를 결합한 것입니다:
+$$L(\theta) = \sum_{i=1}^{n} \ell_2(f_{\theta}(\mathbf{x}_i), y_i) + \lambda \|\theta\|_2^2 + \lambda' \|\theta\|_1$$
+
+엘라스틱 넷은 라쏘와 릿지 회귀의 장점을 결합하여 모델의 희소성과 안정성을 동시에 제공합니다 .
+
+### Regularized Empirical Risk Minimization
+
+Regularized Empirical Risk Minimization는 모델의 파라미터를 최적화하여 손실 함수와 정규화 항의 결합을 최소화하는 방법입니다. 이는 모델이 학습 데이터에 대해 과적합하지 않도록 하면서도 예측 성능을 유지하도록 돕습니다.  기본적인 내용은 위에 정리된것과 같다. 
+
+Regularized Empirical Risk Minimization는 다음과 같은 형태로 표현할 수 있습니다:
+
+$$ \arg \min_{\theta} \sum_{i=1}^{n} \ell(f_{\theta}(\mathbf{x}_i), y_i) + \lambda \Omega(\theta) $$
+
+여기서:
+- $\ell(f_{\theta}(\mathbf{x}_i), y_i)$: 손실 함수, 모델의 예측값 $f_{\theta}(\mathbf{x}_i)$와 실제 값 $y_i$ 사이의 차이에서 발생하는 비용을 측정합니다.
+- $\Omega(\theta)$: 정규화 항, 모델 파라미터의 복잡도를 제어합니다.
+- $\lambda$: 정규화 항의 가중치를 조절하는 하이퍼파라미터입니다.
+
+손실 함수 $\ell(f_{\theta}(\mathbf{x}_i), y_i)$는 모델의 예측값 $f_{\theta}(\mathbf{x}_i)$와 실제 값 $y_i$ 사이의 차이에서 발생하는 비용을 측정합니다.
+
+- **경험적 위험 (Empirical Risk):**
+  $$ R_n(\theta) = \sum_{i=1}^{n} \ell(f_{\theta}(\mathbf{x}_i), y_i) $$
+  이는 주어진 데이터 샘플에 대한 모델의 위험을 측정합니다.
+
+- **경험적 위험의 추정치 (Empirical Estimate of Risk):**
+  $$ R(\theta) = \int \ell(f_{\theta}(\mathbf{x}), y) \, dP_{\mathbf{x}, y} $$
+  이는 데이터 분포 $P_{\mathbf{x}, y}$에 따른 모델의 위험을 추정합니다.
+
+정규화 항 $\Omega(\theta)$는 모델 파라미터의 크기를 제한하여 과적합을 방지하고, 모델의 수치적 안정성을 제공합니다. 정규화 항과 정규화 파라미터 $\lambda \geq 0$는 다음과 같은 역할을 합니다:
+
+- **선호하는 해에 대한 배경 정보 제공 (Background Information about Preferred Solutions):**
+  정규화 항은 특정 해를 선호하게 하여 모델의 일반화 성능을 향상시킵니다.
+
+- **수치적 안정성 제공 (Provides Numerical Stability):**
+  Tikhonov 정규화와 같이, 정규화 항은 수치적 안정성을 제공하여 모델이 잘못된 방향으로 최적화되지 않도록 합니다.
+
+- **더 엄격한 오류 경계를 허용 (Allows for Tighter Error Bounds):**
+  PAC 이론과 같이, 정규화 항은 모델의 오류 경계를 더 엄격하게 만들어 일반화 성능을 향상시킵니다.
+
+---
+
+정규화된 경험적 위험을 최소화하는 것은 다음과 같은 최적화 문제를 해결하는 것을 의미합니다:
+$$ \arg \min_{\theta} \sum_{i=1}^{n} \ell(f_{\theta}(\mathbf{x}_i), y_i) + \lambda \Omega(\theta) $$
+
+선형 모델의 경우:
+$$ \arg \min_{\theta} \sum_{i=1}^{n} \ell(\mathbf{x}_i^T \theta, y_i) + \lambda \Omega(\theta) $$
+
+#### 솔루션 방법 (Solution Methods)
+
+- **~~분류 (Classification):~~**
+  - ~~수치적 해결책 (Numerical Solutions): 해석적 해결책이 없는 경우, 경사 하강법(Gradient Descent), 절단 평면법(Cutting Plane Method), 내부 점 방법(Interior Point Method) 등을 사용합니다.~~
+  
+- **회귀 (Regression):**
+  - 제곱 손실과 소수의 속성에 대해 해석적 해결책이 가능합니다.
+  - 확률적 경사 하강법(Stochastic Gradient Descent)과 같은 수치적 해결책은 많은 속성 또는 다른 손실 함수에 대해 사용됩니다.
+
+#### Empirical Risk: Squared loss
+
+위에서 언급했듯, 이는 예측값과 실제 값 간의 차이를 제곱하여 합산한다. 다음과같은 형태였죠?
+
+$$\ell_2(f_{\theta}(\mathbf{x}_i), y_i) = (f_{\theta}(\mathbf{x}_i) - y_i)^2$$
+
+여기서, squared loss의 emppirical risk는 다음과 같다. 이처럼 행렬로 표기할 수 있다.  
+
+$$ R_n(\theta) = \sum_{i=1}^{n} \ell_2(f_{\theta}(\mathbf{x}_i), y_i) = (\mathbf{X\theta-y})^T(\mathbf{X\theta-y})$$
+
+여기서:
+- $\mathbf{X}$는 입력 데이터의 행렬입니다. 각 행은 하나의 데이터 포인트의 특징 벡터를 나타냅니다.
+- $\theta$는 모델의 파라미터 벡터입니다.
+- $\mathbf{y}$는 실제 값 벡터입니다.
+
+왜 행렬 표기법을 사용하는가? (Why Matrix Notation?)
+
+행렬 표기법을 사용하면 다음과 같은 이점이 있습니다:
+- **컴팩트한 표현:** 수식이 간결해집니다.
+- **효율적인 계산:** 행렬 연산을 통해 계산 속도를 높일 수 있습니다.
+- **일관성:** 다양한 선형 대수 기법을 적용할 수 있습니다.
+
+예를 들어, 데이터 포인트가 두 개이고 각 포인트가 두 개의 특징을 가진다고 가정합니다. $\mathbf{X}$, $\theta$, $\mathbf{y}$는 다음과 같이 정의됩니다:
+$$ \mathbf{X} = \begin{bmatrix} x_{11} & x_{12} \\ x_{21} & x_{22} \end{bmatrix}, \quad \theta = \begin{bmatrix} \theta_1 \\ \theta_2 \end{bmatrix}, \quad \mathbf{y} = \begin{bmatrix} y_1 \\ y_2 \end{bmatrix} $$
+
+경험적 위험은 다음과 같이 계산됩니다:
+$$ R_n(\theta) = (\mathbf{X}\theta - \mathbf{y})^T (\mathbf{X}\theta - \mathbf{y}) $$
+
+그리고 $\mathbf{X}\theta - \mathbf{y}$는 다음과 같이 계산된다.
+
+$$
+(\mathbf{X}\theta - \mathbf{y}) = 
+\begin{pmatrix}
+\mathbf{x_1^T\theta-y_1}\\
+\vdots\\
+\mathbf{x_n^T\theta-y_n}
+\end{pmatrix}
+$$
+
+이를 통해 모델이 학습 데이터에서 얼마나 잘 동작하는지 평가할 수 있습니다.
+
+### Lasso Regression
+
+라쏘 회귀는 제곱 손실 함수와 L1 정규화를 결합한 형태의 회귀 모델입니다. 이는 일부 회귀 계수를 0으로 만들어 변수 선택 및 모델 해석을 용이하게 합니다.
+
+#### 최적화 문제 정의
+라쏘 회귀의 목적 함수는 다음과 같습니다:
+$$L(\theta) = \sum_{i=1}^{n} (f_{\theta}(\mathbf{x}_i) - y_i)^2 + \lambda \|\theta\|_1$$
+
+여기서:
+- $\sum_{i=1}^{n} (f_{\theta}(\mathbf{x}_i) - y_i)^2$는 제곱 손실 함수입니다.
+- $\|\theta\|_1$는 파라미터 벡터 $\theta$의 L1 노름입니다.
+- $\lambda$는 정규화 항의 가중치로, 모델의 복잡도를 조절합니다.
+
+라쏘 회귀는 convex 최적화 문제로, 유일한 글로벌 최적해를 가지며 이는 효율적인 계산을 가능하게 합니다.
+
+### Ridge Regression
+
+릿지 회귀는 제곱 손실 함수와 L2 정규화를 결합한 형태의 회귀 모델입니다. 이는 모든 회귀 계수를 작게 만들어 과적합을 방지하고 모델의 수치적 안정성을 제공합니다.
+
+#### 최적화 문제 정의
+릿지 회귀의 목적 함수는 다음과 같습니다:
+$$L(\theta) = \sum_{i=1}^{n} (f_{\theta}(\mathbf{x}_i) - y_i)^2 + \lambda \|\theta\|_2^2$$
+
+여기서:
+- $\sum_{i=1}^{n} (f_{\theta}(\mathbf{x}_i) - y_i)^2$는 제곱 손실 함수입니다.
+- $\|\theta\|_2^2$는 파라미터 벡터 $\theta$의 L2 노름입니다.
+- $\lambda$는 정규화 항의 가중치로, 모델의 복잡도를 조절합니다.
+
+#### 해석적 해법
+릿지 회귀는 해석적 해법을 가지며, 이는 다음과 같이 주어집니다:
+$$\theta = (\mathbf{X}^T \mathbf{X} + \lambda \mathbf{I})^{-1} \mathbf{X}^T \mathbf{y}$$
+
+여기서:
+- $\mathbf{X}$는 입력 데이터 행렬입니다.
+- $\mathbf{y}$는 실제 값 벡터입니다.
+- $\mathbf{I}$는 항등 행렬입니다.
+
+릿지 회귀의 해석적 해법은 $m \times m$ 행렬의 역행렬을 요구하며, 이는 속성 수가 적을 때 실용적입니다. 속성이 많은 경우, 확률적 경사 하강법과 같은 수치적 방법을 사용하는 것이 좋습니다    .
