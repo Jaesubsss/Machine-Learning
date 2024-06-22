@@ -91,6 +91,39 @@
     - [Ridge Regression](#ridge-regression)
       - [최적화 문제 정의](#최적화-문제-정의-1)
       - [해석적 해법](#해석적-해법)
+  - [Model Evaluation](#model-evaluation)
+    - [Loss function](#loss-function-1)
+    - [Risk](#risk)
+  - [**Finite set 𝑌 (classification):**](#finite-set-𝑌-classification)
+    - [Estimator](#estimator)
+    - [Precision and Recall](#precision-and-recall)
+    - [F measures](#f-measures)
+    - [ROC Analysis](#roc-analysis)
+    - [Evaluation Protocols](#evaluation-protocols)
+    - [Holdout Testing](#holdout-testing)
+    - [K-Fold Cross Validation](#k-fold-cross-validation)
+    - [Leave-One-Out Cross Validation (LOOCV)](#leave-one-out-cross-validation-loocv)
+    - [Model Selection](#model-selection)
+    - [Regularized Polynomial Regression](#regularized-polynomial-regression)
+    - [Model Selection, Setting Hyperparameters](#model-selection-setting-hyperparameters)
+      - [Triple Cross Validation](#triple-cross-validation)
+      - [Nested Cross Validation](#nested-cross-validation)
+  - [Summary (요약)](#summary-요약)
+  - [Neural Networks](#neural-networks)
+    - [Feed Forward Networks](#feed-forward-networks)
+      - [Classification: Softmax layer](#classification-softmax-layer)
+      - [Regression: Linear Activation](#regression-linear-activation)
+      - [Internal Units: Rectified Linear Units](#internal-units-rectified-linear-units)
+      - [Learning](#learning)
+      - [Back propagation](#back-propagation)
+    - [Regularizer](#regularizer-1)
+      - [Dropout](#dropout)
+    - [Initialization](#initialization)
+    - [Parallel inference](#parallel-inference)
+    - [convolutional layers](#convolutional-layers)
+      - [pooling](#pooling)
+      - [training](#training)
+    - [Recurrent neural networks](#recurrent-neural-networks)
 
 
 ## Supervised Learning
@@ -343,9 +376,9 @@ Regression Problem에 대한 Loss function은, 우리의 Target variable이 실�
 
 ### Regularizer
 
-정규화(Regularization)란 머신 러닝에서 Overfitting을 방지하기 위해 사용되는 기법이다. Overfitting은 모델이 학습 데이터에 지나치게 잘 맞춰져 있어 새로운 데이터에 대한 일반화 능력이 떨어지는 현상을 말한다. 정규화는 모델의 복잡도를 제한하여 이러한 문제를 완화한다. 가장 일반적인 정규화 기법으로는 L1 정규화(Lasso)와 L2 정규화(Ridge)가 있다.
+Regularizer(Regularization)란 머신 러닝에서 Overfitting을 방지하기 위해 사용되는 기법이다. Overfitting은 모델이 학습 데이터에 지나치게 잘 맞춰져 있어 새로운 데이터에 대한 일반화 능력이 떨어지는 현상을 말한다. Regularizer는 모델의 복잡도를 제한하여 이러한 문제를 완화한다. 가장 일반적인 Regularizer 기법으로는 L1 Regularizer(Lasso)와 L2 Regularizer(Ridge)가 있다.
 
-L1 정규화는 모델의 가중치에 대한 절대값의 합을 loss function에 추가하며, 이는 모델의 일부 가중치를 정확히 0으로 만들어 특성 선택의 효과를 낸다. 반면, L2 정규화는 가중치의 제곱의 합을 loss function에 추가하여, 모든 가중치가 0에 가까워지도록 만들지만 정확히 0이 되지는 않는다. 이러한 정규화 기법들은 모델이 데이터의 중요한 패턴을 학습하면서도 과도하게 복잡해지는 것을 방지한다.
+L1 Regularizer는 모델의 weight에 대한 절대값의 합을 loss function에 추가하며, 이는 모델의 일부 weight를 정확히 0으로 만들어 특성 선택의 효과를 낸다. 반면, L2 Regularizer는 weight의 제곱의 합을 loss function에 추가하여, 모든 weight가 0에 가까워지도록 만들지만 정확히 0이 되지는 않는다. 이러한 Regularizer 기법들은 모델이 데이터의 중요한 패턴을 학습하면서도 과도하게 복잡해지는 것을 방지한다.
 
 여기서 Regularizer는 모델이 사전 확률 적으로 얼마나 가능성 있는지를 표현한다. 이는 모델이 얼마나 적합한지를 나타내는 loss function과는 별개다. 
 
@@ -620,7 +653,7 @@ Data integration은 여러 데이터 소스를 일관되게 통합하는 프로�
 
 텍스트 표현을 위한 TF- or TFIDF- representation는 뭘까? 자세히 알아보도록 하자. 
 
-TF- or TFIDF- representation는 정보 검색과 텍스트 마이닝에서 이용하는 가중치로, 여러 문서로 이루어진 문서군이 있을 때 어떤 단어가 특정 문서 내에서 얼마나 중요한 것인지를 나타내는 통계적 수치이다. 문서의 핵심어를 추출하거나, 검색 엔진에서 검색 결과의 순위를 결정하거나, 문서들 사이의 비슷한 정도를 구하는 등의 용도로 사용할 수 있다.
+TF- or TFIDF- representation는 정보 검색과 텍스트 마이닝에서 이용하는 weight로, 여러 문서로 이루어진 문서군이 있을 때 어떤 단어가 특정 문서 내에서 얼마나 중요한 것인지를 나타내는 통계적 수치이다. 문서의 핵심어를 추출하거나, 검색 엔진에서 검색 결과의 순위를 결정하거나, 문서들 사이의 비슷한 정도를 구하는 등의 용도로 사용할 수 있다.
 
 **이중 TF-IDF는 두 요소의 곱으로 계산되게 되는데, TF는 Term Frequency, 즉 단어 빈도, IDF는 Inverse Document Frequency, 즉 역문서 빈도를 의미한다.**
 
@@ -650,7 +683,7 @@ TF(\text{term}_n) \cdot IDF(\text{term}_n)
 
 텍스트를 나타내는 또 다른 표현 방법은 N-Gram vector이다. TF-IDF representation에서는 term의 순서에 대한 정보가 손실된다. 그러나 N-gram은 연속적인 terms의 k-tuple마다 하나의 attribute를 만든다. 이는 모든 $k \leq N$에 대해 적용된다.
 
-또한 N-Gram feature는 다양한 범위값을 가질 수 있다. 절대값이 큰 값은 decision function에 더 큰영향을 미친다. 때로는 이러한 범위를 정규화 할수도 있다. 범위를 정규화하면 해당 가중치에 더 강한 적용될 수 있다. 
+또한 N-Gram feature는 다양한 범위값을 가질 수 있다. 절대값이 큰 값은 decision function에 더 큰영향을 미친다. 때로는 이러한 범위를 Regularizer 할수도 있다. 범위를 Regularizer하면 해당 weight에 더 강한 적용될 수 있다. 
 
 normalization의 방법에는 여러가지가 있다.
 
@@ -717,7 +750,7 @@ Feature Selection은 다수의 특징 중에서 중요한 특징을 선택하는
 
 pearson, spearman correlation등을 이용해 계산한 상관계수를 척도로 사용할 수 있고, 평가는 n-fold 교차검증 등을 통해 feature selection을 평가할 수 있다. 
 
-선형 모델에 대한 feature selection을 할때는 가장 작은 가중치를 가진 특성을 제거하는 방법을 사용한다.
+선형 모델에 대한 feature selection을 할때는 가장 작은 weight를 가진 특성을 제거하는 방법을 사용한다.
 
 ## Decision Trees
 
@@ -962,7 +995,7 @@ ID3는 continuous attributes를 어떻게 처리할까?
  
 ID3는 선택된 continuous attributes의 각 값에 대해 가지를 생성한다.  그러나 이는 continuous attributes에 대해서는 잘 작동하지 않는다.
 
-continuous attributes을 처리하기 위한 아이디어 중 하나는 속성과 임계값의 조합을 사용하여 이진 분할을 수행하는 것이다.  예를들어, $x_j \leq v$와 같은 형태의 테스트를 사용하여 데이터를 분할할 수 있다. 이를 위해 사용되는 알고리즘이 C4.5이다.
+continuous attributes을 처리하기 위한 아이디어 중 하나는 속성과 threshold의 조합을 사용하여 이진 분할을 수행하는 것이다.  예를들어, $x_j \leq v$와 같은 형태의 테스트를 사용하여 데이터를 분할할 수 있다. 이를 위해 사용되는 알고리즘이 C4.5이다.
 
 이 뒤에 information gain을 계산해서 뭐 대충 하면된다. 근데 식은 좀 다르다.
 
@@ -1082,7 +1115,7 @@ CART(L)
 
 
 
-1. 주어진 데이터 𝐿에 대해 평균 제곱 오차가 일정 임계값 𝜏보다 작은 경우, 이를 리프 노드로 처리하고 예측값 𝑦를 반환한다. 이것은 트리의 성장을 중지시키는 기준이다.
+1. 주어진 데이터 𝐿에 대해 평균 제곱 오차가 일정 threshold 𝜏보다 작은 경우, 이를 리프 노드로 처리하고 예측값 𝑦를 반환한다. 이것은 트리의 성장을 중지시키는 기준이다.
 
 2. 이 부분은 splitting을 진행하는 과정을 나타냅니다. 
    1. 주어진 데이터 𝐿에서 각 특성(이산형 또는 연속형)에 대해 splitting을 진행하고, 이에 따른 splitting 후의 $R_L$를 계산한다.  
@@ -1150,7 +1183,7 @@ $$R \leq 3 \times 0.1^2 = 0.03$$
 
 - **Random Forests**: 배깅과 유사하게, 랜덤 포레스트는 훈련 데이터의 무작위 하위 집합을 샘플링하지만, 추가적으로 특성들의 무작위 하위 집합을 사용하여 각 트리를 학습시킨다. 이는 각 트리들이 서로 다른 특성을 고려하도록 하여 다양성을 증가시키는 데 도움이 된다.
 
-- **Boosting**: 부스팅은 이전 모델이 실패한 샘플에 대한 가중치를 증가시켜 다음 모델이 더욱 집중할 수 있도록 하는 방식으로 작동한다. 이를 통해 약한 학습기를 결합하여 강력한 앙상블 모델을 형성할 수 있다.
+- **Boosting**: 부스팅은 이전 모델이 실패한 샘플에 대한 weight를 증가시켜 다음 모델이 더욱 집중할 수 있도록 하는 방식으로 작동한다. 이를 통해 약한 학습기를 결합하여 강력한 앙상블 모델을 형성할 수 있다.
 
 
 ### Bagging 
@@ -1295,9 +1328,9 @@ $$
 
 3. **Regularizer $\Omega(\boldsymbol{\theta})$**:
    - **정의**: Regularizer는 모델의 복잡도를 제어하기 위해 추가되는 항이다.
-   - **목적**: overfitting을 방지하고 모델의 일반화 성능을 향상시키기 위해 사용된다. 대표적인 Regularizer는 L1 및 L2 정규화이다.
-     - **L1 정규화**: $\Omega(\boldsymbol{\theta}) = \|\boldsymbol{\theta}\|_1 = \sum_{j} |\theta_j|$
-     - **L2 정규화**: $\Omega(\boldsymbol{\theta}) = \|\boldsymbol{\theta}\|_2^2 = \sum_{j} \theta_j^2$
+   - **목적**: overfitting을 방지하고 모델의 일반화 성능을 향상시키기 위해 사용된다. 대표적인 Regularizer는 L1 및 L2 Regularizer이다.
+     - **L1 Regularizer**: $\Omega(\boldsymbol{\theta}) = \|\boldsymbol{\theta}\|_1 = \sum_{j} |\theta_j|$
+     - **L2 Regularizer**: $\Omega(\boldsymbol{\theta}) = \|\boldsymbol{\theta}\|_2^2 = \sum_{j} \theta_j^2$
     -  Regularizer는 모델에 대한 사전 지식을 반영한다. 예를 들어, L1 Regularizer는 일부 파라미터가 0이 되도록 하여 희소한 모델을 생성한다.
     -  Regularizer는 수치적 안정성을 향상시켜 모델 학습 과정에서 발생할 수 있는 수치적 문제를 완화한다.
     -  Regularizer를 통해 모델의 일반화 오류를 줄일 수 있으며, 이는 확률 근사 정확도(PAC) 이론에 따라 더 강력한 오류 경계를 제공한다.
@@ -1455,7 +1488,7 @@ RETURN θt
      $$
    - 반복 인덱스 $t$를 1 증가시킨다.
 
-7. 매개변수의 변화량 $\|\theta_t - \theta_{t+1}\|$가 미리 정의된 임계값 $\epsilon$보다 작아질 때까지 반복한다.
+7. 매개변수의 변화량 $\|\theta_t - \theta_{t+1}\|$가 미리 정의된 threshold $\epsilon$보다 작아질 때까지 반복한다.
 
 8. 수렴 조건이 만족되면 최종 매개변수 $\theta_t$를 반환한다.
 
@@ -1562,19 +1595,19 @@ Regularizer은 여기서도 마찬가지로 모델의 복잡도를 제어하고 
 
 $$\Omega_0(\theta) \propto \|\theta\|_0 = \text{number of }j \text{ with }\theta_j \neq 0$$
 
-**맨해튼 놈 (Manhattan norm, L1 정규화)**
+**맨해튼 놈 (Manhattan norm, L1 Regularizer)**
 
 얘는 sparsitiy(희소성)을 촉진하여, 많은 feature들이 0이 되도록 한다. 해석이 용이하며, 불필요한 특성을 자동으로 제거한다. lasso라고도 한다. 
 
 $$\Omega_1(\theta) \propto \|\theta\|_1 = \sum_{j=1}^{m} |\theta_j|$$
 
-**제곱 유클리드 놈 (Squared Euclidean norm, L2 정규화)**
+**제곱 유클리드 놈 (Squared Euclidean norm, L2 Regularizer)**
 
-가중치의 크기를 줄여 모델의 복잡성을 낮춥니다. 모든 가중치가 작아지기 때문에, 특정 특성에 대해 과도하게 의존하는 것을 방지한다. Ridge라고도 한다. 
+weight의 크기를 줄여 모델의 복잡성을 낮춥니다. 모든 weight가 작아지기 때문에, 특정 특성에 대해 과도하게 의존하는 것을 방지한다. Ridge라고도 한다. 
 
 $$\Omega_2(\theta) \propto \|\theta\|_2^2 = \sum_{j=1}^{m} \theta_j^2$$
 
-$\Omega_0$ 정규화는 non-convex 함수이기 때문에 최소화하기 어렵다. 따라서 실전에서는 주로 convex(convex) Regularizer인 $\Omega_1$ (L1 정규화) 또는 $\Omega_2$ (L2 정규화)를 사용한다. convex Regularizer은 수치적 최적화가 용이하고, 전역 최솟값으로 수렴할 수 있는 장점이 있다.
+$\Omega_0$ Regularizer는 non-convex 함수이기 때문에 최소화하기 어렵다. 따라서 실전에서는 주로 convex(convex) Regularizer인 $\Omega_1$ (L1 Regularizer) 또는 $\Omega_2$ (L2 Regularizer)를 사용한다. convex Regularizer은 수치적 최적화가 용이하고, 전역 최솟값으로 수렴할 수 있는 장점이 있다.
 
 
 --- 
@@ -1606,13 +1639,13 @@ Perceptron(Instances x_i, y_i)
 
 퍼셉트론 알고리즘은 Regularizer이 없는 간단한 선형 분류 알고리즘이다. 클래스 $y$는 $\{-1, +1\}$에 속하며, 다음과 같은 절차를 따른다:
 1. $\theta = 0$으로 초기화한다.
-2. 모든 데이터 샘플 $(x_i, y_i)$에 대해 예측과 실제 값이 다르면 가중치 $\theta$를 업데이트한다:
+2. 모든 데이터 샘플 $(x_i, y_i)$에 대해 예측과 실제 값이 다르면 weight $\theta$를 업데이트한다:
    $$
    \text{IF } y_i f_\theta(x_i) \leq 0 \text{ THEN } \theta = \theta + y_i x_i
    $$
 3. 더 이상 $\theta$가 변경되지 않을 때까지 반복한다.
 
-퍼셉트론 알고리즘은 Stochastic Gradient Descent을 사용하여 가중치를 업데이트한다. 각 데이터 샘플에 대해 가중치를 업데이트하므로 계산이 간단하고 빠르다.
+퍼셉트론 알고리즘은 Stochastic Gradient Descent을 사용하여 weight를 업데이트한다. 각 데이터 샘플에 대해 weight를 업데이트하므로 계산이 간단하고 빠르다.
 
 $$\nabla L_{x_{i}}(\theta) = 
 \begin{cases} 
@@ -1622,7 +1655,7 @@ $$\nabla L_{x_{i}}(\theta) =
 
 또 데이터가 slinearly separable일때, SGD는 종료를 보장한다. 이는 무한한 반복을 거치지 않고도 최적점을 찾을 수 있음을 의미한다. 이때 종료조건은 $\varepsilon = 0$이고, 스텝사이즈 $\alpha^t = 1/t$를 사용한다. 
 
-퍼셉트론 알고리즘은 각 데이터 샘플을 순차적으로 처리하며, 예측과 실제 값이 다를 때마다 가중치를 업데이트하여 최종적으로 선형 분리 hyperplane을 찾는다.
+퍼셉트론 알고리즘은 각 데이터 샘플을 순차적으로 처리하며, 예측과 실제 값이 다를 때마다 weight를 업데이트하여 최종적으로 선형 분리 hyperplane을 찾는다.
 
 ![](./images/perceptron.PNG)
 
@@ -1630,7 +1663,7 @@ $$\nabla L_{x_{i}}(\theta) =
 
 * loss function: 퍼셉트론 loss function는 잘못 분류된 경우에만 손실이 발생한다.
 * no regularizer: 퍼셉트론 알고리즘에는 Regularizer이 없으며, 이는 모델 복잡도 제어 없이 단순히 손실을 최소화한다.
-* SGD 사용: 각 샘플에 대해 순차적으로 가중치를 업데이트하는 Stochastic Gradient Descent을 사용한다.
+* SGD 사용: 각 샘플에 대해 순차적으로 weight를 업데이트하는 Stochastic Gradient Descent을 사용한다.
 * 고정된 스텝 사이즈: 고정된 스텝 사이즈 1을 사용하여, 데이터가 선형적으로 구분 가능하지 않은 경우 수렴을 보장하지 않다.
 * seperation hyperplane 찾기: 선형적으로 구분 가능한 경우, 퍼셉트론 알고리즘은 양성과 음성을 분리하는 hyperplane을 찾다.
 * 수렴 보장: 데이터셋이 선형적으로 구분 가능하다면 퍼셉트론 알고리즘은 반드시 수렴한다.
@@ -1818,18 +1851,18 @@ $$T_n = \{ (\mathbf{x}_1, y_1), \ldots, (\mathbf{x}_n, y_n) \}$$
 
 * Absolute Loss
 
-절대 Loss Functions는 모델 예측값 $f_{\theta}(\mathbf{x}_i)$와 실제 값 $y_i$ 사이의 절대 차이를 계산합니다:
+절대 Loss Functions는 모델 예측값 $f_{\theta}(\mathbf{x}_i)$와 실제 값 $y_i$ 사이의 절대 차이를 계산한다:
 
 $$\ell_{\text{abs}}(f_{\theta}(\mathbf{x}_i), y_i) = |f_{\theta}(\mathbf{x}_i) - y_i| $$
 
 * Squared Loss
 
-제곱 Loss Functions는 예측값과 실제 값 사이의 차이의 제곱을 계산합니다:
+제곱 Loss Functions는 예측값과 실제 값 사이의 차이의 제곱을 계산한다:
 $$\ell_2(f_{\theta}(\mathbf{x}_i), y_i) = (f_{\theta}(\mathbf{x}_i) - y_i)^2 $$
 
 * $\epsilon$-Insensitive Loss
 
-$\epsilon$-민감 Loss Functions는 예측 오차가 $\epsilon$ 이하인 경우 손실을 0으로 하고, $\epsilon$을 초과하는 오차에 대해서만 패널티를 부과합니다:
+$\epsilon$-민감 Loss Functions는 예측 오차가 $\epsilon$ 이하인 경우 손실을 0으로 하고, $\epsilon$을 초과하는 오차에 대해서만 패널티를 부과한다:
 
 $$
 \ell_{\epsilon}(f_{\theta}(\mathbf{x}_i), y_i) = 
@@ -1845,79 +1878,79 @@ $$
 
 ### Regularizer for Regression
 
-Regression은 사용하는 regularizer도 다르다. Regression에서 정규화는 모델의 복잡도를 제어하고 overfitting을 방지하기 위해 사용됩니다. Regularizer은 Loss Functions에 추가되어 모델 파라미터의 크기를 제한합니다.
+Regression은 사용하는 regularizer도 다르다. Regression에서 Regularizer는 모델의 복잡도를 제어하고 overfitting을 방지하기 위해 사용된다. Regularizer은 Loss Functions에 추가되어 모델 파라미터의 크기를 제한한다.
 
-1. L1 정규화 (L1 Regularization)
-L1 정규화는 파라미터 벡터의 절대값 합을 패널티로 추가합니다:
+1. L1 Regularizer (L1 Regularization)
+L1 Regularizer는 파라미터 벡터의 절대값 합을 패널티로 추가한다:
 $$\Omega_1(\theta) \propto \|\theta\|_1 = \sum_{j=1}^{m} |\theta_j|$$
 
-L1 정규화는 일부 파라미터를 0으로 만들어 모델을 희소하게 만듭니다. 이는 feature selection에도 유용합니다.
+L1 Regularizer는 일부 파라미터를 0으로 만들어 모델을 희소하게 만듭니다. 이는 feature selection에도 유용한다.
 
-1. L2 정규화 (L2 Regularization)
-L2 정규화는 파라미터 벡터의 제곱합을 패널티로 추가합니다:
+1. L2 Regularizer (L2 Regularization)
+L2 Regularizer는 파라미터 벡터의 제곱합을 패널티로 추가한다:
 $$\Omega_2(\theta) \propto \|\theta\|_2^2 = \sum_{j=1}^{m} \theta_j^2$$
 
-L2 정규화는 모든 파라미터를 작게 만들어 모델의 복잡도를 줄입니다. 이는 수치적 안정성을 제공하고, overfitting을 방지합니다 .
+L2 Regularizer는 모든 파라미터를 작게 만들어 모델의 복잡도를 줄이다. 이는 수치적 안정성을 제공하고, overfitting을 방지한다 .
 
 #### Special Cases
 
-Regression에서 특정한 Loss Functions와 Regularizer의 조합으로 다양한 특수한 경우가 존재합니다.
+Regression에서 특정한 Loss Functions와 Regularizer의 조합으로 다양한 특수한 경우가 존재한다.
 
 1. 라쏘 (Lasso)
-라쏘 회귀는 제곱 Loss Functions와 L1 정규화를 결합한 것입니다:
+라쏘 회귀는 제곱 Loss Functions와 L1 Regularizer를 결합한 것이다:
 $$L(\theta) = \sum_{i=1}^{n} \ell_2(f_{\theta}(\mathbf{x}_i), y_i) + \lambda \|\theta\|_1$$
 
-라쏘 회귀는 모델의 희소성을 촉진하여 많은 파라미터를 0으로 만들 수 있습니다. 이는 특징 선택에도 유용합니다.
+라쏘 회귀는 모델의 희소성을 촉진하여 많은 파라미터를 0으로 만들 수 있다. 이는 특징 선택에도 유용한다.
 
 1. 릿지 회귀 (Ridge Regression)
-릿지 회귀는 제곱 Loss Functions와 L2 정규화를 결합한 것입니다:
+릿지 회귀는 제곱 Loss Functions와 L2 Regularizer를 결합한 것이다:
 $$L(\theta) = \sum_{i=1}^{n} \ell_2(f_{\theta}(\mathbf{x}_i), y_i) + \lambda \|\theta\|_2^2$$
 
-릿지 회귀는 모든 파라미터를 작게 유지하여 모델의 복잡도를 줄입니다. 이는 overfitting을 방지하고, 수치적 안정성을 제공합니다.
+릿지 회귀는 모든 파라미터를 작게 유지하여 모델의 복잡도를 줄이다. 이는 overfitting을 방지하고, 수치적 안정성을 제공한다.
 
 1. 엘라스틱 넷 (Elastic Net)
-엘라스틱 넷은 제곱 Loss Functions와 L1 및 L2 정규화를 결합한 것입니다:
+엘라스틱 넷은 제곱 Loss Functions와 L1 및 L2 Regularizer를 결합한 것이다:
 $$L(\theta) = \sum_{i=1}^{n} \ell_2(f_{\theta}(\mathbf{x}_i), y_i) + \lambda \|\theta\|_2^2 + \lambda' \|\theta\|_1$$
 
-엘라스틱 넷은 라쏘와 릿지 회귀의 장점을 결합하여 모델의 희소성과 안정성을 동시에 제공합니다 .
+엘라스틱 넷은 라쏘와 릿지 회귀의 장점을 결합하여 모델의 희소성과 안정성을 동시에 제공한다 .
 
 ### Regularized Empirical Risk Minimization
 
-Regularized Empirical Risk Minimization는 모델의 파라미터를 최적화하여 손실 함수와 정규화 항의 결합을 최소화하는 방법입니다. 이는 모델이 학습 데이터에 대해 과적합하지 않도록 하면서도 예측 성능을 유지하도록 돕습니다.  기본적인 내용은 위에 정리된것과 같다. 
+Regularized Empirical Risk Minimization는 모델의 파라미터를 최적화하여 loss function와 Regularizer 항의 결합을 최소화하는 방법이다. 이는 모델이 학습 데이터에 대해 과적합하지 않도록 하면서도 예측 성능을 유지하도록 돕습니다.  기본적인 내용은 위에 정리된것과 같다. 
 
-Regularized Empirical Risk Minimization는 다음과 같은 형태로 표현할 수 있습니다:
+Regularized Empirical Risk Minimization는 다음과 같은 형태로 표현할 수 있다:
 
 $$ \arg \min_{\theta} \sum_{i=1}^{n} \ell(f_{\theta}(\mathbf{x}_i), y_i) + \lambda \Omega(\theta) $$
 
 여기서:
-- $\ell(f_{\theta}(\mathbf{x}_i), y_i)$: 손실 함수, 모델의 예측값 $f_{\theta}(\mathbf{x}_i)$와 실제 값 $y_i$ 사이의 차이에서 발생하는 비용을 측정합니다.
-- $\Omega(\theta)$: 정규화 항, 모델 파라미터의 복잡도를 제어합니다.
-- $\lambda$: 정규화 항의 가중치를 조절하는 하이퍼파라미터입니다.
+- $\ell(f_{\theta}(\mathbf{x}_i), y_i)$: loss function, 모델의 예측값 $f_{\theta}(\mathbf{x}_i)$와 실제 값 $y_i$ 사이의 차이에서 발생하는 비용을 측정한다.
+- $\Omega(\theta)$: Regularizer 항, 모델 파라미터의 복잡도를 제어한다.
+- $\lambda$: Regularizer 항의 weight를 조절하는 하이퍼파라미터이다.
 
-손실 함수 $\ell(f_{\theta}(\mathbf{x}_i), y_i)$는 모델의 예측값 $f_{\theta}(\mathbf{x}_i)$와 실제 값 $y_i$ 사이의 차이에서 발생하는 비용을 측정합니다.
+loss function $\ell(f_{\theta}(\mathbf{x}_i), y_i)$는 모델의 예측값 $f_{\theta}(\mathbf{x}_i)$와 실제 값 $y_i$ 사이의 차이에서 발생하는 비용을 측정한다.
 
-- **경험적 위험 (Empirical Risk):**
+- **empirical risk (Empirical Risk):**
   $$ R_n(\theta) = \sum_{i=1}^{n} \ell(f_{\theta}(\mathbf{x}_i), y_i) $$
-  이는 주어진 데이터 샘플에 대한 모델의 위험을 측정합니다.
+  이는 주어진 데이터 샘플에 대한 모델의 위험을 측정한다.
 
-- **경험적 위험의 추정치 (Empirical Estimate of Risk):**
+- **empirical risk의 추정치 (Empirical Estimate of Risk):**
   $$ R(\theta) = \int \ell(f_{\theta}(\mathbf{x}), y) \, dP_{\mathbf{x}, y} $$
-  이는 데이터 분포 $P_{\mathbf{x}, y}$에 따른 모델의 위험을 추정합니다.
+  이는 데이터 분포 $P_{\mathbf{x}, y}$에 따른 모델의 위험을 추정한다.
 
-정규화 항 $\Omega(\theta)$는 모델 파라미터의 크기를 제한하여 과적합을 방지하고, 모델의 수치적 안정성을 제공합니다. 정규화 항과 정규화 파라미터 $\lambda \geq 0$는 다음과 같은 역할을 합니다:
+Regularizer 항 $\Omega(\theta)$는 모델 파라미터의 크기를 제한하여 과적합을 방지하고, 모델의 수치적 안정성을 제공한다. Regularizer 항과 Regularizer 파라미터 $\lambda \geq 0$는 다음과 같은 역할을 한다:
 
 - **선호하는 해에 대한 배경 정보 제공 (Background Information about Preferred Solutions):**
-  정규화 항은 특정 해를 선호하게 하여 모델의 일반화 성능을 향상시킵니다.
+  Regularizer 항은 특정 해를 선호하게 하여 모델의 일반화 성능을 향상시킵니다.
 
 - **수치적 안정성 제공 (Provides Numerical Stability):**
-  Tikhonov 정규화와 같이, 정규화 항은 수치적 안정성을 제공하여 모델이 잘못된 방향으로 최적화되지 않도록 합니다.
+  Tikhonov Regularizer와 같이, Regularizer 항은 수치적 안정성을 제공하여 모델이 잘못된 방향으로 최적화되지 않도록 한다.
 
 - **더 엄격한 오류 경계를 허용 (Allows for Tighter Error Bounds):**
-  PAC 이론과 같이, 정규화 항은 모델의 오류 경계를 더 엄격하게 만들어 일반화 성능을 향상시킵니다.
+  PAC 이론과 같이, Regularizer 항은 모델의 오류 경계를 더 엄격하게 만들어 일반화 성능을 향상시킵니다.
 
 ---
 
-정규화된 경험적 위험을 최소화하는 것은 다음과 같은 최적화 문제를 해결하는 것을 의미합니다:
+Regularizer된 empirical risk을 최소화하는 것은 다음과 같은 최적화 문제를 해결하는 것을 의미한다:
 $$ \arg \min_{\theta} \sum_{i=1}^{n} \ell(f_{\theta}(\mathbf{x}_i), y_i) + \lambda \Omega(\theta) $$
 
 선형 모델의 경우:
@@ -1926,11 +1959,11 @@ $$ \arg \min_{\theta} \sum_{i=1}^{n} \ell(\mathbf{x}_i^T \theta, y_i) + \lambda 
 #### 솔루션 방법 (Solution Methods)
 
 - **~~분류 (Classification):~~**
-  - ~~수치적 해결책 (Numerical Solutions): 해석적 해결책이 없는 경우, 경사 하강법(Gradient Descent), 절단 평면법(Cutting Plane Method), 내부 점 방법(Interior Point Method) 등을 사용합니다.~~
+  - ~~수치적 해결책 (Numerical Solutions): 해석적 해결책이 없는 경우, 경사 하강법(Gradient Descent), 절단 평면법(Cutting Plane Method), 내부 점 방법(Interior Point Method) 등을 사용한다.~~
   
 - **회귀 (Regression):**
-  - 제곱 손실과 소수의 속성에 대해 해석적 해결책이 가능합니다.
-  - 확률적 경사 하강법(Stochastic Gradient Descent)과 같은 수치적 해결책은 많은 속성 또는 다른 손실 함수에 대해 사용됩니다.
+  - 제곱 손실과 소수의 속성에 대해 해석적 해결책이 가능하다.
+  - 확률적 경사 하강법(Stochastic Gradient Descent)과 같은 수치적 해결책은 많은 속성 또는 다른 loss function에 대해 사용된다.
 
 #### Empirical Risk: Squared loss
 
@@ -1943,21 +1976,21 @@ $$\ell_2(f_{\theta}(\mathbf{x}_i), y_i) = (f_{\theta}(\mathbf{x}_i) - y_i)^2$$
 $$ R_n(\theta) = \sum_{i=1}^{n} \ell_2(f_{\theta}(\mathbf{x}_i), y_i) = (\mathbf{X\theta-y})^T(\mathbf{X\theta-y})$$
 
 여기서:
-- $\mathbf{X}$는 입력 데이터의 행렬입니다. 각 행은 하나의 데이터 포인트의 특징 벡터를 나타냅니다.
-- $\theta$는 모델의 파라미터 벡터입니다.
-- $\mathbf{y}$는 실제 값 벡터입니다.
+- $\mathbf{X}$는 입력 데이터의 행렬이다. 각 행은 하나의 데이터 포인트의 특징 벡터를 나타냅니다.
+- $\theta$는 모델의 파라미터 벡터이다.
+- $\mathbf{y}$는 실제 값 벡터이다.
 
 왜 행렬 표기법을 사용하는가? (Why Matrix Notation?)
 
-행렬 표기법을 사용하면 다음과 같은 이점이 있습니다:
+행렬 표기법을 사용하면 다음과 같은 이점이 있다:
 - **컴팩트한 표현:** 수식이 간결해집니다.
-- **효율적인 계산:** 행렬 연산을 통해 계산 속도를 높일 수 있습니다.
-- **일관성:** 다양한 선형 대수 기법을 적용할 수 있습니다.
+- **효율적인 계산:** 행렬 연산을 통해 계산 속도를 높일 수 있다.
+- **일관성:** 다양한 선형 대수 기법을 적용할 수 있다.
 
-예를 들어, 데이터 포인트가 두 개이고 각 포인트가 두 개의 특징을 가진다고 가정합니다. $\mathbf{X}$, $\theta$, $\mathbf{y}$는 다음과 같이 정의됩니다:
+예를 들어, 데이터 포인트가 두 개이고 각 포인트가 두 개의 특징을 가진다고 가정한다. $\mathbf{X}$, $\theta$, $\mathbf{y}$는 다음과 같이 정의된다:
 $$ \mathbf{X} = \begin{bmatrix} x_{11} & x_{12} \\ x_{21} & x_{22} \end{bmatrix}, \quad \theta = \begin{bmatrix} \theta_1 \\ \theta_2 \end{bmatrix}, \quad \mathbf{y} = \begin{bmatrix} y_1 \\ y_2 \end{bmatrix} $$
 
-경험적 위험은 다음과 같이 계산됩니다:
+empirical risk은 다음과 같이 계산된다:
 $$ R_n(\theta) = (\mathbf{X}\theta - \mathbf{y})^T (\mathbf{X}\theta - \mathbf{y}) $$
 
 그리고 $\mathbf{X}\theta - \mathbf{y}$는 다음과 같이 계산된다.
@@ -1971,43 +2004,822 @@ $$
 \end{pmatrix}
 $$
 
-이를 통해 모델이 학습 데이터에서 얼마나 잘 동작하는지 평가할 수 있습니다.
+이를 통해 모델이 학습 데이터에서 얼마나 잘 동작하는지 평가할 수 있다.
 
 ### Lasso Regression
 
-라쏘 회귀는 제곱 손실 함수와 L1 정규화를 결합한 형태의 회귀 모델입니다. 이는 일부 회귀 계수를 0으로 만들어 변수 선택 및 모델 해석을 용이하게 합니다.
+라쏘 회귀는 제곱 loss function와 L1 Regularizer를 결합한 형태의 회귀 모델이다. 이는 일부 회귀 계수를 0으로 만들어 변수 선택 및 모델 해석을 용이하게 한다.
 
 #### 최적화 문제 정의
 라쏘 회귀의 목적 함수는 다음과 같습니다:
 $$L(\theta) = \sum_{i=1}^{n} (f_{\theta}(\mathbf{x}_i) - y_i)^2 + \lambda \|\theta\|_1$$
 
 여기서:
-- $\sum_{i=1}^{n} (f_{\theta}(\mathbf{x}_i) - y_i)^2$는 제곱 손실 함수입니다.
-- $\|\theta\|_1$는 파라미터 벡터 $\theta$의 L1 노름입니다.
-- $\lambda$는 정규화 항의 가중치로, 모델의 복잡도를 조절합니다.
+- $\sum_{i=1}^{n} (f_{\theta}(\mathbf{x}_i) - y_i)^2$는 제곱 loss function이다.
+- $\|\theta\|_1$는 파라미터 벡터 $\theta$의 L1 노름이다.
+- $\lambda$는 Regularizer 항의 weight로, 모델의 복잡도를 조절한다.
 
-라쏘 회귀는 convex 최적화 문제로, 유일한 글로벌 최적해를 가지며 이는 효율적인 계산을 가능하게 합니다.
+라쏘 회귀는 convex 최적화 문제로, 유일한 글로벌 최적해를 가지며 이는 효율적인 계산을 가능하게 한다.
 
 ### Ridge Regression
 
-릿지 회귀는 제곱 손실 함수와 L2 정규화를 결합한 형태의 회귀 모델입니다. 이는 모든 회귀 계수를 작게 만들어 과적합을 방지하고 모델의 수치적 안정성을 제공합니다.
+릿지 회귀는 제곱 loss function와 L2 Regularizer를 결합한 형태의 회귀 모델이다. 이는 모든 회귀 계수를 작게 만들어 과적합을 방지하고 모델의 수치적 안정성을 제공한다.
 
 #### 최적화 문제 정의
 릿지 회귀의 목적 함수는 다음과 같습니다:
 $$L(\theta) = \sum_{i=1}^{n} (f_{\theta}(\mathbf{x}_i) - y_i)^2 + \lambda \|\theta\|_2^2$$
 
 여기서:
-- $\sum_{i=1}^{n} (f_{\theta}(\mathbf{x}_i) - y_i)^2$는 제곱 손실 함수입니다.
-- $\|\theta\|_2^2$는 파라미터 벡터 $\theta$의 L2 노름입니다.
-- $\lambda$는 정규화 항의 가중치로, 모델의 복잡도를 조절합니다.
+- $\sum_{i=1}^{n} (f_{\theta}(\mathbf{x}_i) - y_i)^2$는 제곱 loss function이다.
+- $\|\theta\|_2^2$는 파라미터 벡터 $\theta$의 L2 노름이다.
+- $\lambda$는 Regularizer 항의 weight로, 모델의 복잡도를 조절한다.
 
 #### 해석적 해법
 릿지 회귀는 해석적 해법을 가지며, 이는 다음과 같이 주어집니다:
 $$\theta = (\mathbf{X}^T \mathbf{X} + \lambda \mathbf{I})^{-1} \mathbf{X}^T \mathbf{y}$$
 
 여기서:
-- $\mathbf{X}$는 입력 데이터 행렬입니다.
-- $\mathbf{y}$는 실제 값 벡터입니다.
-- $\mathbf{I}$는 항등 행렬입니다.
+- $\mathbf{X}$는 입력 데이터 행렬이다.
+- $\mathbf{y}$는 실제 값 벡터이다.
+- $\mathbf{I}$는 항등 행렬이다.
 
-릿지 회귀의 해석적 해법은 $m \times m$ 행렬의 역행렬을 요구하며, 이는 속성 수가 적을 때 실용적입니다. 속성이 많은 경우, 확률적 경사 하강법과 같은 수치적 방법을 사용하는 것이 좋습니다    .
+릿지 회귀의 해석적 해법은 $m \times m$ 행렬의 역행렬을 요구하며, 이는 속성 수가 적을 때 실용적이다. 속성이 많은 경우, 확률적 경사 하강법과 같은 수치적 방법을 사용하는 것이 좋습니다    .
+
+
+## Model Evaluation
+
+만들어진 Model은 학습데이터로 트레이닝을 하게 되고, 모델 $f\theta$가 학습된 이후, 새로운 인스턴스 x에 대한 예측을 수행할 수 있다. 
+
+학습이 끝나게 되면, 우리의 모델이 예측을 얼마나 "잘" 수행하는지 평가해야한다. 이는 일반적으로 test 세트라고 하는 별도의 데이터셋에서 모델의 성능을 평가함으로써 이루어질 수 있다.
+
+모델을 평가하기위해선 데이터에 대한 중요한 가정이 선행된다. **데이터가 알려지지 않은 어떤 단일 분포 p(x,y)에 따라 추출된다는 것이다.** 여기에는 **IID assumption** 또한 포함되는데, 이는 데이터 포인트가 서로 독립적으로, 동일한 분포에서 추출된다는 가정이다. **그러니까 model evaluation에서는 이 IID assumtion을 따르는지를 잘 평가해야한다.** 
+
+독립적 추출이란 말은 다음과 같다.
+
+$$p(x_{i+j},y_{i+j}|x_i,y_i) = p(x_{i+j},y_{i+j})$$
+
+이에 반대되는 예시로는, 무작위로 선택된 고정 위치에서 조사된 사람들을 예로 들 수 있겠다. 이 경우 사람들은 같은 지리적 위치에서 선택되었으므로, 그들의 특성이 서로 의존적일 수 있다. 이러한 경우는 IID Assumption에 위배되어 모델의 성능 평가나 일반화에 영향을 줄 수 있다. 
+
+동일한 분포라는 말은 다음과 같다.
+
+$$\forall i: (x_i,y_i) \sim p(x,y)$$
+
+또 반대를 예로 들어보자면, 샘플중 첫 반은 실험실 데이터, 나머지 반은 야생 데이터인 경우이다. 이경우엔 매치가 안될수도 있다. 
+
+### Loss function
+
+이미 위에서 많이 보았듯이, 다음과 같은 형태를 가진다.
+
+$$\ell(f_\theta(x_i), y_i)$$ 
+
+얼마나 우리 모델의 예측이 등신같은가, 실제와 얼마나 차이가 나는가를 나타내는 함수라고 하겠다.. 뭐 classification의 [zero-one loss](#loss-function)나 regression의 [quadratic loss](#uncertainty)가 있겠다. 이거말고도 뭐 [perceptron loss](#perceptron), [hinge loss](#loss-functions-for-classification), [epsilon insensitive loss](#loss-functions-for-regression).. 등등이 있겠다.
+
+
+### Risk
+
+- 모델$f_\theta$의 Risk는 기저 분포 (어떤 분포인지 아직은 모름) $p(x, y)$에 대한 **기대 손실**이다.
+
+**Finite set 𝑌 (classification):**
+- 
+  $$
+  R(\theta) = \mathbb{E}_{(x, y) \sim p(x, y)}[\ell(x, y)] = \sum_{y \in Y} \int \ell(f_\theta(x), y) p(x, y) \, dx
+  $$
+
+  R // 어떤 분포를 따르는 x와 y들의 loss의 기댓값은 // x의 loss가 일어날 확률의 적분, 모든 클래스에 대한 합이다. 
+
+  finite는 불연속적인 값이라 sum으로 계산이 된다. 
+
+**Infinite 𝑌 (regression):**
+
+- 
+  $$
+  R(\theta) = \mathbb{E}_{(x, y) \sim p(x, y)}[\ell(x, y)] = \int \int \ell(f_\theta(x), y) p(x, y) \, dx \, dy
+  $$
+
+  위와는 달리 적분 적분이다. 연속적인 값이라 적분으로 들어간다. 
+
+
+- Expected zero-one loss (제로-원 loss function에 대한 Risk )은 **error rate**이라고 한다.
+- **1-error rate**의 보완적인 값은 accuracy이다.
+
+일반적으로 Risk 을 결정하는 것은 불가능하다:
+
+- $p(x, y)$가 알려져 있지 않다. 
+  - 절대로 알려지지 않는다. 분포는 보통 데이터를 통해 추정되는데, 모든 상황에 대해 완벽한 분포를 형성하는 데이터를 얻을 수 없기 때문이다. 따라서 모델의 risk를 정확히 추정하는것이 불가능하다. 
+- 모든 인스턴스 $x$ 에 대해 적분하는 것은 일반적으로 불가능하다.
+  - risk를 계산하기 위해선 모든 가능한 x와 y에 대해 적분을 수행해야하는데, 값들이 무한한 가능성을 가졌기 때문에 적분을 하는것이 계산상 불가능하다. 근사치만 계산 가능. 
+
+**위와같은 이유로!** 우리는 Risk를 계산하지 않고, Empirical risk를 사용한다. 샘플의 분포를 바탕으로, 분포를 추정하고 그에대해 empirical risk를 이용한다...
+
+$$\hat{R}_S(\theta) = \frac{1}{n}\sum^{n}_{i=1}ℓ(f_\theta(x_i,y_i))$$
+
+이 empirical risk는 통계적으로는 random variable이다. 인스턴스 S에 종속적이다. 만약, 인스턴스 S가 IID 가정에 따라 모두 독립적으로, 동일한 분포 $S \sim p(x,y)$에서 얻어졌다면, empirical risk는 이 분포의 product인 $p(x,y)^n$으로 나타날 수 있다. 
+
+
+### Estimator
+
+통계의 컨셉에서, 대충 qunatity를 추정할 수 있는 모든 rule을 보고 estimator라고 한다. 따라서, 전체의 risk를 추정하는 empirical risk 또한 estimator의 한 예라고 할 수 있다. 굉장히 루즈한 정의이다.. 
+
+만약 estimator의 기댓값이 실제 qunatity와 같다면, 이 estimator는 **unbiased**이다. 다음과 같이 표현된다:
+
+$$\hat{R}(\theta)\text{ is unbiased} \Leftrightarrow E_{S\sim p(x,y)^n}\left[ \hat{R}_S(\theta)\right] = R(\theta)$$
+
+E는 물론 expected value이다. 대충 기댓값 E의 empirical risk가 실제 risk와 동일하다는 뜻이다. 
+
+만약 estimator가 unbiased가 아니고 bias를 가진다면, bias B는 다음과 같이 표현된다. :
+
+$$B \left(\hat{R}(\theta)\right) = E_{S\sim p(x,y)^n}\left[ \hat{R}_S(\theta)\right] - R(\theta)$$
+
+empirical risk에서 true risk를 뺀 값이 바로 bias이다.
+
+이 empirical risk들은 상황에 따라 여러 이름을 가진다.
+
+- **무편향 추정량(Unbiased Estimator)**:
+  - empirical 위험은 다음 조건을 만족할 때 무편향 추정량이다:
+    $$
+    \mathbb{E}_{S \sim p(x, y)} [R_S(\theta)] = R(\theta)
+    $$
+
+- **낙관적 추정량(Optimistic Estimator)**:
+  - empirical 위험이 낙관적 추정량이라는 것은 다음을 의미한다:
+    $$
+    \mathbb{E}_{S \sim p(x, y)} [R_S(\theta)] - R(\theta) < 0
+    $$
+    즉, 샘플 데이터에 대한 위험 추정이 실제 위험보다 낮을 경우를 말한다.
+
+- **비관적 추정량(Pessimistic Estimator)**:
+  - empirical 위험이 비관적 추정량인 경우는 다음과 같습니다:
+    $$
+    \mathbb{E}_{S \sim p(x, y)} [R_S(\theta)] - R(\theta) > 0
+    $$
+    즉, 샘플 데이터에 대한 위험 추정이 실제 위험보다 높을 경우를 말한다.
+
+그러니까, bias란 risk와 empirical risk 사이의 어떤 시스템적인 offset이라는 뜻이다. 이는 empirical risk를 결정하는데 사용된 특정 실험적 설정이나, 계산 등에 의해 발생할 수 있다. 큰 bias가 있는 경우, risk는 너무 낮게 혹은 너무 높게 추정될 수 있다.
+
+이런 Estimator의 variance 또한 중요한 값중에 하나이다. 
+
+$$Var[\hat{R}_S(\theta)] = E_{S\sim p(x,y)^n}\left[(R(\theta)-\hat{R}_S(\theta))^2\right]$$
+
+이 variance는 empirical risk와 true risk가 얼마나 다른지를 측정한다. 위 $(R(\theta)-\hat{R}_S(\theta))^2$를 많은 샘플에 대해 여러번 계산하면, expected value를 얻을 수 있다. 이는 bias에서와 같은 procedure이다. 그러니까 얼마나 empirical risk가 다양한가, 퍼져있는가를 의미할 수 있겠다. 
+
+이 variance는 estimator가 유한한 샘플에 기반하여 계산되기 때문에 발생한다. 사용된 데이터 샘플의 크기가 작을수록 estimator간의 차이가 크게 나타날 수 있다. variance가 크다면, empirical risk가 risk를 잘 추정하지 못한다고 할수있겠다. 
+
+bias가 큰것과 variance가 큰것은 다르다. 아래 그림으로 잘 나타난다.
+
+![](./images/bver.PNG)
+
+위의 $E_{S\sim p(x,y)^n}\left[(R(\theta)-\hat{R}_S(\theta))^2\right]$ 부분을 estimation error라고 하는데, 이는 다음과정을 거쳐 bias와 variance로 분해될 수 있다.
+
+
+$$
+\begin{align*}
+&\mathbb{E}_{S \sim p(x, y)}[(R_S(\theta) - R(\theta))^2] \\
+&= \mathbb{E}[R_S(\theta)^2] - 2R(\theta)\mathbb{E}[R_S(\theta)] + R(\theta)^2 \\
+&= \mathbb{E}[R_S(\theta)^2] - 2R(\theta)\mathbb{E}[R_S(\theta)] + R(\theta)^2 + \mathbb{E}[R_S(\theta)^2] - \mathbb{E}[R_S(\theta)^2] \\
+&= (\mathbb{E}[R_S(\theta)] - R(\theta))^2 + (\mathbb{E}[R_S(\theta)^2] - \mathbb{E}[R_S(\theta)]^2) \\
+&= \text{Bias}(R(\theta))^2 + \text{Var}(R_S(\theta))
+\end{align*}
+$$
+
+그러나, Risk은 모델의 성능을 평가하는 데 중요한 척도이지만, 모든 상황에서 의미 있는 척도가 되지는 않는다. 특히, loss function를 의미 있게 정의하기 어려운 경우나, 없던가, 특정 클래스가 매우 드문 경우, risk를 기반으로 한 평가가 적합하지 않을 수 있다. 이러한 상황에서 대안적인 성능 Measures가 필요하다.
+
+- 예를 들어, 지뢰 탐지기의 경우 '지뢰가 터지는 비용'을 수치화하기 어렵습니다. 반대로 지뢰 탐지기가 항상 "여기에 지뢰가 있을 수 있다"라고 말한다면 그것은 쓸모가 없습니다.
+- 희귀 클래스에 대해서는 에러율이나 정확도만으로는 충분하지 않습니다. 예를 들어, 대부분의 나라에서 지진 예측 도구가 "오늘은 지진이 없을 것이다"라고 말하면 99.9% 이상의 정확도를 보일 수 있지만, 이는 지진 예측의 유용성을 제대로 반영하지 못한다.
+
+**Precision-recall curves**와 **ROC curves**가 대안이 될 수 있다. 
+
+### Precision and Recall
+
+이진 분류 문제에서 중요한 성능 평가 지표인 **precision**와 **recall**은 특히 불균형 데이터셋이나 중요한 비용이 따르는 예측에서 유용하다. 예를 들어, 희귀 질병을 진단하는 의료 진단 시스템에서 활용된다.
+
+ **precision와 recall의 정의**
+
+- **precision (Precision)**: 예측된 양성(질병이 있다고 진단된 경우) 중 실제로 양성인 케이스의 비율이다. 잘못된 양성 예측의 비용이 높을 때 중요한 지표이다.
+  $$
+  \text{Precision} = \frac{\text{True Positives}}{\text{True Positives} + \text{False Positives}}
+  $$
+
+- **recall (Recall)**: 실제 양성인 케이스 중에서 양성으로 올바르게 예측된 비율이다. 놓친 양성 예측의 비용이 높을 때 중요한다.
+  $$
+  \text{Recall} = \frac{\text{True Positives}}{\text{True Positives} + \text{False Negatives}}
+  $$
+
+
+예를 들어 희귀 질병 진단 시스템에서:
+- **True Positives (TP)**: 환자가 질병이 있고 (𝑦𝑖 = +1), 분류기가 질병이 있다고 올바르게 진단 (𝑦𝜃 𝐱𝑖 = +1)
+- **False Positives (FP)**: 환자가 건강하지만 (𝑦𝑖 = −1), 분류기가 질병이 있다고 잘못 진단 (𝑦𝜃 𝐱𝑖 = +1)
+- **True Negatives (TN)**: 환자가 건강하고 (𝑦𝑖 = −1), 분류기가 건강하다고 올바르게 인식 (𝑦𝜃 𝐱𝑖 = −1)
+- **False Negatives (FN)**: 환자가 질병이 있지만 (𝑦𝑖 = +1), 분류기가 질병을 놓침 (𝑦𝜃 𝐱𝑖 = −1)
+
+precision와 recall은 특정 상황에서 어떤 지표를 더 중시할지에 따라 선택이 달라질 수 있다. 예를 들어, 질병을 놓치는 것이 큰 위험을 초래한다면 recall을 중시할 것이며, 반대로 건강한 사람을 질병이 있다고 잘못 진단하는 것이 큰 문제가 되는 경우 precision를 더 중요시할 수 있다.
+
+![](./images/prcurv.PNG)
+
+Precision-Recall (precision-recall) 곡선은 Decision function의 성능을 threshold $\theta_0$에 독립적으로 평가할 수 있게 해준다. Precision-Recall 곡선은 다양한 threshold $\theta_0$에 대해 precision와 recall의 쌍을 보여줌으로써, 결정 함수가 어떻게 다른 threshold에 반응하는지를 시각적으로 나타낸다.
+
+threshold $\theta_0$를 변화시키면 precision과 recall 사이의 균형을 조정할 수 있다. 임계값을 낮추면 recall은 증가하지만 precision는 감소할 수 있으며, 임계값을 높이면 precision는 증가하지만 recall은 감소할 수 있다. 
+
+두 결정 함수 A와 B를 비교할 때, **곡선 아래 면적(Area Under the Curve, AUC)이 더 큰 함수가 일반적으로 더 좋은 성능을 가진 것으로 간주**된다. 이는 그 함수가 더 높은 precision와 recall을 동시에 달성할 수 있음을 의미한다. 이 그림에서는 즉 A가 낫다고 볼 수 있겠다. 
+
+### F measures
+
+F measures는 precision과 recall을 하나의 값으로 결합한 measure이다. 저 둘을 single scalar value로 표현할 수 있는것이다. 이 둘은 harmonic mean으로 계산되며, 클래스 불균형이 있는 경우 유용하게 사용된다. 여기에는 또 $F_\alpha$와 $F_\beta$가 있다. 
+
+- $F_\alpha$
+
+
+$$F_\alpha = \frac{n_{TP}}{\alpha(n_{TP} + n_{FP}) + (1 - \alpha)(n_{TP} + n_{FN})}$$
+
+분모의 앞이 precision의 dominator이고, 뒷부분이 recall을 의미한다. 따라서:
+
+- **𝛼 값의 의미**:
+  - $\alpha = 1$: 완전히 precision를 강조한다.
+  - $\alpha = 0$: 완전히 recall을 강조한다.
+  - $\alpha = 0.5$: precision와 recall의 harmonic mean을 나타내며, 이것을 보통 **F measure**라고 부름.
+
+
+- $F_\beta$
+
+보통 $\alpha = \frac{1}{1+\beta}$의 관계를 가진다.
+
+- **$F_\beta$ 점수**는 𝛼 대신 $\beta$를 사용하여 precision와 recall 사이의 상대적 중요성을 조정한다. 여기서 $\beta$는 recall의 중요성을 나타낸다.
+  $$
+  F_\beta = \frac{(1 + \beta^2) \cdot \text{Precision} \cdot \text{Recall}}{\beta^2 \cdot \text{Precision} + \text{Recall}}
+  $$
+  $\beta > 1$인 경우 recall이 더 중요하다는 것을 의미하며, $\beta < 1$인 경우 precision가 더 중요한다.
+
+이 F measure는 precision-recall curve를 조합하는게 아니라, 그 커브 위의 싱글 포인트를 의미한다. 따라서, decision threshold $\theta_0$로부터 결정되는 그 포인트에 대해 상당히 많이 영향받는다.
+
+머신러닝에서 F measure를 최대화하는 어플리케이션은 딱히 뭐 없다고 봐도된다. 만약에 있는경우, 저 임계값 세타가 매우 중요하겟죵? 
+
+### ROC Analysis
+
+얘는 decision function이 negative instances에서 threshold value $\theta_0$에 독립적으로 얼마나 positive애들을 잘 분류하나를 나타내는 alternative measure이다. 마찬가지로 이진 분류 문제에서 쓰인다. Sensitivity와 specificity로 나뉜다. 
+
+![](./images/roc.PNG)
+
+- **True Positive Rate, TPR**:
+  $$
+  TPR(SE) = \frac{n_{TP}}{n_{TP} + n_{FN}}
+  $$
+  - 전체 양성 사례 중에서 올바르게 예측된 비율, sensitivity라고도 함(SE)
+  - 질문: "분류기가 양성 사례를 얼마나 잘 감지하는가?"
+
+- **False Positive Rate, FPR**:
+  $$
+  FPR(SP) = \frac{n_{FP}}{n_{FP} + n_{TN}}
+  $$
+  - 전체 음성 사례 중에서 잘못 예측된 비율, specificity라고도 함(SP)
+  - 질문: "분류기가 음성 사례를 얼마나 많이 양성으로 잘못 분류하는가?"
+
+**ROC 곡선**은 임계값 $\theta_0$의 변화에 따라 TPR과 FPR의 쌍을 플롯하여 모델의 성능을 평가한다. 각 곡선은 특정 결정 함수 $f_\theta$를 특징으로 하며, 곡선 위의 각 점은 특정 $\theta_0$ 값에 해당하는 분류 규칙을 나타냅니다.
+
+
+- **두 결정 함수 A와 B 비교**: AUC(곡선 아래 면적)이 더 큰 함수가 일반적으로 더 나은 성능을 나타냅니다.
+- **동일 오류율(Equal Error Rate, EER)**: $r_{TP} = 1 - r_{FP}$ 일 때의 값
+- **곡선의 스칼라 합치기**: ROC 곡선 아래의 면적 (AUC)
+
+**AUC**는 다음과 같은 확률로 정의된다:
+  $$
+  AUC(\theta) = P(f_\theta(x^+) > f_\theta(x^-))
+  $$
+  - AUC는 무작위로 선택된 positive 인스턴스가 무작위로 선택된 negative 인스턴스보다 높은 점수를 가질 확률을 나타냅니다.
+
+- ROC 곡선과 AUC는 클래스 비율에 대해 불변이다.
+- 클래스 비율이 시간에 따라 변할 때, ROC 곡선과 AUC는 변하지 않지만, 오류율과 정밀도-재현율 곡선은 변할 수 있다.
+
+### Evaluation Protocols
+
+대부분, 모델 $f_\theta$는 주어지지 않고, evaluation data 또한 p(x,y)로 부터 추출되지도 않는다. 이 경우, 데이터 S를 학습과 평가에 모두 사용한다. 이로써 모델의 risk 추정치를 얻는다.
+
+1. 모델 학습 및 평가
+
+   - **모델 $f_\theta$**:
+     - 일반적으로 주어진 데이터 $S = (x_1, y_1), ..., (x_n, y_n)$와 학습 방법을 통해 모델을 학습한다.
+     - 학습 데이터와 평가 데이터는 동일한 분포에서 가져올 수 없습니다.
+
+   - **평가 데이터의 필요성**:
+     - 데이터 $S$는 학습과 평가에 사용되어야 한다.
+     - 원하는 출력: 모델 $f_\theta$와 risk 추정치.
+
+2. 동일 데이터로 학습 및 평가
+
+   - **질문**: 모델 $f_\theta$를 $S$에서 학습한 후 동일한 데이터에서 평가할 수 있는가?
+   - **risk 평가**:
+     - $R_S(\theta)$는 편향되지 않은가? 낙관적인가? 비관적인가?
+
+3. 모델 risk의 분포
+
+   - **모든 모델 $\theta_i \in \Theta$**:
+     - 각 모델은 risk $R(\theta_i)$를 가집니다.
+     - empirical risk $R_S(\theta_i)$는 평균값 $R(\theta_i)$를 갖는 분포를 따릅니다.
+
+        ![](./images/ep1.PNG)
+
+4. 모델 운
+
+   - **운이 좋은 모델과 운이 나쁜 모델**:
+     - 일부 모델은 운이 좋아서 empirical risk이 낮게 나타나며(위), 일부는 운이 나쁘게 나타납니다 (아래).
+     - 학습 알고리즘은 작은 empirical risk을 가진 모델을 선택한다.
+     - 이 경우 대부분의 모델의 empirical risk은 낙관적인 추정치이다.
+
+        ![](./images/ep2.PNG)
+
+5. Selection Bias
+
+   - **Selection Bias**:
+     - 학습 알고리즘은 작은 empirical risk을 가진 모델을 선택한다.
+     - 선택된 모델의 empirical risk은 실제 risk보다 작게 나타날 수 있다. 그림에서도 볼 수 있듯 아래 점이 있는 위치 위에 넓은 공간이 있고, 모두 true risk일 수 있는 공간이다.
+     - 이는 Selection Bias을 초래하며, 학습 데이터에서의 empirical risk은 낙관적일 수 있다.
+
+      ![](./images/ep3.PNG)
+
+
+### Holdout Testing
+
+**Holdout Testing**는 모델 평가를 위해 주어진 데이터셋을 학습 데이터와 테스트 데이터로 나누는 간단한 방법이다. 이를 통해 독립적인 테스트 데이터를 사용하여 모델의 성능을 추정할 수 있다.
+
+**절차**
+
+1. **데이터 분할**:
+   - 주어진 데이터 $S = \{(x_1, y_1), ..., (x_n, y_n)\}$ 를 학습 데이터 $L = \{(x_1, y_1), ..., (x_m, y_m)\}$ 와 테스트 데이터 $T = \{(x_{m+1}, y_{m+1}), ..., (x_n, y_n)\}$ 로 나눕니다.
+
+2. **모델 학습**:
+   - 학습 데이터 $L$ 을 사용하여 학습 알고리즘을 실행하고, 모델 $f_{\theta'}$ 를 얻습니다.
+
+3. **empirical risk 추정**:
+   - 테스트 데이터 $T$ 를 사용하여 모델 $f_{\theta'}$ 의 empirical risk $\hat{R}_T(\theta')$ 를 결정한다.
+
+4. **최종 모델 학습**:
+   - 모든 데이터 $S$ 를 사용하여 학습 알고리즘을 다시 실행하고, 최종 모델 $f_{\theta}$ 를 얻습니다.
+
+5. **출력**:
+   - 최종 모델 $f_{\theta}$ 와 $R_T(\theta')$ 를 모델의 위험 추정치로 출력한다. 그러니까 우리는 트레이닝세트로부터 얻은 empirical risk와 전체 데이터세트를 이용한 모델을 얻는거다.. 
+
+    ![](./images/hout.PNG)
+
+**분석**
+
+- **편향 여부**:
+  - 위험 추정치 $R_T(\theta')$ 는 편향되지 않았는가? 낙관적인가? 비관적인가?
+
+- **데이터 사용의 영향**:
+  - empirical risk $R_T(\theta')$ 는 사용 가능한 데이터의 작은 부분에서 얻어집니다. 그러니까 risk가 실제보다는 조금 더 높을것이다. -> pesimistic
+  - 따라서, 전체 샘플이 작을 경우 분산이 상대적으로 높습니다.
+
+- **실제 사용 사례**:
+  - Holdout Testing은 큰 샘플을 사용할 때 실용적이다.
+
+**한계**
+
+- **empirical risk의 비관적 추정**:
+  - empirical risk $R_T(\theta')$ 는 실제 위험 $R(\theta)$ 에 비해 비관적인 추정치이다.
+  - 이는 $\theta'$ 가 더 적은 학습 데이터로 학습되었기 때문이다.
+
+- **모델 $\theta'$  반환**:
+  - 대신 모델 $\theta'$ 를 반환할 수도 있다.
+  - 이 경우, empirical risk $R_T(\theta')$ 는 $R(\theta')$ 의 편향되지 않은 추정치가 된다.
+  - 그러나 $\theta'$ 는 더 적은 데이터로 학습되어 열등한 모델이 될 가능성이 있다.
+
+Holdout Testing은 단순하고 직관적인 방법이지만, 데이터의 크기와 분할 방식에 따라 결과의 신뢰도가 달라질 수 있다. 특히, 데이터 샘플이 작을 때는 분산이 높아질 수 있어 주의가 필요하다.
+
+### K-Fold Cross Validation
+
+**K-Fold Cross Validation**은 모델의 성능을 평가하는 데 널리 사용되는 방법이다. 이 방법은 데이터를 여러 개의 부분으로 나누고, 각 부분을 한 번씩 테스트 세트로 사용하여 모델을 평가한다. 이 과정은 데이터 샘플의 크기에 따른 과적합을 방지하고 모델의 일반화 성능을 측정하는 데 도움을 줍니다.
+
+K 폴드 교차 검증은 가장 보편적으로 사용되는 교차 검증 기법으로, K 개의 데이터 폴드 세트를 만들어서 K 번만큼 각 폴드 세트에 학습과 검증 평가를 반복적으로 수행하는 방법이다. 만약 K=5로 설정하여 5 폴드 교차 검증을 수행하는 경우, 5개의 폴드된 데이터 세트를 학습과 검증을 위한 데이터 세트로 변경하면서 5번 평가를 수행한 뒤, 이 5개의 평가를 평균한 결과를 가지고 예측 성능을 평가한다. 5 폴드 교차 검증 과정은 다음과 같다.
+
+1. 데이터 세트를 5등분 한다. 
+
+2. 1~4번째 등분을 학습 데이터로, 5번째 등분 하나를 검증 데이터 세트로 설정하고 평가를 수행한다.
+
+3. 1~3번 등분과 5번 등분을 학습 데이터로, 4번 등분을 검증 데이터 세트로 설정하고 평가를 수행한다.
+
+4. 학습 데이터 세트와 검증 데이터 세트를 점진적으로 변경하면서 5번째까지 검증을 수행한다.
+
+5. 5개의 예측 평가를 평균해 K 폴드 평가 결과로 반영한다.
+
+$$\hat{R}_S = \frac{1}{k}\sum_{i}\hat{R}_{S_i}(\theta_i)$$
+
+![](./images/kford.PNG)
+
+
+### Leave-One-Out Cross Validation (LOOCV)
+
+**Leave-One-Out Cross Validation (LOOCV)**는 K-Fold Cross Validation의 특수한 경우로, 데이터셋의 각 데이터 포인트를 한 번씩 테스트 데이터로 사용하고 나머지 데이터를 학습 데이터로 사용하는 방법이다. 이는 데이터셋의 크기가 $n$일 때, $k$를 $n$으로 설정한 K-Fold Cross Validation과 같습니다.
+
+ **절차**
+
+1. **데이터 분할**:
+   - 주어진 데이터 $S = \{(x_1, y_1), \ldots, (x_n, y_n)\}$에서 각 데이터 포인트를 한 번씩 테스트 데이터로 사용한다.
+
+2. **반복 과정**:
+   - 각 반복 $i$에 대해 (총 $n$ )번 반복):
+     - 학습 데이터: $S$에서 데이터 포인트 $(x_i, y_i)$를 제외한 나머지 데이터를 학습 데이터로 사용하여 모델 $f_{\theta_i}$를 학습한다.
+       $$
+       S_{train} = S \setminus \{(x_i, y_i)\}
+       $$
+     - 테스트 데이터: 데이터 포인트 $(x_i, y_i)$를 테스트 데이터로 사용하여 모델 $f_{\theta_i}$의 경험적 위험 $R_{\{(x_i, y_i)\}}(\theta_i)$를 계산한다.
+       $$
+       R_{\{(x_i, y_i)\}}(\theta_i) = \text{Empirical risk on } \{(x_i, y_i)\}
+       $$
+
+3. **평균 위험 계산**:
+   - 모든 반복이 완료되면 각 반복에서 계산된 경험적 위험의 평균을 구한다.
+     $$
+     R_S = \frac{1}{n} \sum_{i=1}^n R_{\{(x_i, y_i)\}}(\theta_i)
+     $$
+
+![](./images/leaveone.PNG)
+
+ **예시**
+
+주어진 데이터 $S$가 5개의 데이터 포인트로 구성되어 있다고 가정한다. LOOCV를 수행하면 다음과 같이 진행됩니다:
+- 첫 번째 반복: 첫 번째 데이터 포인트 $(x_1, y_1)$를 테스트 데이터로 사용하고 나머지 4개의 데이터 포인트를 학습 데이터로 사용한다.
+- 두 번째 반복: 두 번째 데이터 포인트 $(x_2, y_2)$를 테스트 데이터로 사용하고 나머지 4개의 데이터 포인트를 학습 데이터로 사용한다.
+- 이 과정을 데이터셋의 모든 데이터 포인트에 대해 반복한다.
+- 최종적으로 5번의 평가 결과를 평균내어 모델의 성능을 추정한다.
+
+**LOOCV의 장점**
+
+- **모델의 일반화 성능 측정**:
+  - 데이터의 모든 부분을 한 번씩 테스트 데이터로 사용하므로, 데이터셋 전체를 활용하여 모델의 일반화 능력을 평가할 수 있다.
+  
+- **편향이 적음**:
+  - LOOCV는 데이터의 최대 부분을 학습 데이터로 사용하므로, 학습 데이터에 대한 편향이 적습니다.
+
+**LOOCV의 단점**
+
+- **계산 비용**:
+  - 각 데이터 포인트를 테스트 데이터로 사용하여 $n$번의 학습 및 평가를 수행해야 하므로, 계산 비용이 매우 높습니다. 특히 데이터셋의 크기가 큰 경우 시간이 많이 소요될 수 있다.
+
+- **분산이 큼**:
+  - 단일 데이터 포인트에 의한 평가 결과가 전체 평가 결과에 큰 영향을 미칠 수 있으므로, 결과의 분산이 클 수 있다.
+
+Leave-One-Out Cross Validation은 데이터셋의 각 데이터 포인트를 한 번씩 테스트 데이터로 사용하여 모델의 성능을 평가하는 방법이다. 이 방법은 데이터의 모든 부분을 활용하여 모델의 일반화 능력을 평가할 수 있지만, 계산 비용이 높고 결과의 분산이 클 수 있다. LOOCV는 데이터셋의 크기가 작을 때 유용하게 사용될 수 있다.
+
+
+**Cross Validation**
+
+K-Fold Cross Validation와 Leave-One-Out Cross Validation는 모두, 사용가능한 데이터의 (k-1)/k부분에서 학습된다. 반면에, 모델은 전체 데이터에서 학습된다. 따라서, 부분 데이터셋으로 학습된 모델은 전체 데이터로 학습된 모델보다 성능이 떨어지고, 따라서 estimator는 pesimistic하다. 이는 모델의 일반화 성능을 더 정확하게 평가할 수 있다. 비록 추정량이 약간 비관적일 수 있지만, 전체 데이터의 다양한 부분을 사용하여 모델을 평가함으로써 분산을 줄일 수 있다. 
+
+
+### Model Selection
+
+모델 선택(Model Selection)은 여러 학습 접근법을 비교하고 최적의 모델을 선택하는 과정을 의미한다. 모델 선택 과정은 다음과 같은 단계로 이루어집니다:
+
+1. **여러 학습 접근법 비교**:
+    - 결정 트리를 사용할 것인가?
+    - SVM(서포트 벡터 머신)을 사용할 것인가?
+    - 로지스틱 회귀를 사용할 것인가?
+
+2. **학습 접근법을 위한 Regularizer 파라미터 설정**:
+    - 예를 들어, Regularizer된 경험적 위험 최소화를 위한 $\lambda$ 값을 설정한다.
+    $$
+    \theta^* = \arg\min_\theta \left( \sum_{i=1}^n \ell(f_\theta(x_i), y_i) + \lambda \|\theta\|^2 \right)
+    $$
+
+**Model Selection: Example**
+
+- **Regularizer 파라미터 $\lambda$**:
+    - 최적화 기준에서의 Regularizer 파라미터 $\lambda$
+    $$
+    \theta^* = \arg\min_\theta \left( \sum_{i=1}^n \ell(f_\theta(x_i), y_i) + \lambda \|\theta\|^2 \right)
+    $$
+- **모델 클래스를 지정하는 (하이퍼)파라미터**:
+    - 예: 다항 회귀의 차수 $d$
+    $$
+    f_\theta(x) = \sum_{j=0}^d \theta_j x^j
+    $$
+- **원하는 출력**:
+    - 하이퍼파라미터 ($\lambda, d$), 모델 $f_\theta$, 모델의 위험 추정치
+- **사용 가능한 데이터를 활용하여 이를 달성하는 방법**
+
+**Example: Polynomial Regression**
+
+![](./images/plyr.PNG)
+
+- **다항 모델의 차수 $d$**:
+    $$
+    f_{\theta_d}(x) = \sum_{j=0}^d \theta_j x^j
+    $$
+- **Regularizer된 경험적 위험 최소화**:
+    $$
+    \theta^* = \arg\min_\theta \left( \sum_{i=1}^n (f_{\theta_d}(x_i) - y_i)^2 + \lambda \|\theta\|^2 \right)
+    $$
+
+**Learned Model vs. Actual Model**
+
+- 학습된 모델은 실제 모델과 데이터 포인트 (실제 모델에 가우시안 노이즈를 추가한 것)와 비교됩니다.
+- 예시: $d = 3, \lambda = 0$
+    - $y$와 $x$에 대한 그래프를 통해 비교한다.
+
+**Polynomial Regression**
+
+- 학습의 성공 여부는 선택된 다항식 차수 $d$에 따라 달라지며, 이는 모델의 복잡도를 제어한다.
+
+![](./images/plyr2.PNG)
+
+오른쪽 하단이 overfitting의 예시이다. 
+
+**Polynomial Regression: Empirical Risk on Training vs. Test Sample**
+
+- **훈련 데이터 vs. 테스트 데이터에 대한 경험적 위험**:
+    - 서로 다른 다항식 차수에 대한 훈련 데이터와 테스트 데이터의 경험적 위험을 비교한다.
+- **과적합(Overfitting)**:
+    - 훈련 데이터에 대한 경험적 위험은 $d$가 증가함에 따라 감소한다.
+    - 그러나 테스트 데이터에 대한 경험적 위험은 최소값을 가지다가 다시 증가한다.
+
+**Example: Polynomial Regression**
+
+- **더 많은 데이터가 사용 가능할 경우**:
+    - 더 복잡한 모델을 적합시킬 수 있다.
+- **고정된 데이터 양을 고려할 때**:
+    - 최적의 $d$ 값을 찾아야 한다.
+
+**Example: Polynomial Regression with Regularization**
+
+- **Regularization factor $\lambda$**:
+    - $\lambda$는 $d$와 유사한 효과를 가지며, 둘 다 모델 복잡성을 제한한다.
+- **Regularizer된 다항 회귀**:
+    - Regularizer가 없는 경우($\lambda = 0$)와 Regularizer가 있는 경우($\lambda \neq 0$)의 비교
+    - 예시: $d = 9, \ln \lambda = -18$
+
+
+### Regularized Polynomial Regression
+
+Regularizer된 다항 회귀는 모델의 복잡성을 제어하고 과적합을 방지하기 위한 방법이다. Regularization factor $\lambda$를 도입하여 모델이 너무 복잡해지는 것을 막고, 이를 통해 더 나은 일반화 성능을 얻을 수 있다.
+
+![](./images/rrf.PNG)
+
+**핵심 개념**
+
+- **Empirical risk on training vs. test sample**:
+  - Regularizer가 감소할 때, 훈련 샘플에 대한 경험적 위험이 감소한다.
+  - 하지만, 테스트 샘플에 대해서는 특정 Regularization factor $\lambda$가 위험을 최소화한다.
+
+- **Regularization factor $\lambda$**:
+  - Regularization factor이 작아질수록 모델이 훈련 데이터에 더 잘 맞추어지지만, 과적합(overfitting)의 위험이 증가한다.
+  - Regularization factor이 너무 크면 모델이 너무 단순해져서 훈련 데이터와 테스트 데이터 모두에서 높은 오류를 보일 수 있다. 따라서 중간이 적당하다.
+
+- **모델 복잡성 제한**:
+  - Regularizer는 모델 복잡성에 제한을 두어 과적합을 방지한다.
+  - Regularization factor은 모델의 weight에 패널티를 부여하여 과도한 학습을 방지한다.
+
+**실습적 접근 방법**
+
+- **모델 복잡성 제어**:
+  - Regularizer를 통해 모델 복잡성을 제어하는 것이 최선의 방법이다.
+  - 다항 회귀의 차수와 같은 직접적인 파라미터는 항상 사용할 수 있는 것은 아니므로, Regularizer를 사용하는 것이 실용적이다.
+
+- **Regularizer 튜닝**:
+  - Regularization factor은 사용 가능한 데이터에서 튜닝해야 한다.
+  - 교차 검증(cross-validation)과 같은 방법을 사용하여 최적의 Regularization factor을 찾을 수 있다.
+
+Regularizer된 다항 회귀는 모델의 복잡성을 제한하여 과적합을 방지하고, 더 나은 일반화 성능을 얻기 위한 중요한 방법이다. Regularization factor은 훈련 데이터와 테스트 데이터 모두에서 모델의 성능을 최적화하는 데 중요한 역할을 한다. 실용적으로는 모델 복잡성을 제어하기 위해 Regularizer를 사용하는 것이 가장 효과적이다.
+
+
+
+### Model Selection, Setting Hyperparameters
+
+목표 출력
+- **하이퍼파라미터**: $\lambda$, $d$
+- **모델**: $f_\theta$
+- **모델의 위험 추정치**
+
+접근 방법
+1. $\lambda$, $d$의 값을 반복하여 학습하고 평가합니다.
+2. 최적의 값을 찾은 후 최종 모델을 학습합니다.
+
+데이터의 사용
+- **학습 데이터**에서 하이퍼파라미터를 튜닝할 수 없습니다.
+- 낮은 정규화는 학습 데이터에서 낮은 경험적 위험을 가져오지만, 테스트 데이터에서 높은 위험을 초래할 수 있습니다.
+- 동일한 테스트 세트에서 여러 모델을 평가하면 낙관적 편향이 발생합니다.
+
+해결책
+- **트리플 크로스 밸리데이션** 또는 **중첩 크로스 밸리데이션**을 사용합니다.
+
+#### Triple Cross Validation
+
+절차
+1. 모든 하이퍼파라미터 $\lambda$의 값을 반복합니다 (그리드 탐색).
+   - 모델 $f_{\theta''}^\lambda$를 $L$에서 학습합니다.
+   - $T'$에서 경험적 위험 $R_{T'}(f_{\theta''}^\lambda)$를 계산합니다.
+2. 가장 낮은 $R_{T'}(f_{\theta''}^{\lambda^*})$ 값을 준 하이퍼파라미터 $\lambda^*$를 사용합니다.
+3. $L \cup T'$에서 모델 $f_{\theta'}^{\lambda^*}$를 학습합니다.
+4. $T$에서 $R_T(f_\theta'^{\lambda^*})$를 결정합니다.
+5. 최종 모델 $f_\theta^{\lambda^*}$를 $L \cup T' \cup T$에서 학습하고, 모델 $f_\theta^{\lambda^*}$와 $R_T(f_\theta'^{\lambda^*})$를 반환합니다.
+
+분석
+- 경험적 위험 $R_T(\theta')$는 $\theta'$가 더 적은 데이터에서 학습되었기 때문에 비관적 추정치입니다.
+- $\lambda^*$는 $T'$가 작을 경우 최적의 파라미터를 잘 추정하지 못할 수 있습니다.
+- $T$가 작을 경우 $R_T(\theta')$의 분산이 높을 수 있습니다.
+- 전체 샘플 $S$가 매우 클 때 사용하는 프로토콜입니다.
+
+#### Nested Cross Validation
+
+절차
+1. 각 폴드 $i$에 대해:
+   - 하이퍼파라미터 $\lambda$의 값을 반복합니다.
+     - $j$번째 폴드 $S_j$를 제외한 나머지 데이터 $S \setminus S_i \setminus S_j$에서 $f_{\theta^{ij}}^\lambda$를 학습합니다.
+     - $S_j$에서 경험적 위험 $R_{S_j}(f_{\theta^{ij}}^\lambda)$를 계산합니다.
+     - $R_{S \setminus S_i}(f_{\theta'^{i}}^\lambda)$를 결정하기 위해 $R_{S_j}$를 평균합니다.
+   - $R_{S \setminus S_i}(f_{\theta'^{i}}^\lambda)$를 최소화하는 $\lambda_i^*$를 선택합니다.
+   - $S \setminus S_i$에서 모델 $f_{\theta^{i}}^{\lambda_i^*}$를 학습합니다.
+   - $S_i$에서 $R_{S_i}(f_{\theta^{i}}^{\lambda_i^*})$를 결정합니다.
+2. 모든 폴드의 $R_{S_i}(f_{\theta^{i}}^{\lambda_i^*})$를 평균하여 $R_S(f_{\theta^*}^{\lambda^*})$를 결정합니다.
+3. 단순 크로스 밸리데이션을 통해 최종 $\lambda^*$를 결정하고, $S$에서 최종 모델 $f_\theta^{\lambda^*}$를 학습합니다.
+
+분석
+- **복잡도**: $k^2$개의 모델을 학습하고 평가해야 합니다.
+- **편향**: 약간 비관적입니다. $f_\theta^{\lambda^*}$가 $f_{\theta_i \lambda_i^*}$보다 더 많은 데이터로 학습되었기 때문입니다.
+- **분산**: 트리플 크로스 밸리데이션보다 낮습니다. 모든 데이터를 평가에 사용하기 때문입니다.
+- **최적의 $\lambda^*$**: 거의 모든 데이터를 튜닝에 사용하여 더 좋은 추정치를 제공합니다.
+- **적용성**: 데이터가 적을 때 최고의 튜닝 프로토콜입니다.
+
+## Summary (요약)
+
+- **위험**: 입력 분포 $p(x, y)$에 대한 기대 손실.
+- **경험적 위험**: 데이터에 대한 위험 추정치.
+- **정밀도-재현율 곡선**과 **ROC 곡선**: 결정 함수를 특징짓습니다. 곡선의 각 점은 특정 임계값 $\theta_0$에 대한 분류기입니다.
+- **평가 프로토콜**:
+  - **홀드아웃 테스트**: 큰 샘플에 적합.
+  - **K-폴드 크로스 밸리데이션**: 작은 샘플에 적합.
+- **모델 선택**: 모델 하이퍼파라미터를 튜닝합니다.
+  - **트리플 크로스 밸리데이션**: 큰 샘플에 적합.
+  - **중첩 크로스 밸리데이션**: 작은 샘플에 적합.
+
+
+## Neural Networks
+
+퍼셉트론과 거의 같은 개념이다. 이 신경망이라는 개념에 딥러닝이 포함되게 되는데, 딥러닝은 여러 순차적인 layers를 가진 신경망을 사용한다. 또한 딥러닝의 각 layer는 입력을 더 abstract하고, sematic한 attribute로 변환한다. 
+
+네트워크에는 각 low data가 입력되게 되며, 수동으로 feature를 조작하지 않는다. 전체 네트워크는 일반적으로 stochastic gradient descent 방법ㅇ르 사용하여 학습된다. 
+
+### Feed Forward Networks
+
+![](/images/ffn.PNG)
+
+
+neural network의 일종으로, 노드간의 연결이 cycle을 형성하지 않는다. 이는 정보가 input 노드에서 시작하여 hidden노드를 거쳐 output노드로만 이동하는 가장 단순한 형태의 neural network이다. 
+
+각 레이어의 각 뉴런은 각자의 파라미터 벡터를 가지는데, 따라서 한 레이어의 파라미터들은 행렬로 표현될 수 있다. 
+
+1. **Forward Propagation**:
+   - 입력 데이터를 네트워크의 계층을 통해 이동시켜 출력을 생성하는 과정입니다.
+   - 입력 벡터 $\mathbf{x^0}$는 각 계층에서 변환됩니다.
+   - 각 계층 $i$에는 입력의 가중합을 계산하는 데 사용되는 파라미터 행렬 $\mathbf{\Theta}_i$가 있습니다.
+   - 이러한 가중합에 Activation Function $\sigma$를 적용하여 해당 계층의 출력을 생성합니다.
+
+2. **Linear Model**:
+   - 계층의 각 유닛은 파라미터 벡터 $\theta$를 가지고 있습니다.
+   - 입력과 weight의 linear combination이 계산됩니다.
+   - 계층 $i$의 입력 $\mathbf{x}^{(i-1)}$과 weight $\mathbf{\Theta}_i$에 대해, 선형 모델은 $\mathbf{h}^{i}_k = \mathbf{\Theta}_k^i \mathbf{x}^{(i-1)}+\theta_{k0}^i$로 나타낼 수 있습니다.
+
+3. **Activation Function and Propagation**:
+   - 각 계층에서 가중합에 Activation Function $\sigma$를 적용하여 출력 벡터 $\mathbf{x}^{(i)}$를 생성합니다. 이때 이 함수는 원하는 형태로의 feature 추출을 위해 데이터를 nonlinear적으로 변환하는 과정이다. 
+   - 예를 들어, 계층 $i$의 Activation Function가 적용된 출력은 $\mathbf{x}^{(i)} = \sigma(\mathbf{h}^{(i)})$로 표현됩니다.
+
+4. **바이어스 유닛 (Bias Unit)**:
+   - 선형 모델에서 일정한 요소 $\theta_{k0}^i$를 추가 유닛으로 대체하여 항상 1의 출력을 가지게 합니다.
+   - 이는 $\mathbf{h}^{(i)} = \mathbf{\Theta}_i \mathbf{x}^{(i-1)_{[1..n_k+1]}}$와 같이 표현됩니다.
+   - feature들을 공간상 임의의 위치에 표현하기 위해 사용된다. 
+
+5. **계층별 행렬 표기법 (Layer-Wise Matrix Notation)**:
+   - 각 계층의 전방 전달은 행렬 곱셈으로 나타낼 수 있습니다.
+   - 예를 들어, $\mathbf{h}^{(i)} = \mathbf{\Theta}_i \mathbf{x}^{(i-1)}$와 같이 나타내며, Activation Function 적용 후 $\mathbf{x}^{(i)} = \sigma(\mathbf{h}^{(i)})$로 표현됩니다.
+
+#### Classification: Softmax layer
+
+소프트맥스 함수는 출력층에서 사용되는 함수이다. 이 외에도 항등 함수, 시그모이드 함수가 존재한다. 소프트맥스 함수는 다중 클래스 분류 모델을 만들 때 사용한다. 결과를 확률로 해석할 수 있게 변환해주는 함수로 높은 확률을 가지는 class로 분류한다. 이는 결과값을 정규화시키는 것으로도 생각할 수 있다. 
+
+Softmax(소프트맥스)는 입력받은 값을 출력으로 0~1사이의 값으로 모두 정규화하며 출력 값들의 총합은 항상 1이 되는 특성을 가진 함수이다.
+
+분류하고 싶은 클래수의 수 만큼 출력으로 구성한다.
+
+가장 큰 출력 값을 부여받은 클래스가 확률이 가장 높은 것으로 이용된다.
+
+- **소프트맥스 계층**:
+  - 각 클래스에 대해 하나의 출력 유닛이 있습니다.
+  - 소프트맥스 함수는 각 클래스 $k$에 대한 예측 확률 $x_k^d$을 계산합니다.
+  - 소프트맥스 함수:
+    $$
+    x_k^d = \sigma_{sm}(h_k^d) = \frac{e^{h_k^d}}{\sum_{k'} e^{h_{k'}^d}}
+    $$
+  - 여기서 $x_k^d$는 클래스 $k$에 대한 예측 확률을 나타냅니다.
+
+#### Regression: Linear Activation
+
+Regression에 쓰이는 가장 유명한 activation function이다. 
+
+- 선형 활성화 함수는 출력이 무한히 커질 수 있습니다.
+- 회귀 문제에서는 선형 모델을 사용하여 출력 $x^d = h^d$를 계산합니다.
+- 이는 출력이 특정 범위로 제한되지 않음을 의미합니다.
+
+#### Internal Units: Rectified Linear Units
+
+ReLU(Rectified Linear Unit) 함수는 입력이 0보다 크면 입력을 그대로 출력하고, 입력이 0보다 작으면 0을 출력합니다. ReLU 함수는 기울기가 항상 양수이기 때문에 학습이 빠르다는 장점이 있습니다.
+
+* 음수일때의 0이하의 뉴런을 버리고, 양수의 뉴런만을 활성화 시킴
+* 이로 인해 출력값이 희소(Sparse)해지고, 일부 뉴런만이 활성화
+* 이는 더 적은 파라미터와 계산으로 효과적인 모델을 구축할 수 있게 하지만, 많이 버림
+- 내부 유닛 $(i, k)$에 대해 사용됩니다.
+- ReLU 함수는 $x_k^i = \sigma_{ReLU}(h_k^i) = \max(0, h_k^i)$로 정의됩니다.
+- ReLU는 희소한 활성화를 유도하며, 깊은 네트워크에서 그래디언트 소실 문제를 방지합니다
+
+
+#### Learning
+
+- **Stochastic Gradient Descent**:
+  - 확률적 경사 하강법(SGD)은 피드포워드 네트워크의 학습에 사용됩니다.
+  - 손실 함수 $R(\theta) = \frac{1}{2m} \sum_{j=1}^{m} \ell(\mathbf{y}_j, \mathbf{x}_j^d)$
+  - 
+
+- **경사 하강법 (Gradient Descent)**:
+  - 경사 하강법을 사용하여 파라미터를 업데이트합니다.
+  - 업데이트 식: $\theta' = \theta - \alpha \nabla R(\theta) = \theta - \alpha \frac{\partial R(\theta)}{\partial \theta} = \theta - \frac{\alpha}{2m} \sum_{j=1}^{m} \frac{\partial \ell(\mathbf{y}_j, \mathbf{x}_j^d)}{\partial \theta}$
+  - 알파는 스텝사이즈, R는 그라디엔트. 세타'로 표현되듯, 우리는 그라디엔트 반대방향으로 이동한다.  
+  - 그라디엔트는 결국 새 세타 마이너스 old theta의 스텝사이즈 곱, 그라디엔트를 뺀것이다. 
+
+- **특정 인스턴스 $\mathbf{x}_j$에 대한 확률적 경사 (Stochastic Gradient for Instance $\mathbf{x}_j$)**:
+  - 특정 인스턴스 $\mathbf{x}_j$에 대해 업데이트 식: $\theta' = \theta - \alpha \nabla_{\mathbf{x}_j} R(\theta) = \theta - \alpha \frac{\partial \ell(\mathbf{y}_j, \mathbf{x}_j^d)}{\partial \theta}$
+  - 랜덤한 인스텐스 x에 대한 그라디엔트이다.
+
+#### Back propagation
+
+Input에서 Output으로 가중치를 업데이트하면서 활성화 함수를 통해서 결과값을 가져오는 것까지 배웠다. 이렇게 쭉 오는 것을 순전파(foward)라고 하며 말 그대로 앞쪽으로 input 값을 전파, 보내는 것이라고 보면 된다. 하지만 우리가 임의로 한 번 순전파 했다고 출력 값이 정확하지는 않을 것이다. 우리가 임의로 설정한 가중치 값이 input에 의해서 한 번 업데이트 되긴 했지만 많은 문제가 있을 수 있다.
+
+역전파 방법은 결과 값을 통해서 다시 역으로 input 방향으로 오차를 다시 보내며 가중치를 재업데이트 하는 것이다. 물론 결과에 영향을 많이 미친 노드(뉴런)에 더 많은 오차를 돌려줄 것이다. 내가 뽑고자 하는 target값과 실제 모델이 계산한 output이 얼마나 차이가 나는지 구한 후 그 오차값을 다시 뒤로 전파해가면서 각 노드가 가지고 있는 변수들을 갱신하는 알고리즘인 것이다.
+
+
+각 노드가 가지고 있는 weight이나 bias같은 변수들을 어떻게 업데이트할 것인가? 또 Multi Layer Network에서 각 노드나 레이어가 가지고 있는 변수들은 다 제 각각인데 그 값들을 얼만큼 변경하는 지 어떻게 알 수 있는가? 
+
+다행히 이 문제들은 Chain Rule이라는 법칙을 사용해 해결할 수 있다고 한다.
+
+즉 Chain Rule이란 쉽게 얘기하자면 1. x가 변화했을 때 함수 g가 얼마나 변하는 지와 그로인해 2. 함수 g의 변화로 인해 함수 f가 얼마나 변하는 지를 알 수 있고 3. 함수 f의 인자가 함수 g이면 최종 값 F의 변화량에 기여하는 각 함수 f와 g의 기여도를 알 수 있다는 것이다.
+
+![](./images/bp.PNG)
+
+아웃풋에 대해 계산을 했으니, 이제 한참아래있는 hidden layer에 대해서도 똑같은걸 해준다. 
+
+![](./images/bp2.PNG)
+
+### Regularizer
+
+https://m.blog.naver.com/lk3436/220469636281
+
+https://velog.io/@march02198/%EB%94%A5%EB%9F%AC%EB%8B%9D-2%EB%8B%A8%EA%B3%84-2.-%EC%8B%A0%EA%B2%BD%EB%A7%9D-%EB%84%A4%ED%8A%B8%EC%9B%8C%ED%81%AC%EC%9D%98-%EC%A0%95%EA%B7%9C%ED%99%94
+
+
+#### Dropout
+https://analysisbugs.tistory.com/62
+
+### Initialization
+
+https://resultofeffort.tistory.com/114
+
+### Parallel inference
+
+https://m.hanbit.co.kr/channel/category/category_view.html?cms_code=CMS1232324353
+
+### convolutional layers
+
+#### pooling
+https://space-cho.tistory.com/5
+[text](https://wikidocs.net/62306)
+https://velog.io/@nochesita/%EB%A0%88%EC%9D%B4%EC%96%B4-%EC%9D%B4%ED%95%B4%ED%95%98%EA%B8%B0-3-Pooling
+
+#### training
+
+ 합성곱 계층 훈련 (Training Convolutional Layers)
+
+합성곱 신경망(CNN)의 합성곱 계층을 훈련시키는 과정은 다른 신경망과는 몇 가지 중요한 차이점이 있습니다. 이러한 차이점은 주로 가중치의 공유와 연결의 희소성에 기인합니다. 다음은 합성곱 계층 훈련의 주요 요소와 단계입니다.
+
+ 주요 개념
+
+1. **고정된 가중치 (Fixed Weights)**:
+   - 커널 크기와 스트라이드에 따라, 일부 입력 유닛과 출력 유닛 쌍은 연결되지 않습니다.
+   - 이러한 연결되지 않은 쌍의 가중치는 0으로 고정됩니다.
+
+2. **공유된 가중치 (Coupled Weights)**:
+   - 동일한 커널이 모든 입력 창에 적용되기 때문에, 여러 위치에서 동일한 가중치가 사용됩니다.
+   - 즉, 하나의 커널은 입력 신호의 모든 위치에서 동일한 패턴을 감지합니다.
+
+ 합성곱 계층의 훈련 단계
+
+1. **기울기 계산 (Calculate Gradient using Back-Propagation)**:
+   - 역전파를 사용하여 손실 함수에 대한 각 가중치의 기울기를 계산합니다.
+   - 역전파는 출력에서 시작하여 입력 방향으로 진행하며, 각 계층의 기울기를 계산합니다.
+
+2. **기울기의 평균 계산 및 공동 업데이트 (Average the Gradient for all Coupled Weights, Perform Joint Update Step)**:
+   - 동일한 커널이 모든 입력 창에 적용되므로, 동일한 커널에 대한 기울기는 여러 위치에서 계산됩니다.
+   - 이러한 기울기들을 평균하여, 커플된 모든 가중치 세트를 공동으로 업데이트합니다.
+   - 예를 들어, 특정 커널이 \( n \)개의 위치에 적용되었다면, 해당 커널의 기울기는 이 \( n \)개의 기울기의 평균으로 계산됩니다.
+
+3. **연결되지 않은 가중치의 0 설정 (Set Weights to Zero for Connections that do not Exist)**:
+   - 입력과 출력 유닛 쌍 중에서 연결되지 않은 쌍의 가중치는 0으로 설정됩니다.
+   - 이는 커널 크기와 스트라이드에 의해 결정됩니다.
+   - 이러한 연결되지 않은 가중치는 역전파 과정에서 업데이트되지 않습니다.
+
+
+### Recurrent neural networks
