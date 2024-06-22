@@ -377,6 +377,7 @@ Regression Problem에 대한 Loss function은, 우리의 Target variable이 실�
 ### Regularizer
 
 Regularizer(Regularization)란 머신 러닝에서 Overfitting을 방지하기 위해 사용되는 기법이다. Overfitting은 모델이 학습 데이터에 지나치게 잘 맞춰져 있어 새로운 데이터에 대한 일반화 능력이 떨어지는 현상을 말한다. Regularizer는 모델의 복잡도를 제한하여 이러한 문제를 완화한다. 가장 일반적인 Regularizer 기법으로는 L1 Regularizer(Lasso)와 L2 Regularizer(Ridge)가 있다.
+Regularizer(Regularization)란 머신 러닝에서 Overfitting을 방지하기 위해 사용되는 기법이다. Overfitting은 모델이 학습 데이터에 지나치게 잘 맞춰져 있어 새로운 데이터에 대한 일반화 능력이 떨어지는 현상을 말한다. Regularizer는 모델의 복잡도를 제한하여 이러한 문제를 완화한다. 가장 일반적인 Regularizer 기법으로는 L1 Regularizer(Lasso)와 L2 Regularizer(Ridge)가 있다.
 
 L1 Regularizer는 모델의 weight에 대한 절대값의 합을 loss function에 추가하며, 이는 모델의 일부 weight를 정확히 0으로 만들어 특성 선택의 효과를 낸다. 반면, L2 Regularizer는 weight의 제곱의 합을 loss function에 추가하여, 모든 weight가 0에 가까워지도록 만들지만 정확히 0이 되지는 않는다. 이러한 Regularizer 기법들은 모델이 데이터의 중요한 패턴을 학습하면서도 과도하게 복잡해지는 것을 방지한다.
 
@@ -996,6 +997,7 @@ ID3는 continuous attributes를 어떻게 처리할까?
 ID3는 선택된 continuous attributes의 각 값에 대해 가지를 생성한다.  그러나 이는 continuous attributes에 대해서는 잘 작동하지 않는다.
 
 continuous attributes을 처리하기 위한 아이디어 중 하나는 속성과 threshold의 조합을 사용하여 이진 분할을 수행하는 것이다.  예를들어, $x_j \leq v$와 같은 형태의 테스트를 사용하여 데이터를 분할할 수 있다. 이를 위해 사용되는 알고리즘이 C4.5이다.
+continuous attributes을 처리하기 위한 아이디어 중 하나는 속성과 threshold의 조합을 사용하여 이진 분할을 수행하는 것이다.  예를들어, $x_j \leq v$와 같은 형태의 테스트를 사용하여 데이터를 분할할 수 있다. 이를 위해 사용되는 알고리즘이 C4.5이다.
 
 이 뒤에 information gain을 계산해서 뭐 대충 하면된다. 근데 식은 좀 다르다.
 
@@ -1115,6 +1117,7 @@ CART(L)
 
 
 
+1. 주어진 데이터 𝐿에 대해 평균 제곱 오차가 일정 threshold 𝜏보다 작은 경우, 이를 리프 노드로 처리하고 예측값 𝑦를 반환한다. 이것은 트리의 성장을 중지시키는 기준이다.
 1. 주어진 데이터 𝐿에 대해 평균 제곱 오차가 일정 threshold 𝜏보다 작은 경우, 이를 리프 노드로 처리하고 예측값 𝑦를 반환한다. 이것은 트리의 성장을 중지시키는 기준이다.
 
 2. 이 부분은 splitting을 진행하는 과정을 나타냅니다. 
@@ -1331,6 +1334,9 @@ $$
    - **목적**: overfitting을 방지하고 모델의 일반화 성능을 향상시키기 위해 사용된다. 대표적인 Regularizer는 L1 및 L2 Regularizer이다.
      - **L1 Regularizer**: $\Omega(\boldsymbol{\theta}) = \|\boldsymbol{\theta}\|_1 = \sum_{j} |\theta_j|$
      - **L2 Regularizer**: $\Omega(\boldsymbol{\theta}) = \|\boldsymbol{\theta}\|_2^2 = \sum_{j} \theta_j^2$
+   - **목적**: overfitting을 방지하고 모델의 일반화 성능을 향상시키기 위해 사용된다. 대표적인 Regularizer는 L1 및 L2 Regularizer이다.
+     - **L1 Regularizer**: $\Omega(\boldsymbol{\theta}) = \|\boldsymbol{\theta}\|_1 = \sum_{j} |\theta_j|$
+     - **L2 Regularizer**: $\Omega(\boldsymbol{\theta}) = \|\boldsymbol{\theta}\|_2^2 = \sum_{j} \theta_j^2$
     -  Regularizer는 모델에 대한 사전 지식을 반영한다. 예를 들어, L1 Regularizer는 일부 파라미터가 0이 되도록 하여 희소한 모델을 생성한다.
     -  Regularizer는 수치적 안정성을 향상시켜 모델 학습 과정에서 발생할 수 있는 수치적 문제를 완화한다.
     -  Regularizer를 통해 모델의 일반화 오류를 줄일 수 있으며, 이는 확률 근사 정확도(PAC) 이론에 따라 더 강력한 오류 경계를 제공한다.
@@ -1489,6 +1495,7 @@ RETURN θt
    - 반복 인덱스 $t$를 1 증가시킨다.
 
 7. 매개변수의 변화량 $\|\theta_t - \theta_{t+1}\|$가 미리 정의된 threshold $\epsilon$보다 작아질 때까지 반복한다.
+7. 매개변수의 변화량 $\|\theta_t - \theta_{t+1}\|$가 미리 정의된 threshold $\epsilon$보다 작아질 때까지 반복한다.
 
 8. 수렴 조건이 만족되면 최종 매개변수 $\theta_t$를 반환한다.
 
@@ -1596,17 +1603,20 @@ Regularizer은 여기서도 마찬가지로 모델의 복잡도를 제어하고 
 $$\Omega_0(\theta) \propto \|\theta\|_0 = \text{number of }j \text{ with }\theta_j \neq 0$$
 
 **맨해튼 놈 (Manhattan norm, L1 Regularizer)**
+**맨해튼 놈 (Manhattan norm, L1 Regularizer)**
 
 얘는 sparsitiy(희소성)을 촉진하여, 많은 feature들이 0이 되도록 한다. 해석이 용이하며, 불필요한 특성을 자동으로 제거한다. lasso라고도 한다. 
 
 $$\Omega_1(\theta) \propto \|\theta\|_1 = \sum_{j=1}^{m} |\theta_j|$$
 
 **제곱 유클리드 놈 (Squared Euclidean norm, L2 Regularizer)**
+**제곱 유클리드 놈 (Squared Euclidean norm, L2 Regularizer)**
 
 weight의 크기를 줄여 모델의 복잡성을 낮춥니다. 모든 weight가 작아지기 때문에, 특정 특성에 대해 과도하게 의존하는 것을 방지한다. Ridge라고도 한다. 
 
 $$\Omega_2(\theta) \propto \|\theta\|_2^2 = \sum_{j=1}^{m} \theta_j^2$$
 
+$\Omega_0$ Regularizer는 non-convex 함수이기 때문에 최소화하기 어렵다. 따라서 실전에서는 주로 convex(convex) Regularizer인 $\Omega_1$ (L1 Regularizer) 또는 $\Omega_2$ (L2 Regularizer)를 사용한다. convex Regularizer은 수치적 최적화가 용이하고, 전역 최솟값으로 수렴할 수 있는 장점이 있다.
 $\Omega_0$ Regularizer는 non-convex 함수이기 때문에 최소화하기 어렵다. 따라서 실전에서는 주로 convex(convex) Regularizer인 $\Omega_1$ (L1 Regularizer) 또는 $\Omega_2$ (L2 Regularizer)를 사용한다. convex Regularizer은 수치적 최적화가 용이하고, 전역 최솟값으로 수렴할 수 있는 장점이 있다.
 
 
@@ -1852,16 +1862,19 @@ $$T_n = \{ (\mathbf{x}_1, y_1), \ldots, (\mathbf{x}_n, y_n) \}$$
 * Absolute Loss
 
 절대 Loss Functions는 모델 예측값 $f_{\theta}(\mathbf{x}_i)$와 실제 값 $y_i$ 사이의 절대 차이를 계산한다:
+절대 Loss Functions는 모델 예측값 $f_{\theta}(\mathbf{x}_i)$와 실제 값 $y_i$ 사이의 절대 차이를 계산한다:
 
 $$\ell_{\text{abs}}(f_{\theta}(\mathbf{x}_i), y_i) = |f_{\theta}(\mathbf{x}_i) - y_i| $$
 
 * Squared Loss
 
 제곱 Loss Functions는 예측값과 실제 값 사이의 차이의 제곱을 계산한다:
+제곱 Loss Functions는 예측값과 실제 값 사이의 차이의 제곱을 계산한다:
 $$\ell_2(f_{\theta}(\mathbf{x}_i), y_i) = (f_{\theta}(\mathbf{x}_i) - y_i)^2 $$
 
 * $\epsilon$-Insensitive Loss
 
+$\epsilon$-민감 Loss Functions는 예측 오차가 $\epsilon$ 이하인 경우 손실을 0으로 하고, $\epsilon$을 초과하는 오차에 대해서만 패널티를 부과한다:
 $\epsilon$-민감 Loss Functions는 예측 오차가 $\epsilon$ 이하인 경우 손실을 0으로 하고, $\epsilon$을 초과하는 오차에 대해서만 패널티를 부과한다:
 
 $$
@@ -1879,45 +1892,61 @@ $$
 ### Regularizer for Regression
 
 Regression은 사용하는 regularizer도 다르다. Regression에서 Regularizer는 모델의 복잡도를 제어하고 overfitting을 방지하기 위해 사용된다. Regularizer은 Loss Functions에 추가되어 모델 파라미터의 크기를 제한한다.
+Regression은 사용하는 regularizer도 다르다. Regression에서 Regularizer는 모델의 복잡도를 제어하고 overfitting을 방지하기 위해 사용된다. Regularizer은 Loss Functions에 추가되어 모델 파라미터의 크기를 제한한다.
 
+1. L1 Regularizer (L1 Regularization)
+L1 Regularizer는 파라미터 벡터의 절대값 합을 패널티로 추가한다:
 1. L1 Regularizer (L1 Regularization)
 L1 Regularizer는 파라미터 벡터의 절대값 합을 패널티로 추가한다:
 $$\Omega_1(\theta) \propto \|\theta\|_1 = \sum_{j=1}^{m} |\theta_j|$$
 
 L1 Regularizer는 일부 파라미터를 0으로 만들어 모델을 희소하게 만듭니다. 이는 feature selection에도 유용한다.
+L1 Regularizer는 일부 파라미터를 0으로 만들어 모델을 희소하게 만듭니다. 이는 feature selection에도 유용한다.
 
+1. L2 Regularizer (L2 Regularization)
+L2 Regularizer는 파라미터 벡터의 제곱합을 패널티로 추가한다:
 1. L2 Regularizer (L2 Regularization)
 L2 Regularizer는 파라미터 벡터의 제곱합을 패널티로 추가한다:
 $$\Omega_2(\theta) \propto \|\theta\|_2^2 = \sum_{j=1}^{m} \theta_j^2$$
 
 L2 Regularizer는 모든 파라미터를 작게 만들어 모델의 복잡도를 줄이다. 이는 수치적 안정성을 제공하고, overfitting을 방지한다 .
+L2 Regularizer는 모든 파라미터를 작게 만들어 모델의 복잡도를 줄이다. 이는 수치적 안정성을 제공하고, overfitting을 방지한다 .
 
 #### Special Cases
 
 Regression에서 특정한 Loss Functions와 Regularizer의 조합으로 다양한 특수한 경우가 존재한다.
+Regression에서 특정한 Loss Functions와 Regularizer의 조합으로 다양한 특수한 경우가 존재한다.
 
 1. 라쏘 (Lasso)
+라쏘 회귀는 제곱 Loss Functions와 L1 Regularizer를 결합한 것이다:
 라쏘 회귀는 제곱 Loss Functions와 L1 Regularizer를 결합한 것이다:
 $$L(\theta) = \sum_{i=1}^{n} \ell_2(f_{\theta}(\mathbf{x}_i), y_i) + \lambda \|\theta\|_1$$
 
 라쏘 회귀는 모델의 희소성을 촉진하여 많은 파라미터를 0으로 만들 수 있다. 이는 특징 선택에도 유용한다.
+라쏘 회귀는 모델의 희소성을 촉진하여 많은 파라미터를 0으로 만들 수 있다. 이는 특징 선택에도 유용한다.
 
 1. 릿지 회귀 (Ridge Regression)
+릿지 회귀는 제곱 Loss Functions와 L2 Regularizer를 결합한 것이다:
 릿지 회귀는 제곱 Loss Functions와 L2 Regularizer를 결합한 것이다:
 $$L(\theta) = \sum_{i=1}^{n} \ell_2(f_{\theta}(\mathbf{x}_i), y_i) + \lambda \|\theta\|_2^2$$
 
 릿지 회귀는 모든 파라미터를 작게 유지하여 모델의 복잡도를 줄이다. 이는 overfitting을 방지하고, 수치적 안정성을 제공한다.
+릿지 회귀는 모든 파라미터를 작게 유지하여 모델의 복잡도를 줄이다. 이는 overfitting을 방지하고, 수치적 안정성을 제공한다.
 
 1. 엘라스틱 넷 (Elastic Net)
 엘라스틱 넷은 제곱 Loss Functions와 L1 및 L2 Regularizer를 결합한 것이다:
+엘라스틱 넷은 제곱 Loss Functions와 L1 및 L2 Regularizer를 결합한 것이다:
 $$L(\theta) = \sum_{i=1}^{n} \ell_2(f_{\theta}(\mathbf{x}_i), y_i) + \lambda \|\theta\|_2^2 + \lambda' \|\theta\|_1$$
 
+엘라스틱 넷은 라쏘와 릿지 회귀의 장점을 결합하여 모델의 희소성과 안정성을 동시에 제공한다 .
 엘라스틱 넷은 라쏘와 릿지 회귀의 장점을 결합하여 모델의 희소성과 안정성을 동시에 제공한다 .
 
 ### Regularized Empirical Risk Minimization
 
 Regularized Empirical Risk Minimization는 모델의 파라미터를 최적화하여 loss function와 Regularizer 항의 결합을 최소화하는 방법이다. 이는 모델이 학습 데이터에 대해 과적합하지 않도록 하면서도 예측 성능을 유지하도록 돕습니다.  기본적인 내용은 위에 정리된것과 같다. 
+Regularized Empirical Risk Minimization는 모델의 파라미터를 최적화하여 loss function와 Regularizer 항의 결합을 최소화하는 방법이다. 이는 모델이 학습 데이터에 대해 과적합하지 않도록 하면서도 예측 성능을 유지하도록 돕습니다.  기본적인 내용은 위에 정리된것과 같다. 
 
+Regularized Empirical Risk Minimization는 다음과 같은 형태로 표현할 수 있다:
 Regularized Empirical Risk Minimization는 다음과 같은 형태로 표현할 수 있다:
 
 $$ \arg \min_{\theta} \sum_{i=1}^{n} \ell(f_{\theta}(\mathbf{x}_i), y_i) + \lambda \Omega(\theta) $$
@@ -1928,28 +1957,38 @@ $$ \arg \min_{\theta} \sum_{i=1}^{n} \ell(f_{\theta}(\mathbf{x}_i), y_i) + \lamb
 - $\lambda$: Regularizer 항의 weight를 조절하는 하이퍼파라미터이다.
 
 loss function $\ell(f_{\theta}(\mathbf{x}_i), y_i)$는 모델의 예측값 $f_{\theta}(\mathbf{x}_i)$와 실제 값 $y_i$ 사이의 차이에서 발생하는 비용을 측정한다.
+loss function $\ell(f_{\theta}(\mathbf{x}_i), y_i)$는 모델의 예측값 $f_{\theta}(\mathbf{x}_i)$와 실제 값 $y_i$ 사이의 차이에서 발생하는 비용을 측정한다.
 
+- **empirical risk (Empirical Risk):**
 - **empirical risk (Empirical Risk):**
   $$ R_n(\theta) = \sum_{i=1}^{n} \ell(f_{\theta}(\mathbf{x}_i), y_i) $$
   이는 주어진 데이터 샘플에 대한 모델의 위험을 측정한다.
+  이는 주어진 데이터 샘플에 대한 모델의 위험을 측정한다.
 
+- **empirical risk의 추정치 (Empirical Estimate of Risk):**
 - **empirical risk의 추정치 (Empirical Estimate of Risk):**
   $$ R(\theta) = \int \ell(f_{\theta}(\mathbf{x}), y) \, dP_{\mathbf{x}, y} $$
   이는 데이터 분포 $P_{\mathbf{x}, y}$에 따른 모델의 위험을 추정한다.
+  이는 데이터 분포 $P_{\mathbf{x}, y}$에 따른 모델의 위험을 추정한다.
 
+Regularizer 항 $\Omega(\theta)$는 모델 파라미터의 크기를 제한하여 과적합을 방지하고, 모델의 수치적 안정성을 제공한다. Regularizer 항과 Regularizer 파라미터 $\lambda \geq 0$는 다음과 같은 역할을 한다:
 Regularizer 항 $\Omega(\theta)$는 모델 파라미터의 크기를 제한하여 과적합을 방지하고, 모델의 수치적 안정성을 제공한다. Regularizer 항과 Regularizer 파라미터 $\lambda \geq 0$는 다음과 같은 역할을 한다:
 
 - **선호하는 해에 대한 배경 정보 제공 (Background Information about Preferred Solutions):**
   Regularizer 항은 특정 해를 선호하게 하여 모델의 일반화 성능을 향상시킵니다.
+  Regularizer 항은 특정 해를 선호하게 하여 모델의 일반화 성능을 향상시킵니다.
 
 - **수치적 안정성 제공 (Provides Numerical Stability):**
+  Tikhonov Regularizer와 같이, Regularizer 항은 수치적 안정성을 제공하여 모델이 잘못된 방향으로 최적화되지 않도록 한다.
   Tikhonov Regularizer와 같이, Regularizer 항은 수치적 안정성을 제공하여 모델이 잘못된 방향으로 최적화되지 않도록 한다.
 
 - **더 엄격한 오류 경계를 허용 (Allows for Tighter Error Bounds):**
   PAC 이론과 같이, Regularizer 항은 모델의 오류 경계를 더 엄격하게 만들어 일반화 성능을 향상시킵니다.
+  PAC 이론과 같이, Regularizer 항은 모델의 오류 경계를 더 엄격하게 만들어 일반화 성능을 향상시킵니다.
 
 ---
 
+Regularizer된 empirical risk을 최소화하는 것은 다음과 같은 최적화 문제를 해결하는 것을 의미한다:
 Regularizer된 empirical risk을 최소화하는 것은 다음과 같은 최적화 문제를 해결하는 것을 의미한다:
 $$ \arg \min_{\theta} \sum_{i=1}^{n} \ell(f_{\theta}(\mathbf{x}_i), y_i) + \lambda \Omega(\theta) $$
 
@@ -1960,8 +1999,11 @@ $$ \arg \min_{\theta} \sum_{i=1}^{n} \ell(\mathbf{x}_i^T \theta, y_i) + \lambda 
 
 - **~~분류 (Classification):~~**
   - ~~수치적 해결책 (Numerical Solutions): 해석적 해결책이 없는 경우, 경사 하강법(Gradient Descent), 절단 평면법(Cutting Plane Method), 내부 점 방법(Interior Point Method) 등을 사용한다.~~
+  - ~~수치적 해결책 (Numerical Solutions): 해석적 해결책이 없는 경우, 경사 하강법(Gradient Descent), 절단 평면법(Cutting Plane Method), 내부 점 방법(Interior Point Method) 등을 사용한다.~~
   
 - **회귀 (Regression):**
+  - 제곱 손실과 소수의 속성에 대해 해석적 해결책이 가능하다.
+  - 확률적 경사 하강법(Stochastic Gradient Descent)과 같은 수치적 해결책은 많은 속성 또는 다른 loss function에 대해 사용된다.
   - 제곱 손실과 소수의 속성에 대해 해석적 해결책이 가능하다.
   - 확률적 경사 하강법(Stochastic Gradient Descent)과 같은 수치적 해결책은 많은 속성 또는 다른 loss function에 대해 사용된다.
 
@@ -1979,17 +2021,25 @@ $$ R_n(\theta) = \sum_{i=1}^{n} \ell_2(f_{\theta}(\mathbf{x}_i), y_i) = (\mathbf
 - $\mathbf{X}$는 입력 데이터의 행렬이다. 각 행은 하나의 데이터 포인트의 특징 벡터를 나타냅니다.
 - $\theta$는 모델의 파라미터 벡터이다.
 - $\mathbf{y}$는 실제 값 벡터이다.
+- $\mathbf{X}$는 입력 데이터의 행렬이다. 각 행은 하나의 데이터 포인트의 특징 벡터를 나타냅니다.
+- $\theta$는 모델의 파라미터 벡터이다.
+- $\mathbf{y}$는 실제 값 벡터이다.
 
 왜 행렬 표기법을 사용하는가? (Why Matrix Notation?)
 
 행렬 표기법을 사용하면 다음과 같은 이점이 있다:
+행렬 표기법을 사용하면 다음과 같은 이점이 있다:
 - **컴팩트한 표현:** 수식이 간결해집니다.
+- **효율적인 계산:** 행렬 연산을 통해 계산 속도를 높일 수 있다.
+- **일관성:** 다양한 선형 대수 기법을 적용할 수 있다.
 - **효율적인 계산:** 행렬 연산을 통해 계산 속도를 높일 수 있다.
 - **일관성:** 다양한 선형 대수 기법을 적용할 수 있다.
 
 예를 들어, 데이터 포인트가 두 개이고 각 포인트가 두 개의 특징을 가진다고 가정한다. $\mathbf{X}$, $\theta$, $\mathbf{y}$는 다음과 같이 정의된다:
+예를 들어, 데이터 포인트가 두 개이고 각 포인트가 두 개의 특징을 가진다고 가정한다. $\mathbf{X}$, $\theta$, $\mathbf{y}$는 다음과 같이 정의된다:
 $$ \mathbf{X} = \begin{bmatrix} x_{11} & x_{12} \\ x_{21} & x_{22} \end{bmatrix}, \quad \theta = \begin{bmatrix} \theta_1 \\ \theta_2 \end{bmatrix}, \quad \mathbf{y} = \begin{bmatrix} y_1 \\ y_2 \end{bmatrix} $$
 
+empirical risk은 다음과 같이 계산된다:
 empirical risk은 다음과 같이 계산된다:
 $$ R_n(\theta) = (\mathbf{X}\theta - \mathbf{y})^T (\mathbf{X}\theta - \mathbf{y}) $$
 
@@ -2005,9 +2055,11 @@ $$
 $$
 
 이를 통해 모델이 학습 데이터에서 얼마나 잘 동작하는지 평가할 수 있다.
+이를 통해 모델이 학습 데이터에서 얼마나 잘 동작하는지 평가할 수 있다.
 
 ### Lasso Regression
 
+라쏘 회귀는 제곱 loss function와 L1 Regularizer를 결합한 형태의 회귀 모델이다. 이는 일부 회귀 계수를 0으로 만들어 변수 선택 및 모델 해석을 용이하게 한다.
 라쏘 회귀는 제곱 loss function와 L1 Regularizer를 결합한 형태의 회귀 모델이다. 이는 일부 회귀 계수를 0으로 만들어 변수 선택 및 모델 해석을 용이하게 한다.
 
 #### 최적화 문제 정의
@@ -2020,9 +2072,11 @@ $$L(\theta) = \sum_{i=1}^{n} (f_{\theta}(\mathbf{x}_i) - y_i)^2 + \lambda \|\the
 - $\lambda$는 Regularizer 항의 weight로, 모델의 복잡도를 조절한다.
 
 라쏘 회귀는 convex 최적화 문제로, 유일한 글로벌 최적해를 가지며 이는 효율적인 계산을 가능하게 한다.
+라쏘 회귀는 convex 최적화 문제로, 유일한 글로벌 최적해를 가지며 이는 효율적인 계산을 가능하게 한다.
 
 ### Ridge Regression
 
+릿지 회귀는 제곱 loss function와 L2 Regularizer를 결합한 형태의 회귀 모델이다. 이는 모든 회귀 계수를 작게 만들어 과적합을 방지하고 모델의 수치적 안정성을 제공한다.
 릿지 회귀는 제곱 loss function와 L2 Regularizer를 결합한 형태의 회귀 모델이다. 이는 모든 회귀 계수를 작게 만들어 과적합을 방지하고 모델의 수치적 안정성을 제공한다.
 
 #### 최적화 문제 정의
@@ -2039,6 +2093,9 @@ $$L(\theta) = \sum_{i=1}^{n} (f_{\theta}(\mathbf{x}_i) - y_i)^2 + \lambda \|\the
 $$\theta = (\mathbf{X}^T \mathbf{X} + \lambda \mathbf{I})^{-1} \mathbf{X}^T \mathbf{y}$$
 
 여기서:
+- $\mathbf{X}$는 입력 데이터 행렬이다.
+- $\mathbf{y}$는 실제 값 벡터이다.
+- $\mathbf{I}$는 항등 행렬이다.
 - $\mathbf{X}$는 입력 데이터 행렬이다.
 - $\mathbf{y}$는 실제 값 벡터이다.
 - $\mathbf{I}$는 항등 행렬이다.
